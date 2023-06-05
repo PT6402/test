@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
-import Button from "c:/Users/pc/fullstack-project-web/front/src/Place/Public/Components/Button";
 // import Slideshow from "../../../Components/Slideshow";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
@@ -11,6 +10,7 @@ import { RxDotFilled } from "react-icons/rx";
 // } from "./data";
 
 import styles from "./index.module.scss";
+import Button from "../../../Components/Button";
 
 const SlideshowSection = () => {
   const [showContent, setShowContent] = useState(true);
