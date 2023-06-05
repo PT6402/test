@@ -1,0 +1,144 @@
+$font-f-primary: 'Monument Extended', sans-serif;
+$font-f-secondary: 'Inter', sans-serif;
+$font-f-hero: 'Monument Extended Ultrabold', sans-serif;
+
+$font-w-400: 400;
+$font-w-700: 700;
+$font-w-900: 900;
+
+$c-primary: #000;
+$c-secondary: #fff;
+$c-var: #3d3d3d;
+$c-detail: #8c52ff;
+$c-link-primary: #3d3d3d;
+$c-link-hover: #000;
+
+$back-c-primary: #fff;
+$back-detail: radial-gradient(
+  circle at 12.8% 28%,
+  rgb(206, 155, 243) 0%,
+  #8c52ff 90%
+);
+
+$back-c-button-primary: #3d3d3d;
+$back-c-button-secondary: #fff;
+$back-c-button-hover: #000;
+$back-c-button-checkout: #48e471;
+$back-c-button-checkout-hover: #74eb93;
+$back-c-var-hover: hsla(0, 0%, 5%, 0.2);
+
+$border-c-button-checkout: #48e471;
+$border-c-button-checkout-hover: #74eb93;
+$border-c-var: hsla(0, 0%, 5%, 0.2);
+
+$border-modal: 1px solid $border-c-var;
+
+$ls-primary: 0.05rem;
+$ls-secondary: -0.05rem;
+$ls-link: 0.1rem;
+$ls-button: 0.12rem;
+
+$z-nav: 5;
+$z-backdrop: 20;
+$z-modal: 25;
+$z-modal-n: 30;
+
+.container {
+  padding: 3rem 0 3rem 0;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.6rem;
+  text-align: right;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+
+  @media (min-width: 480px) {
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1.8rem;
+  }
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    width: 75%;
+  }
+
+  @media (min-width: 1200px) {
+    width: 50%;
+  }
+}
+
+.input {
+  border: solid 0.2rem #9e9e9e;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  font-size: 1.6rem;
+}
+
+.button {
+  padding: 0 2rem;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: $ls-button;
+  background-color: $back-c-button-primary !important;
+  width: auto;
+  align-self: stretch;
+
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -webkit-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
+
+  @media (min-width: 480px) {
+    font-size: 1.4rem;
+  }
+
+  @media (min-width: 600px) {
+    font-size: 1.6rem;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:hover {
+    background-color: $back-c-button-hover !important;
+  }
+}
+
+.success {
+  padding: 1rem 2rem;
+  width: 100%;
+  font-size: 1.6rem;
+  border-radius: 1rem;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: $ls-button;
+  border: 2px solid $border-c-button-checkout;
+  background-color: #ccc !important;
+  align-self: stretch;
+
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -webkit-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
+
+  &:hover {
+    cursor: auto;
+  }
+}

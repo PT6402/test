@@ -1,0 +1,84 @@
+$font-f-primary: 'Monument Extended', sans-serif;
+$font-f-secondary: 'Inter', sans-serif;
+$font-f-hero: 'Monument Extended Ultrabold', sans-serif;
+
+$font-w-400: 400;
+$font-w-700: 700;
+$font-w-900: 900;
+
+$c-primary: #000;
+$c-secondary: #fff;
+$c-var: #3d3d3d;
+$c-detail: #8c52ff;
+$c-link-primary: #3d3d3d;
+$c-link-hover: #000;
+
+$back-c-primary: #fff;
+$back-detail: radial-gradient(
+  circle at 12.8% 28%,
+  rgb(206, 155, 243) 0%,
+  #8c52ff 90%
+);
+
+$back-c-button-primary: #3d3d3d;
+$back-c-button-secondary: #fff;
+$back-c-button-hover: #000;
+$back-c-button-checkout: #48e471;
+$back-c-button-checkout-hover: #74eb93;
+$back-c-var-hover: hsla(0, 0%, 5%, 0.2);
+
+$border-c-button-checkout: #48e471;
+$border-c-button-checkout-hover: #74eb93;
+$border-c-var: hsla(0, 0%, 5%, 0.2);
+
+$border-modal: 1px solid $border-c-var;
+
+$ls-primary: 0.05rem;
+$ls-secondary: -0.05rem;
+$ls-link: 0.1rem;
+$ls-button: 0.12rem;
+
+$z-nav: 5;
+$z-backdrop: 20;
+$z-modal: 25;
+$z-modal-n: 30;
+
+.modal {
+  overflow-y: hidden;
+  position: fixed;
+  right: 50%;
+  transform: translate(50%, 0);
+  bottom: 0;
+  height: 80%;
+  width: 100%;
+  background-color: white;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  z-index: $z-modal;
+  border: $border-modal;
+  border-color: hsla(0, 0%, 5%, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 600px) {
+    width: 95%;
+  }
+
+  @media (min-width: 900px) {
+    height: 90%;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 50%;
+    border-bottom-left-radius: 3rem;
+    border-top-right-radius: 0;
+  }
+
+  @media (min-width: 1024px) {
+    width: 40%;
+  }
+
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
+}

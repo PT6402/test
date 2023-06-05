@@ -1,0 +1,123 @@
+$font-f-primary: 'Monument Extended', sans-serif;
+$font-f-secondary: 'Inter', sans-serif;
+$font-f-hero: 'Monument Extended Ultrabold', sans-serif;
+
+$font-w-400: 400;
+$font-w-700: 700;
+$font-w-900: 900;
+
+$c-primary: #000;
+$c-secondary: #fff;
+$c-var: #3d3d3d;
+$c-detail: #8c52ff;
+$c-link-primary: #3d3d3d;
+$c-link-hover: #000;
+
+$back-c-primary: #fff;
+$back-detail: radial-gradient(
+  circle at 12.8% 28%,
+  rgb(206, 155, 243) 0%,
+  #8c52ff 90%
+);
+
+$back-c-button-primary: #3d3d3d;
+$back-c-button-secondary: #fff;
+$back-c-button-hover: #000;
+$back-c-button-checkout: #48e471;
+$back-c-button-checkout-hover: #74eb93;
+$back-c-var-hover: hsla(0, 0%, 5%, 0.2);
+
+$border-c-button-checkout: #48e471;
+$border-c-button-checkout-hover: #74eb93;
+$border-c-var: hsla(0, 0%, 5%, 0.2);
+
+$border-modal: 1px solid $border-c-var;
+
+$ls-primary: 0.05rem;
+$ls-secondary: -0.05rem;
+$ls-link: 0.1rem;
+$ls-button: 0.12rem;
+
+$z-nav: 5;
+$z-backdrop: 20;
+$z-modal: 25;
+$z-modal-n: 30;
+
+.success {
+  background-color: rgba(85, 209, 119, 0.95);
+  border: 1px solid #49e472;
+  border-radius: 1rem;
+}
+
+.error {
+  background-color: rgba(243, 121, 120, 0.95);
+  border: 1px solid #ff6666;
+  border-radius: 1rem;
+  display: grid;
+  grid-template-columns: 8fr 2fr;
+  align-items: center;
+
+  .content_wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    justify-content: center;
+  }
+}
+
+.addToCart {
+  display: grid;
+  grid-template-columns: 8fr 2fr;
+  align-items: center;
+
+  .content_wrapper {
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+  }
+}
+
+.image {
+  max-height: 6rem;
+  margin-right: 1rem;
+  border-radius: 0.5rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-family: $font-f-secondary;
+  font-weight: $font-w-900;
+  letter-spacing: $ls-secondary;
+
+  @media (min-width: 768px) {
+    font-size: 1.4rem;
+  }
+}
+
+.details {
+  font-size: 1rem;
+  text-transform: capitalize;
+  font-weight: $font-w-700;
+  font-family: $font-f-secondary;
+  letter-spacing: $ls-secondary;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
+}
+
+.error_details {
+  font-size: 1rem;
+  font-weight: $font-w-700;
+  font-family: $font-f-secondary;
+  letter-spacing: $ls-secondary;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+  }
+}
+
+.icon {
+  margin: 0 auto;
+  font-size: 3rem;
+}
