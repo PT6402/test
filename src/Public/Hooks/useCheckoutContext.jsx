@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import CheckoutContext from '../Contexts/checkout/checkout-context';
+import CheckoutContext from './../Contexts/checkout/checkout-context';
+
 
 
 

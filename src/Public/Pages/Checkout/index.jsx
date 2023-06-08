@@ -3,38 +3,32 @@ import { Link } from 'react-router-dom';
 
 
 
-
-
-import logo from '../../assets/images/checkout-logo-nav.png';
+// import logo from 'assets/images/checkout-logo-nav.png';
 
 import styles from './index.module.scss';
-import Loader from '../../Components/Loader';
-import ToastMessage from '../../Components/ToastMessage';
-import Toast from '../../Components/Toast';
-import CheckoutProgression from './CheckoutProgression';
-import OrderSummary from './OrderSummary';
+
+
+import useInventory from '../../Hooks/useInventory';
 import ShippingInfo from './ShippingInfo';
 import ShippingOption from './ShippingOption';
 import Payment from './Payment';
-import { useCheckoutContext } from '../../Hooks/useCheckoutContext';
 import { useCartContext } from '../../Hooks/useCartContext';
-import useInventory from '../../Hooks/useInventory';
+import { useCheckoutContext } from './../../Hooks/useCheckoutContext';
+import Toast from '../../Components/Toast';
+import ToastMessage from '../../Components/ToastMessage';
+import Loader from '../../Components/Loader';
+import CheckoutProgression from './CheckoutProgression';
+import OrderSummary from './OrderSummary';
+
 
 const progressionSteps = [
-  { id: 'cart', label: 'carts', url: '/cart' },
+  { id: 'cart', label: 'Carrito', url: '/cart' },
   { id: 'info', label: 'Info' },
-  { id: 'shipping', label: 'Shipping' },
-  { id: 'payment', label: 'Payment' },
+  { id: 'shipping', label: 'Envío' },
+  { id: 'payment', label: 'Pago' },
 ];
 
 const Checkout = () => {
-  // const { checkoutIsReady, currentStep } = [];
-  // const { items } = [];
-  // const {
-  //   checkInventory,
-  //   isLoading: isInventoryLoading,
-  //   error: inventoryError,
-  // } = [];
   const { checkoutIsReady, currentStep } = useCheckoutContext();
   const { items } = useCartContext();
   const {
@@ -91,14 +85,16 @@ const Checkout = () => {
             <>
               <div className={`${styles.header} main-container`}>
                 <Link to="/">
-                  <img className={styles.logo} src={logo} alt="" />
+                  {/* <img className={styles.logo} src={logo} alt="" /> */}
+                  SG12
                 </Link>
               </div>
               <div className={`${styles.content_wrapper} main-container`}>
                 <div className={styles.info_container}>
                   <div className={styles.info_header}>
                     <Link to="/">
-                      <img className={styles.logo} src={logo} alt="" />
+                      {/* <img className={styles.logo} src={logo} alt="" /> */}
+                      SG12
                     </Link>
                   </div>
                   <CheckoutProgression steps={progressionSteps} />

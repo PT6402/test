@@ -1,44 +1,43 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
-
-// import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
-
-// import { db } from '../firebase/config';
-
-
-
-import { totalCartAmount } from '../helpers/cart';
-import { useCartContext } from './useCartContext';
-import { useAuthContext } from './useAuthContext';
+import { useState } from "react";
+import { totalCartAmount } from "../helpers/cart";
+import { useCartContext } from "./useCartContext";
+import { useAuthContext } from "./useAuthContext";
+import instance from "../../http";
+import { useProductContext } from "./useProductContext";
+// import ProductContext from "../Contexts/product/product-context";
 
 export const useCart = () => {
-  const { user } = useAuthContext();
-  const { items, totalAmount, dispatch } = useCartContext();
+  const { selectedVariant } = useProductContext();
+  console.log(selectedVariant);
 
+  const { items, totalAmount, dispatch } = useCartContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // const getCurrentStock = async (itemId) => {
-  //   // const skuRef = doc(db, 'inventory', itemId);
-  //   // const skuDoc = await getDoc(skuRef);
-  //   let skuDoc = {}
-
-  //   return skuDoc.data();
-  // };
-
+  const getCurrentStock = async (itemId) => {
+    instance.post("api/stock", itemId).then((res) => {
+      return res.data.stock;
+    });
+  };
   const addItem = async (itemToAdd) => {
     setError(null);
     setIsLoading(true);
     try {
+      console.log(itemToAdd);
       const itemInCartIndex = items.findIndex(
         (item) => item.id === itemToAdd.id
       );
       const itemInCart = items[itemInCartIndex];
-
       let updatedItems = [...items];
+console.log(itemInCart)
+     
 
-      // const { stock } = await getCurrentStock(itemToAdd.id);
-      let { stock } ={}
+      const data = {
+        product_id: itemToAdd.productId,
+        color_name: itemToAdd.color,
+        size_name: itemToAdd.size,
+      };
+      let stock = await getCurrentStock(data);
       let noStock;
       let stockWasUpdated;
 
@@ -49,8 +48,8 @@ export const useCart = () => {
           );
           noStock = true;
         } else {
-          throw Error('There is no more stock of this product.', {
-            cause: 'custom',
+          throw Error("There is no more stock of this product.", {
+            cause: "custom",
           });
         }
       } else {
@@ -61,12 +60,9 @@ export const useCart = () => {
           }
 
           if (itemInCart.amount === stock) {
-            throw Error(
-              'All available stock of this product is in the cart.',
-              {
-                cause: 'custom',
-              }
-            );
+            throw Error("All available stock of this product is in the cart.", {
+              cause: "custom",
+            });
           }
 
           const updatedItem = {
@@ -82,16 +78,14 @@ export const useCart = () => {
           updatedItems.push(addedItem);
         }
       }
-
+      console.log();
       const updatedTotalAmount = totalCartAmount(updatedItems);
-
-      // const cartRef = doc(db, 'carts', user.uid);
 
       if (updatedTotalAmount === 0) {
         // await deleteDoc(cartRef);
 
         dispatch({
-          type: 'DELETE_CART',
+          type: "DELETE_CART",
         });
       } else {
         // await setDoc(cartRef, {
@@ -100,26 +94,37 @@ export const useCart = () => {
         // });
 
         dispatch({
-          type: 'UPDATE_CART',
+          type: "UPDATE_CART",
           payload: {
             items: updatedItems,
             totalAmount: updatedTotalAmount,
           },
         });
+        const data = {
+          product_id: itemToAdd.productId,
+          color_name: itemToAdd.color,
+          size_name: itemToAdd.size,
+        };
+        console.log(data)
+        instance.post("api/add-to-cart", data);
+        console.log({
+          updatedItems,
+          updatedTotalAmount,
+        });
       }
 
       if (noStock) {
         throw Error(
-          'There is no more stock of this product. The quantities in the cart have been updated.',
-          { cause: 'custom' }
+          "There is no more stock of this product. The quantities in the cart have been updated.",
+          { cause: "custom" }
         );
       }
 
       if (stockWasUpdated) {
         throw Error(
-          'There are fewer units available than the quantities in the cart. The quantities in the cart have been updated.',
+          "There are fewer units available than the quantities in the cart. The quantities in the cart have been updated.",
           {
-            cause: 'custom',
+            cause: "custom",
           }
         );
       }
@@ -127,10 +132,10 @@ export const useCart = () => {
       setIsLoading(false);
     } catch (err) {
       console.log(err);
-      if (err.cause === 'custom') {
+      if (err.cause === "custom") {
         setError({ details: err.message });
       } else {
-        console.log('aca');
+        console.log("aca");
         setError(err);
       }
       setIsLoading(false);
@@ -149,7 +154,7 @@ export const useCart = () => {
       let updatedItems = [...items];
 
       // const { stock } = await getCurrentStock(itemToRemove.id);
-let {stock} ={}
+      let { stock } = {};
       let noStock;
       let stockWasUpdated;
 
@@ -178,41 +183,45 @@ let {stock} ={}
 
       const updatedTotalAmount = totalCartAmount(updatedItems);
 
-      // const cartRef = doc(db, 'carts', user.uid);
 
       if (updatedTotalAmount === 0) {
-        // await deleteDoc(cartRef);
+      
 
         dispatch({
-          type: 'DELETE_CART',
+          type: "DELETE_CART",
         });
+        instance.post("api/delete-cart");
       } else {
-        // await setDoc(cartRef, {
-        //   items: updatedItems,
-        //   totalAmount: updatedTotalAmount,
-        // });
+       
 
         dispatch({
-          type: 'UPDATE_CART',
+          type: "UPDATE_CART",
           payload: {
             items: updatedItems,
             totalAmount: updatedTotalAmount,
           },
         });
+        const data = {
+          product_id: itemToRemove.productId,
+          color_name: itemToRemove.color,
+          size_name: itemToRemove.size,
+        };
+        instance.post("api/remove-to-cart", data);
+
       }
 
       if (noStock) {
         throw Error(
-          'There is no more stock of this product. The quantities in the cart have been updated.',
-          { cause: 'custom' }
+          "There is no more stock of this product. The quantities in the cart have been updated.",
+          { cause: "custom" }
         );
       }
 
       if (stockWasUpdated) {
         throw Error(
-          'There are fewer units available than the quantities in the cart. The quantities in the cart have been updated.',
+          "There are fewer units available than the quantities in the cart. The quantities in the cart have been updated.",
           {
-            cause: 'custom',
+            cause: "custom",
           }
         );
       }
@@ -220,7 +229,7 @@ let {stock} ={}
       setIsLoading(false);
     } catch (err) {
       console.log(err);
-      if (err.cause === 'custom') {
+      if (err.cause === "custom") {
         setError({ details: err.message });
       } else {
         setError(err);
@@ -238,13 +247,14 @@ let {stock} ={}
       const updatedItems = items.filter((item) => item.id !== itemToDelete.id);
 
       // const cartRef = doc(db, 'carts', user.uid);
-
+console.log(updatedTotalAmount)
       if (updatedTotalAmount === 0) {
         // await deleteDoc(cartRef);
 
         dispatch({
-          type: 'DELETE_CART',
+          type: "DELETE_CART",
         });
+        instance.post("api/delete-cart");
       } else {
         // await setDoc(cartRef, {
         //   items: updatedItems,
@@ -252,12 +262,18 @@ let {stock} ={}
         // });
 
         dispatch({
-          type: 'UPDATE_CART',
+          type: "UPDATE_CART",
           payload: {
             items: updatedItems,
             totalAmount: updatedTotalAmount,
           },
         });
+        const data = {
+          product_id: itemToDelete.productId,
+          color_name: itemToDelete.color,
+          size_name: itemToDelete.size,
+        };
+        instance.post("api/delete-cartItem", data);
       }
 
       setIsLoading(false);
@@ -271,7 +287,7 @@ let {stock} ={}
     // const cartRef = doc(db, 'carts', user.uid);
     // await deleteDoc(cartRef);
     dispatch({
-      type: 'DELETE_CART',
+      type: "DELETE_CART",
     });
   };
 

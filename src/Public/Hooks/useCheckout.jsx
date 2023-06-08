@@ -1,20 +1,15 @@
 import { useState } from 'react';
-// import { v4 as uuid } from 'uuid';
-
-// import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
-
-// import { db } from '../firebase/config';
-
 import { useCheckoutContext } from './useCheckoutContext';
 import { useAuthContext } from './useAuthContext';
 import { useAddress } from './useAddress';
+
+
 
 export const useCheckout = () => {
   const { dispatch } = useCheckoutContext();
   const { user, addresses } = useAuthContext();
   const { createAddress } = useAddress();
 
-  // const checkoutSessionRef = doc(db, 'checkoutSessions', user.uid);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -34,13 +29,13 @@ export const useCheckout = () => {
       const { email, isNew, ...shippingAddress } = userInput;
 
       if (isNew) {
-        // shippingAddress.id = uuid();
+        
         // Se puede agregar el display order aca de ser necesario, loopear por todos los addresses => index + 1 => etc
         await createAddress(shippingAddress);
       }
 
       shippingAddress.value = shippingAddress.id;
-      shippingAddress.label = `${shippingAddress.name} ${shippingAddress.lastName} - ${shippingAddress.address} - ${shippingAddress.city}, ${shippingAddress.zipCode} - ${shippingAddress.province}`;
+      shippingAddress.label = `${shippingAddress.address} - ${shippingAddress.city} - ${shippingAddress.province}`;
 
       // await updateDoc(checkoutSessionRef, {
       //   email,
@@ -98,13 +93,13 @@ export const useCheckout = () => {
   const deleteCheckoutSession = async () => {
     setError(null);
     setIsLoading(true);
-    // try {
-    //   await deleteDoc(checkoutSessionRef);
-    // } catch (err) {
-    //   console.log(err);
-    //   setError(err);
-    //   setIsLoading(false);
-    // }
+    try {
+      // await deleteDoc(checkoutSessionRef);
+    } catch (err) {
+      console.log(err);
+      setError(err);
+      setIsLoading(false);
+    }
   };
 
   return {

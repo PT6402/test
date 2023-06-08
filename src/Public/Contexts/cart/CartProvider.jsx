@@ -48,14 +48,48 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       const getCart = async () => {
-        try {
-          await instance.post("api/view-cartitem").then((res) => {
-            if (res.data.status === 200) {
-              const cartData = res.data;
-              dispatch({
-                type: "UPDATE_CART",
-                payload: { ...cartData },
+        const  getProductsByColor=(items)=>{
+          const products = [];
+        
+          for (const item of items) {
+            for (const colorSize of item.colorSizes) {
+              products.push({
+                id: item.id,
+                model: item.product_name,
+                // product_slug: item.product_slug,
+                price: item.product_price,
+               description: item.product_description,
+                // type: item.product_type,
+                material: item.product_material,
+                collection: item.category_name,
+                type: item.subcategory_name,
+                color: colorSize.color_name,
+                size: colorSize.sizes[0].size_name,
+                images: colorSize.images,
+                url: colorSize.url,
+                total_price: colorSize.total_price,
+                amount:colorSize.sizes[0].quantity,
+                productId:item.id,
+                thumbnail:colorSize.images[0].url
+               
               });
+            }
+          }
+        console.log(products)
+          return products;
+        }
+        try {
+           await instance.post("api/view-cartitem").then((res) => {
+            if (res.data.status === 200) {
+              if (res.data.totalAmount) {
+                const cartData = res.data
+               const  data=  getProductsByColor(res.data.items)
+                dispatch({
+                    type: 'UPDATE_CART',
+                    payload: { ...cartData,items:data },
+                  });
+                  console.log(data)
+            }
             } else {
               dispatch({
                 type: "CART_IS_READY",

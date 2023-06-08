@@ -1,6 +1,5 @@
 
 
-
 import { useCartContext } from '../../../Hooks/useCartContext';
 import { useCheckoutContext } from '../../../Hooks/useCheckoutContext';
 import { formatNumber } from '../../../helpers/format';
@@ -8,21 +7,20 @@ import { addAllItemsPriceNumber } from '../../../helpers/item';
 
 import styles from './index.module.scss';
 
+
 const OrderSummary = () => {
   const { items } = useCartContext();
   const { shippingOption } = useCheckoutContext();
-  // const { items } = [];
-  // const { shippingOption } = [];
 
   let shipping_price;
   let shipping_option;
 
   if (shippingOption.standard) {
     shipping_price = 750;
-    shipping_option = '(standard)';
+    shipping_option = '(estandard)';
   } else {
     shipping_price = 1500;
-    shipping_option = '(fast)';
+    shipping_option = '(rápido)';
   }
   const subtotal = addAllItemsPriceNumber(items);
   const total = +subtotal + shipping_price;
@@ -35,7 +33,7 @@ const OrderSummary = () => {
             <div className={styles.image_wrapper}>
               <img
                 className={styles.image}
-                src={`../../../../../../src/assets/${item.thumbnail}`}
+                src={`http://127.0.0.1:8000${item.thumbnail}`}
                 alt=""
               />
               <div className={styles.amount}>
@@ -59,7 +57,7 @@ const OrderSummary = () => {
         </div>
         <div>
           <p>
-          Shipping <i>{shipping_option}</i>
+            Envío <i>{shipping_option}</i>
           </p>
           <p className={styles.subtotal_price}>
             $ {formatNumber(shipping_price)}

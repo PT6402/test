@@ -1,19 +1,20 @@
 /* eslint-disable no-undef */
-import { useState, useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 
-
-
-import styles from './index.module.scss';
-import Toast from '../../Components/Toast';
-import ToastMessage from '../../Components/ToastMessage';
-import Loader from '../../Components/Loader';
-import Slider from '../../Components/Slider';
-import ProductVariant from './ProductVariant';
-import ProductSize from './ProductSize';
-import Button from '../../Components/Button';
-import { useProductContext } from '../../Hooks/useProductContext';
-import { useCart } from '../../Hooks/useCart';
+import styles from "./index.module.scss";
+import Toast from "../../Components/Toast";
+import ToastMessage from "../../Components/ToastMessage";
+import Loader from "../../Components/Loader";
+import Slider from "../../Components/Slider";
+import ProductVariant from "./ProductVariant";
+import ProductSize from "./ProductSize";
+import Button from "../../Components/Button";
+import { useProductContext } from "../../Hooks/useProductContext";
+import { useCart } from "../../Hooks/useCart";
+import { useAuthContext } from "../../Hooks/useAuthContext";
+// import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const {
@@ -24,36 +25,43 @@ const Products = () => {
     selectedSku,
     // selectedStock,
   } = useProductContext();
- 
-console.log( {
-  productIsReady,
-  selectedProduct,
-  selectedVariant,
-  selectedSize,
-  selectedSku,
- 
-})
 
-  const { addItem, isLoading, error } = useCart()
+  console.log({
+    productIsReady,
+    selectedProduct,
+    selectedVariant,
+    selectedSize,
+    selectedSku,
+  });
+  const { isVerified } = useAuthContext();
+
+  const { addItem, isLoading, error } = useCart();
 
   const [notification, setNotification] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const navigate = useNavigate();
 
-  const handleAddToCart = async () => {
-    await addItem({
-      productId: selectedProduct.id,
-      id: selectedSku,
-      size: selectedSize,
-      model: selectedProduct.product_name,
-      type: selectedProduct.subcategory_name,
-      description: selectedProduct.description,
-      color: selectedVariant.color_name,
-      price: selectedProduct.product_price,
-      url: selectedVariant.url,
-      thumbnail: selectedVariant.images[0].src,
-    });
+  const handleAddToCart = () => {
+    console.log(selectedVariant);
 
-    setNotification(true);
+    if (isVerified) {
+      addItem({
+        productId: selectedProduct.id,
+        id: selectedSku,
+        size: selectedSize,
+        model: selectedProduct.product_name,
+        type: selectedProduct.subcategory_name,
+        description: selectedProduct.description,
+        color: selectedVariant.color_name,
+        price: selectedProduct.product_price,
+        url: selectedVariant.url,
+        thumbnail: selectedVariant.images[0].url,
+        stock:selectedVariant.sizes[0].quantity
+      });
+      setNotification(true);
+    } else {
+      navigate("/account/login");
+    }
   };
 
   useEffect(() => {
@@ -61,13 +69,14 @@ console.log( {
       if (!error) {
         setToastMessage({
           addToCartSuccess: true,
-          _thumbnail: selectedVariant.images[0].src,
+          thumbnail: selectedVariant.images[0].url,
           details: `${selectedProduct.category_name} ${selectedProduct.product_name} - ${selectedVariant.color_name} - ${selectedSize}`,
         });
       } else if (error) {
         setToastMessage({ error, details: error.details });
       }
 
+      console.log(selectedVariant.images[0].url);
       setNotification(false);
     }
   }, [notification]);
@@ -82,9 +91,7 @@ console.log( {
   }
 
   const buttonContent =
-    selectedSize.length === 0
-      ? 'SELECT SIZE'
-      : `ADD ${selectedSize} TO CART`;
+    selectedSize.length === 0 ? "SELECT SIZE" : `ADD ${selectedSize} TO CART`;
 
   const buttonStyles = `
     ${selectedSize.length === 0 ? styles.button_disabled : styles.button}
@@ -93,7 +100,7 @@ console.log( {
   const isButtonDisabled = selectedSize.length === 0 ? true : false;
 
   const isBigScreen = useMediaQuery({
-    query: '(min-width: 1024px)',
+    query: "(min-width: 1024px)",
   });
 
   // TODO: HACER QUE EL TEXT EN LOS COSTADOS SE DESPLACE APENAS HAY EVENTO DE SCROLL
@@ -152,7 +159,9 @@ console.log( {
                         <p className={styles.description}>
                           {selectedProduct.product_description}
                         </p>
-                        <p className={styles.color}>{selectedVariant.color_name}</p>
+                        <p className={styles.color}>
+                          {selectedVariant.color_name}
+                        </p>
                         {/* {selectedProduct.tags && (
                           <div className={styles.tags_wrapper}>
                             {selectedProduct.tags.map((tag) => (
@@ -175,10 +184,10 @@ console.log( {
                     <div className={styles.controls_wrapper}>
                       <div className={styles.variants_container}>
                         <p className={styles.number_of_colors}>
-                          {selectedProduct.colorSizes.length}{' '}
+                          {selectedProduct.colorSizes.length}{" "}
                           {selectedProduct.colorSizes.length > 1
-                            ? 'Colores'
-                            : 'Color'}{' '}
+                            ? "Colores"
+                            : "Color"}{" "}
                           <span>| {selectedVariant.color_name}</span>
                         </p>
                         <div className={styles.variants_wrapper}>
@@ -240,11 +249,15 @@ console.log( {
                 <div className={styles.container_b}>
                   <div className={styles.details_wrapper}>
                     <div className={styles.details}>
-                      <h1 className={styles.name}>{selectedProduct.product_name}</h1>
+                      <h1 className={styles.name}>
+                        {selectedProduct.product_name}
+                      </h1>
                       <p className={styles.description}>
                         {selectedProduct.product_description}
                       </p>
-                      <p className={styles.color}>{selectedVariant.color_name}</p>
+                      <p className={styles.color}>
+                        {selectedVariant.color_name}
+                      </p>
                       {/* {selectedProduct.tags && (
                         <div className={styles.tags_wrapper}>
                           {selectedProduct.tags.map((tag) => (
@@ -272,7 +285,7 @@ console.log( {
                       <img
                         className={styles.images}
                         key={image.id}
-                        src={`http://127.0.0.1:8000/${image.url}`}
+                        src={`http://127.0.0.1:8000${image.url}`}
                         alt=""
                       />
                     ))}
@@ -281,10 +294,10 @@ console.log( {
                   <div className={styles.controls_wrapper}>
                     <div className={styles.variants_container}>
                       <p className={styles.number_of_colors}>
-                        {selectedProduct.colorSizes.length}{' '}
+                        {selectedProduct.colorSizes.length}{" "}
                         {selectedProduct.colorSizes.length > 1
-                          ? 'Colores'
-                          : 'Color'}{' '}
+                          ? "Colores"
+                          : "Color"}{" "}
                         <span>| {selectedVariant.color_name}</span>
                       </p>
                       <div className={styles.variants_wrapper}>
@@ -292,7 +305,7 @@ console.log( {
                           <ProductVariant
                             key={variant.id}
                             id={variant.id}
-                            thumbnail={variant.images.url}
+                            thumbnail={variant.images[0].url}
                             selectedVariantId={selectedVariant.id}
                           />
                         ))}

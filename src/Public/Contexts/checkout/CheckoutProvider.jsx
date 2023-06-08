@@ -1,33 +1,33 @@
 /* eslint-disable react/prop-types */
-import { useReducer, useEffect } from 'react';
-import CheckoutContext from './checkout-context';
-import { useAuthContext } from '../../Hooks/useAuthContext';
+import { useReducer, useEffect } from "react";
+import CheckoutContext from "./checkout-context";
+import { useAuthContext } from "../../Hooks/useAuthContext";
 
 const initialState = {
   checkoutIsReady: false,
   currentStep: 1,
   email: null,
-  id: null,
+
   shippingAddress: {},
   shippingOption: { standard: true, express: false },
 };
 
 const checkoutReducer = (state, action) => {
   switch (action.type) {
-    case 'SELECT_STEP': {
+    case "SELECT_STEP": {
       return {
         ...state,
         currentStep: action.payload,
       };
     }
-    case 'SELECT_PREVIOUS_STEP': {
+    case "SELECT_PREVIOUS_STEP": {
       return {
         ...state,
         // TODO: CHEQUEAR SI HACE FALTA PREVSTATE EN USEREDUCER
         currentStep: state.currentStep - 1,
       };
     }
-    case 'SUBMIT_SHIPPING_INFO': {
+    case "SUBMIT_SHIPPING_INFO": {
       return {
         ...state,
         // TODO: CHEQUEAR SI HACE FALTA PREVSTATE EN USEREDUCER
@@ -36,33 +36,33 @@ const checkoutReducer = (state, action) => {
         shippingAddress: action.payload.shippingAddress,
       };
     }
-    case 'SELECT_SHIPPING_OPTION': {
-      console.log('payload', action.payload);
+    case "SELECT_SHIPPING_OPTION": {
+      console.log("payload", action.payload);
       return {
         ...state,
         shippingOption: action.payload,
       };
     }
-    case 'SUBMIT_SHIPPING_OPTION': {
+    case "SUBMIT_SHIPPING_OPTION": {
       return {
         ...state,
         currentStep: state.currentStep + 1,
       };
     }
-    case 'CREATE_CHECKOUT_SESSION': {
+    case "CREATE_CHECKOUT_SESSION": {
       return {
         ...state,
         checkoutIsReady: true,
-        id: action.payload.id,
+        // id: action.payload.id,
         email: action.payload.email,
       };
     }
-    case 'UPDATE_CHECKOUT_SESSION': {
+    case "UPDATE_CHECKOUT_SESSION": {
       return {
         ...state,
         checkoutIsReady: true,
         email: action.payload.email,
-        id: action.payload.id,
+        // id: action.payload.id,
         shippingAddress: action.payload.shippingAddress,
         shippingOption: action.payload.shippingOption,
       };
@@ -75,45 +75,26 @@ const checkoutReducer = (state, action) => {
 };
 
 const CheckoutProvider = ({ children }) => {
-  const { email, user } = useAuthContext();
-
+  const { email} = useAuthContext();
+console.log("test1")
   const [state, dispatch] = useReducer(checkoutReducer, initialState);
 
   useEffect(() => {
-    // const getCheckoutSession = async () => {
-    //   // const checkoutSessionRef = doc(db, 'checkoutSessions', user.uid);
+    const getCheckoutSession =() => {
+      dispatch({
+        type: "CREATE_CHECKOUT_SESSION",
+        payload: {email},
+      });
+    };
 
-    //   // const checkoutSessionSnap = await getDoc(checkoutSessionRef);
-
-    //   if (checkoutSessionSnap.exists()) {
-    //     const checkoutSessionData = { ...checkoutSessionSnap.data() };
-
-    //     dispatch({
-    //       type: 'UPDATE_CHECKOUT_SESSION',
-    //       payload: { ...checkoutSessionData, id: user.uid },
-    //     });
-    //   } else {
-    //     await setDoc(checkoutSessionRef, {
-    //       email,
-    //       shippingAddress: {},
-    //       shippingOption: { standard: true, express: false },
-    //       paymentInfo: {},
-    //     });
-
-    //   }
-    // };
-    
-    // getCheckoutSession();
-    dispatch({
-      type: 'CREATE_CHECKOUT_SESSION',
-      payload: { id: user, email },
-    });
+    getCheckoutSession();
   }, []);
 
-  console.log('checkout-context', state);
+  console.log("checkout-context", state);
 
   return (
     <CheckoutContext.Provider value={{ ...state, dispatch }}>
+   
       {children}
     </CheckoutContext.Provider>
   );

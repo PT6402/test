@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
 
 import { FaChevronRight, FaCheck } from 'react-icons/fa';
@@ -16,7 +15,6 @@ const Step = ({ label, url, index }) => {
   const handleClick = () => {
     selectStep(index);
   };
-  // const currentStep = 1
 
   const lastStep = index === 3;
 

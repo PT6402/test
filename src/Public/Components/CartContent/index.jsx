@@ -9,6 +9,7 @@ import Toast from "../Toast";
 import ToastMessage from "../ToastMessage";
 import Button from "../Button";
 import CartItem from "../../Pages/Cart/CartItem";
+import { addAllItemsPriceNumber } from './../../helpers/item';
 
 const CartContent = ({ toggleCartModal }) => {
   const { items, totalAmount, totalPrice } = useCartContext();
@@ -53,7 +54,7 @@ const CartContent = ({ toggleCartModal }) => {
       </>
     );
   }
-
+  console.log();
   return (
     <>
       <Toast>
@@ -65,32 +66,36 @@ const CartContent = ({ toggleCartModal }) => {
         <div className={styles.content}>
           <div className={styles.list_wrapper}>
             <div className={styles.list}>
-              {items.map((item) => (
-                <CartItem
-                  toggleCartModal={toggleCartModal}
-                  key={item.id}
-                  item={item}
-                  model={item.model}
-                  type={item.type}
-                  color={item.color}
-                  size={item.size}
-                  price={item.price}
-                  url={item.url}
-                  amount={item.amount}
-                  _thumbnail={item.thumbnail}
-                  addItem={addItem}
-                  removeItem={removeItem}
-                  deleteItem={deleteItem}
-                  isLoading={isLoading}
-                />
-              ))}
+              {items.map((item) => {
+                console.log(item)
+                return (
+                  <CartItem
+                    toggleCartModal={toggleCartModal}
+                    key={item.id}
+                    item={item}
+                    model={item.model }
+                    type={item.type }
+                    color={item.color }
+                    size={item.size }
+                    price={item.price }
+                    url={item.url }
+                    amount={item.amount }
+                    _thumbnail={item.thumbnail || item.images[0].url}
+                    addItem={addItem}
+                 
+                    removeItem={removeItem}
+                    deleteItem={deleteItem}
+                    isLoading={isLoading}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
         <div className={styles.footer_container}>
           <div className={styles.footer_wrapper}>
             <p>
-              <span>Total: ${totalPrice} </span> | {totalAmount}
+              <span>Total: ${addAllItemsPriceNumber(items)} </span> | {totalAmount}
               {totalAmount > 1 ? "items" : "item"}
             </p>
             <div className={styles.buttons_wrapper}>

@@ -1,15 +1,13 @@
 import { useState } from 'react';
 
-import OrderContent from './OrderContent';
 
-
-
-import { formatDate } from '../../../../helpers/format';
 
 import styles from './index.module.scss';
 import CenterModal from '../../../../Components/CenterModal';
+import OrderContent from './OrderContent';
+import { formatDate } from '../../../../helpers/format';
 
-const Order = ({ id, items, date }) => {
+const Order = ({ id, items, date,order }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOrderModal = () => {
@@ -24,6 +22,7 @@ const Order = ({ id, items, date }) => {
             id={id}
             items={items}
             date={date}
+            order={order}
           />
         )}
       </CenterModal>

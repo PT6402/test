@@ -1,38 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { useNavigate } from "react-router-dom";
-
-import { BiChevronLeft } from "react-icons/bi";
-
-
-import CheckoutSummary from "../CheckoutSummary";
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 
-import styles from "./index.module.scss";
-import { useCheckout } from "../../../Hooks/useCheckout";
-import { useOrder } from './../../../Hooks/useOrder';
-import Loader from "../../../Components/Loader";
-import { formatCardNumber, formatCvv, formatExpiryDate } from "../../../helpers/format";
+import styles from './index.module.scss';
+import { useCheckout } from '../../../Hooks/useCheckout';
+import { useOrder } from '../../../Hooks/useOrder';
+import Loader from '../../../Components/Loader';
+import CheckoutSummary from '../CheckoutSummary';
+import { BiChevronLeft } from 'react-icons/bi';
+import { formatCardNumber, formatCvv, formatExpiryDate } from '../../../helpers/format';
+import instance from '../../../../http';
 
 const Payment = ({ handlePreviousStep }) => {
-  const [paymentOption, setPaymentOption] = useState("creditCard");
   const navigate = useNavigate();
 
   const { selectPreviousStep } = useCheckout();
   const { createOrder, isLoading, error } = useOrder();
-  // const { selectPreviousStep } = [];
-  // const { createOrder, isLoading, error } = [];
 
+  const [paymentOption, setPaymentOption] = useState('creditCard');
   const [navigation, setNavigation] = useState(false);
 
   const [userInput, setUserInput] = useState({
-    cardNumber: "",
-    name: "",
-    expiryDate: "",
-    securityCode: "",
+    cardNumber: '',
+    name: '',
+    expiryDate: '',
+    securityCode: '',
   });
 
   const handleCardNumberInput = (e) => {
@@ -59,14 +55,16 @@ const Payment = ({ handlePreviousStep }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createOrder(userInput);
+await instance.post("api/store-payment",{payment_method:paymentOption,status_payment:1})
+await createOrder(userInput);
+console.log(userInput,paymentOption)
 
     setNavigation(true);
   };
 
   useEffect(() => {
     if (navigation && !error) {
-      navigate("/cuenta");
+      navigate('/account');
     } else {
       setNavigation(false);
     }
@@ -111,8 +109,7 @@ const Payment = ({ handlePreviousStep }) => {
         ? styles.input_focus
         : styles.input_no_focus,
   };
-  const handleInputPayment = (e) => setPaymentOption(e.target.value);
-  console.log(paymentOption);
+
   return (
     <div>
       {isLoading && (
@@ -122,9 +119,9 @@ const Payment = ({ handlePreviousStep }) => {
         <>
           <CheckoutSummary />
           <form id="form" onSubmit={handleSubmit} className={styles.form}>
-            <h2 className={styles.title}>Way to pay</h2>
+            <h2 className={styles.title}>Forma de Pago</h2>
             <div className={styles.payment_options_wrapper}>
-              <div>
+            <div>
                 <div className={styles.payment_option}>
                   <input
                     type="radio"
@@ -155,15 +152,14 @@ const Payment = ({ handlePreviousStep }) => {
                   <span>Credit card</span>
                 </div>
               </div>
-
-              {paymentOption == "creditCard" && (
+              {paymentOption === 'creditCard' && (
                 <div className={styles.inputs_wrapper}>
                   <div className={styles.float_container}>
                     <label
                       htmlFor="cardNumber"
                       className={cardNumberStyles.label}
                     >
-                      Card number
+                      Número de la tarjeta
                     </label>
                     <input
                       id="cardNumber"
@@ -176,21 +172,21 @@ const Payment = ({ handlePreviousStep }) => {
                       value={formatCardNumber(userInput.cardNumber)}
                       type="text"
                       inputMode="numeric"
-                      placeholder="Card number"
+                      placeholder="Número de la tarjeta"
                       className={cardNumberStyles.input}
                       required
                     />
                   </div>
                   <div className={styles.float_container}>
                     <label htmlFor="name" className={nameStyles.label}>
-                      Name on the card
+                      Nombre en la tarjeta
                     </label>
                     <input
                       id="name"
                       onChange={handleNameInput}
                       value={userInput.name}
                       type="text"
-                      placeholder="Name on the card"
+                      placeholder="Nombre en la tarjeta"
                       className={nameStyles.input}
                       autoComplete="off"
                       required
@@ -203,7 +199,7 @@ const Payment = ({ handlePreviousStep }) => {
                         className={expiryDateStyles.label}
                         autoComplete="off"
                       >
-                        Expiration (MM/AA)
+                        Expiración (MM/AA)
                       </label>
                       <input
                         id="expiryDate"
@@ -215,7 +211,7 @@ const Payment = ({ handlePreviousStep }) => {
                         }}
                         value={formatExpiryDate(userInput.expiryDate)}
                         type="text"
-                        placeholder="Expiration (MM/AA)"
+                        placeholder="Expiración (MM/AA)"
                         className={expiryDateStyles.input}
                         autoComplete="off"
                         required
@@ -226,7 +222,7 @@ const Payment = ({ handlePreviousStep }) => {
                         htmlFor="securityCode"
                         className={securityCodeStyles.label}
                       >
-                        Security code
+                        Código de Seguridad
                       </label>
                       <input
                         id="securityCode"
@@ -238,7 +234,7 @@ const Payment = ({ handlePreviousStep }) => {
                         }}
                         value={formatCvv(userInput.securityCode)}
                         type="password"
-                        placeholder="Security code"
+                        placeholder="Código de Seguridad"
                         className={securityCodeStyles.input}
                         autoComplete="off"
                         required
@@ -255,10 +251,10 @@ const Payment = ({ handlePreviousStep }) => {
               <span>
                 <BiChevronLeft />
               </span>
-              Back to shipping
+              Volver a envío
             </p>
             <button form="form" type="submit" className={styles.button}>
-              Pay now
+              Pagar ahora
             </button>
           </div>
         </>

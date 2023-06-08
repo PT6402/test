@@ -68,8 +68,8 @@ export default function Collections() {
                   type={product.type}
                   url={product.url}
                   slug={product.slug}
-                  _imageTop={product.images[0].url}
-                  _imageBottom={product.images[0].url}
+                  _imageTop={product.images[0]}
+                  _imageBottom={product.images[0]}
                   numberOfVariants={product.numberOfColorSizes}
                 />
               ))}

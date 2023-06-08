@@ -15,7 +15,10 @@ export const addAllItemsPrice = (items) => {
 export const addAllItemsPriceNumber = (items) => {
   let total = 0;
 
-  items.forEach((item) => (total += item.price * item.amount));
+
+
+  items.forEach((item) => (total += item.price * (item.amount ?item.amount:item.sizes[0].quantity )));
+
 
   return total;
 };

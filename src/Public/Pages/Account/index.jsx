@@ -1,98 +1,94 @@
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../Hooks/useAuthContext";
-import { useEffect, useState } from "react";
-import Toast from "../../Components/Toast";
-import ToastMessage from "../../Components/ToastMessage";
-import Loader from "../../Components/Loader";
-import Button from "../../Components/Button";
-import classNames from "classnames/bind";
-const cx = classNames.bind(style);
-import style from "./index.module.scss";
-import { useLogout } from "../../Hooks/useLogout";
-import AccountProfile from "./AccountProfile";
-import AccountAddresses from "./AccountAddresses";
-import AccountOrders from "./AccountOrders";
-// import { useOrder } from "../../Hooks/useOrder";
+import { useState, useEffect } from 'react';
 
-export default function Account() {
-    const navigate = useNavigate()
-    const { name,role_as,email, phone} = useAuthContext();
 
-    // const { getOrders, error } = useOrder();
-    const { logout } = useLogout();
-const {error} = {}
-    // const [orders, setOrders] = useState(null);
-    const [toastMessage, setToastMessage] = useState(null);
+import styles from './index.module.scss';
+import { useAuthContext } from '../../Hooks/useAuthContext';
+import { useOrder } from '../../Hooks/useOrder';
+import { useLogout } from './../../Hooks/useLogout';
+import Toast from '../../Components/Toast';
+import ToastMessage from '../../Components/ToastMessage';
+import Loader from '../../Components/Loader';
+import Button from '../../Components/Button';
+import AccountOrders from './AccountOrders';
+import AccountProfile from './AccountProfile';
+import AccountAddresses from './AccountAddresses';
 
-    // useEffect(() => {
-    //   const fetchOrders = async () => {
-    //     const fetchedOrders = await getOrders();
-    //     if (fetchedOrders) {
-    //       setOrders(fetchedOrders);
-    //     } else {
-    //       setOrders([]);
-    //     }
-    //   };
+const Account = () => {
+  const { name, email, phone } = useAuthContext();
 
-    //   fetchOrders();
-    // }, []);
-const orders= []
-    useEffect(() => {
-      if (error) {
-        setToastMessage({
-          error,
-          details: 'No se pudieron recuperar las órdenes.',
-        });
+  const { getOrders, error } = useOrder();
+  const { logout } = useLogout();
+
+  const [orders, setOrders] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const fetchedOrders = await getOrders();
+      if (fetchedOrders) {
+        setOrders(fetchedOrders); 
+        console.log(fetchedOrders)
+      } else {
+        setOrders([]);
       }
-    }, [error]);
-
-    const toggleToast = () => {
-      setToastMessage(null);
     };
 
-    const handleLogout = async () => {
-      await logout();
-    };
-    const handleAdmin = async () => {
-      navigate('/admin/dashboard/home')
-    };
+    fetchOrders();
+  }, []);
 
-    return (
-      <>
-        <Toast>
-          {toastMessage && (
-            <ToastMessage toggleToast={toggleToast} content={toastMessage} />
-          )}
-        </Toast>
-        {/* {!orders && <Loader />}
-        {orders && ( */}
-          <>
-            <section>
-              <div className={`${cx("container")} main-container`}>
-                <div className={cx("welcome_wrapper")}>
-                  <p className={cx("greeting")}>Hi!, {name}</p>
-                 { role_as==2 && <Button className={cx("admin_button")} onClick={handleAdmin}>
-                    ADMIN
-                  </Button>}
-                  <Button className={cx("logout_button")} onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </div>
-                <div className={cx("content_container")}>
-                  <AccountOrders orders={orders} />
-                  <aside className={cx("sidebar")}>
-                    <AccountProfile
-                      name={name}
-                      email={email}
-                      phone={phone}
-                    />
-                    <AccountAddresses />
-                  </aside>
-                </div>
+  useEffect(() => {
+    if (error) {
+      setToastMessage({
+        error,
+        details: 'No se pudieron recuperar las órdenes.',
+      });
+    }
+  }, [error]);
+
+  const toggleToast = () => {
+    setToastMessage(null);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
+  return (
+    <>
+      <Toast>
+        {toastMessage && (
+          <ToastMessage toggleToast={toggleToast} content={toastMessage} />
+        )}
+      </Toast>
+      {!orders && <Loader />}
+      {orders && (
+        <>
+          <section>
+            <div className={`${styles.container} main-container`}>
+              <div className={styles.welcome_wrapper}>
+                <p className={styles.greeting}>Hola, {name}!</p>
+                <Button className={styles.logout_button} onClick={handleLogout}>
+                  Logout
+                </Button>
               </div>
-            </section>
-          </>
-        {/* )} */}
-      </>
-    );
-}
+              <div className={styles.content_container}>
+                <AccountOrders orders={orders} />
+                <aside className={styles.sidebar}>
+                  <AccountProfile
+                    name={name}
+                    
+                    email={email}
+                    phone={phone}
+                  />
+                  <AccountAddresses />
+                </aside>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+    </>
+  );
+};
+
+export default Account;

@@ -21,15 +21,15 @@ const ProductVariant = ({ id, thumbnail, selectedVariantId }) => {
 
   let variantStyles =
     selectedVariantId === id ? styles.thumbnail_selected : styles.thumbnail;
-
+console.log(thumbnail)
 
 
   return (
     <img
       className={variantStyles}
       onClick={shouldAddEventHandler ? handleSelectVariant : undefined}
-      src={`http://127.0.0.1:8000/images/1685372293_Pro_AV00174_1.jpeg`}
-      alt=""
+      src={`http://127.0.0.1:8000${thumbnail}`}
+      alt={`${thumbnail}`}
     />
   );
 };

@@ -87,7 +87,7 @@ export default function Nav({ toggleSideNav, toggleCartModal }) {
         )}
         {isVerified && (
           <Link to="/account" className={`${cx("link")} ${cx("login_link")}`}>
-          Account
+          {localStorage.getItem("auth_name")}
           </Link>
         )}
       </div>
@@ -121,9 +121,9 @@ export default function Nav({ toggleSideNav, toggleCartModal }) {
           <li className={`${cx("search_icon")} disabled-link`}>
             <CgSearch />
           </li>
-          <li className={cx("cart_icon")} onClick={handleToggleCartModal}>
+          {pathname !== '/cart'&&<li className={cx("cart_icon")} onClick={handleToggleCartModal}>
             <CartIcon />
-          </li>
+          </li>}
           <li className={cx("mobile_icon")}>
             <RiMenuLine onClick={toggleSideNav} />
           </li>

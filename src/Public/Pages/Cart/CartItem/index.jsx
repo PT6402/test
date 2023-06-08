@@ -5,7 +5,6 @@ import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 
 import Card from '../../../components/Card';
 
-import { formatNumber } from '../../../helpers/format';
 import { addItemPrice } from '../../../helpers/item';
 
 import styles from './index.module.scss';
@@ -31,6 +30,7 @@ const CartItem = ({
   const handleAddItem = () => {
     if (!isLoading) {
       addItem(item);
+      console.log(item)
     }
   };
 
@@ -64,7 +64,7 @@ const CartItem = ({
             <p className={styles.size}>{size}</p>
             <p className={styles.price}>${price}</p>
           </div>
-          <img className={styles.image} src={`http://127.0.0.1:8000/${_thumbnail}`} alt="" />
+          <img className={styles.image} src={`http://127.0.0.1:8000${_thumbnail}`} alt="" />
         </div>
       </Link>
 
@@ -83,7 +83,7 @@ const CartItem = ({
             <FaPlus />
           </i>
         </div>
-        <div className={styles.total}>${item.total_price}</div>
+        <div className={styles.total}>${addItemPrice({ price, amount })}</div>
       </div>
     </Card>
   );

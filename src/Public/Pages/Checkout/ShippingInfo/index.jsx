@@ -1,69 +1,70 @@
-import { useState, useEffect } from "react";
+/* eslint-disable no-prototype-builtins */
+import { useState, useEffect } from 'react';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import { BiChevronLeft } from "react-icons/bi";
-
-
-
-// import Loader from 'components/Loader';
+import { BiChevronLeft } from 'react-icons/bi';
 
 
-import { reactSelectStyles } from "./data.js";
 
-import styles from "./index.module.scss";
-import { useAuthContext } from "../../../Hooks/useAuthContext";
-import { useCheckoutContext } from "../../../Hooks/useCheckoutContext";
-import { useCheckout } from "../../../Hooks/useCheckout";
-import Dropdown from "../../../Components/Dropdown/index.jsx";
+import { reactSelectStyles } from './data.js';
+
+import styles from './index.module.scss';
+import { useAuthContext } from '../../../Hooks/useAuthContext.jsx';
+
+import { useCheckout } from '../../../Hooks/useCheckout.jsx';
+import Loader from '../../../Components/Loader/index.jsx';
+import Dropdown from '../../../Components/Dropdown/index.jsx';
+import { useCheckoutContext } from '../../../Hooks/useCheckoutContext.jsx';
 
 const ShippingInfo = () => {
-  const { addresses } = useAuthContext();
-  const { email, shippingAddress } = useCheckoutContext();
+  const { addresses,email,phone,name } = useAuthContext();
+  const {  shippingAddress } = useCheckoutContext();
   const { submitShippingInfo, isLoading } = useCheckout();
-  // const { addresses } = []
-  // const { email, shippingAddress } = [];
-  // const { submitShippingInfo, isLoading } = [];
 
   const [isDisabled, setIsDisabled] = useState(false);
   const [newAddress, setNewAddress] = useState({});
 
-  const options = [...addresses, { label: "Add New Address", value: "new" }];
+  const options = [
+    ...addresses,
+    { label: 'Agregar Dirección Nueva', value: 'new' },
+  ];
 
   let defaultOption;
   let initialIsNew = false;
 
-  if (shippingAddress.hasOwnProperty("address")) {
+  if (shippingAddress.hasOwnProperty('address')) {
     defaultOption = shippingAddress;
+    console.log("hasAddress")
   } else {
     defaultOption = addresses.find((address) => address.isMain);
-
+    console.log("mainAddress")
     if (!defaultOption) {
       defaultOption = {
-        label: "Add New Address",
-        value: "new",
+        label: 'Agregar Dirección Nueva',
+        value: 'new',
       };
       initialIsNew = true;
     }
   }
 
   const [userInput, setUserInput] = useState({
-    email: email || "",
-    id: defaultOption.id || "",
-    name: defaultOption.name || "",
-    lastName: defaultOption.lastName || "",
-    address: defaultOption.address || "",
-    city: defaultOption.city || "",
-    province: defaultOption.province || "",
-    zipCode: defaultOption.zipCode || "",
-    phone: defaultOption.phone || "",
-    label: defaultOption.label || "",
-    value: defaultOption.value || "",
+    email: email || '',
+    // id: defaultOption.id || '',
+    name: name || '',
+    // lastName: defaultOption.lastName || '',
+    address: defaultOption.address || '',
+    city: defaultOption.city || '',
+    province: defaultOption.province || '',
+    // zipCode: defaultOption.zipCode || '',
+    phone: phone || '',
+    label: defaultOption.label || '',
+    value: defaultOption.value || '',
     isNew: initialIsNew,
   });
 
   useEffect(() => {
-    if (userInput.value === "new") {
+    if (userInput.value === 'new') {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -71,17 +72,17 @@ const ShippingInfo = () => {
   }, [userInput.value]);
 
   const handleSelectAddress = (option) => {
-    if (option.value === "new") {
+    if (option.value === 'new') {
       setUserInput((prevState) => ({
         ...prevState,
-        id: newAddress.id || "",
-        name: newAddress.name || "",
-        lastName: newAddress.lastName || "",
-        address: newAddress.address || "",
-        city: newAddress.city || "",
-        province: newAddress.province || "",
-        zipCode: newAddress.zipCode || "",
-        phoneNumber: newAddress.phoneNumber || "",
+        // id: newAddress.id || '',
+        // name: newAddress.name || '',
+        // lastName: newAddress.lastName || '',
+        address: newAddress.address || '',
+        city: newAddress.city || '',
+        province: newAddress.province || '',
+        // zipCode: newAddress.zipCode || '',
+        phone: newAddress.phone || '',
         label: option.label,
         value: option.value,
         isNew: true,
@@ -89,14 +90,14 @@ const ShippingInfo = () => {
     } else {
       setUserInput((prevState) => ({
         ...prevState,
-        id: option.id || "",
-        name: option.name || "",
-        lastName: option.lastName || "",
-        address: option.address || "",
-        city: option.city || "",
-        province: option.province || "",
-        zipCode: option.zipCode || "",
-        phoneNumber: option.phoneNumber || "",
+        // id: option.id || '',
+        // name: option.name || '',
+        // lastName: option.lastName || '',
+        address: option.address || '',
+        city: option.city || '',
+        province: option.province || '',
+        // zipCode: option.zipCode || '',
+        // phone: option.phone || '',
         label: option.label,
         value: option.value,
         isNew: false,
@@ -129,17 +130,17 @@ const ShippingInfo = () => {
     }));
   };
 
-  const handleLastNameInput = (e) => {
-    setNewAddress((prevState) => ({
-      ...prevState,
-      lastName: e.target.value,
-    }));
+  // const handleLastNameInput = (e) => {
+  //   setNewAddress((prevState) => ({
+  //     ...prevState,
+  //     lastName: e.target.value,
+  //   }));
 
-    setUserInput((prevState) => ({
-      ...prevState,
-      lastName: e.target.value,
-    }));
-  };
+  //   setUserInput((prevState) => ({
+  //     ...prevState,
+  //     lastName: e.target.value,
+  //   }));
+  // };
 
   const handleAddressInput = (e) => {
     setNewAddress((prevState) => ({
@@ -177,27 +178,27 @@ const ShippingInfo = () => {
     }));
   };
 
-  const handleZipCodeInput = (e) => {
-    setNewAddress((prevState) => ({
-      ...prevState,
-      zipCode: e.target.value,
-    }));
+  // const handleZipCodeInput = (e) => {
+  //   setNewAddress((prevState) => ({
+  //     ...prevState,
+  //     zipCode: e.target.value,
+  //   }));
 
-    setUserInput((prevState) => ({
-      ...prevState,
-      zipCode: e.target.value,
-    }));
-  };
+  //   setUserInput((prevState) => ({
+  //     ...prevState,
+  //     zipCode: e.target.value,
+  //   }));
+  // };
 
   const handlePhoneNumberInput = (e) => {
     setNewAddress((prevState) => ({
       ...prevState,
-      phoneNumber: e.target.value,
+      phone: e.target.value,
     }));
 
     setUserInput((prevState) => ({
       ...prevState,
-      phoneNumber: e.target.value,
+      phone: e.target.value,
     }));
   };
 
@@ -215,16 +216,16 @@ const ShippingInfo = () => {
       userInput.name.length > 0 ? styles.input_focus : styles.input_no_focus,
   };
 
-  const lastNameStyles = {
-    label:
-      userInput.lastName.length > 0
-        ? styles.label_focus
-        : styles.label_no_focus,
-    input:
-      userInput.lastName.length > 0
-        ? styles.input_focus
-        : styles.input_no_focus,
-  };
+  // const lastNameStyles = {
+  //   label:
+  //     userInput.lastName.length > 0
+  //       ? styles.label_focus
+  //       : styles.label_no_focus,
+  //   input:
+  //     userInput.lastName.length > 0
+  //       ? styles.input_focus
+  //       : styles.input_no_focus,
+  // };
 
   const addressStyles = {
     label:
@@ -251,33 +252,33 @@ const ShippingInfo = () => {
         : styles.input_no_focus,
   };
 
-  const zipCodeStyles = {
-    label:
-      userInput.zipCode.length > 0 ? styles.label_focus : styles.label_no_focus,
-    input:
-      userInput.zipCode.length > 0 ? styles.input_focus : styles.input_no_focus,
-  };
+  // const zipCodeStyles = {
+  //   label:
+  //     userInput.zipCode.length > 0 ? styles.label_focus : styles.label_no_focus,
+  //   input:
+  //     userInput.zipCode.length > 0 ? styles.input_focus : styles.input_no_focus,
+  // };
 
   const phoneNumberStyles = {
     label:
-      userInput.phoneNumber.length > 0
+      userInput.phone.length > 0
         ? styles.label_focus
         : styles.label_no_focus,
     input:
-      userInput.phoneNumber.length > 0
+      userInput.phone.length > 0
         ? styles.input_focus
         : styles.input_no_focus,
   };
 
   return (
     <div className={styles.info_container}>
-      {/* {isLoading && (
+      {isLoading && (
         <Loader wrapperClassName={styles.loader_wrapper} noPortal={true} />
-      )} */}
+      )}
       {!isLoading && (
         <form className={styles.info_form} onSubmit={handleSubmit}>
           <div className={styles.contact_info_wrapper}>
-            <p className={styles.title}>Contact information</p>
+            <p className={styles.title}>Información de Contacto</p>
             <div className={styles.float_container}>
               <label htmlFor="email" className={emailStyles.label}>
                 Email
@@ -295,7 +296,7 @@ const ShippingInfo = () => {
             </div>
           </div>
           <div className={styles.shipping_address_wrapper}>
-            <p className={styles.title}>Shipping Address</p>
+            <p className={styles.title}>Dirección de Envío</p>
             <Dropdown
               styles={reactSelectStyles}
               options={options}
@@ -306,11 +307,11 @@ const ShippingInfo = () => {
             <div className={styles.name_wrapper}>
               <div
                 className={`${styles.float_container} ${
-                  isDisabled ? styles.disabled : ""
+                  isDisabled ? styles.disabled : ''
                 }`}
               >
                 <label htmlFor="name" className={nameStyles.label}>
-                  Name
+                  Nombre
                 </label>
                 <input
                   id="name"
@@ -320,17 +321,17 @@ const ShippingInfo = () => {
                   value={userInput.name}
                   className={nameStyles.input}
                   required
-                  placeholder="Name"
+                  placeholder="Nombre"
                   disabled={isDisabled}
                 />
               </div>
-              <div
+              {/* <div
                 className={`${styles.float_container} ${
-                  isDisabled ? styles.disabled : ""
+                  isDisabled ? styles.disabled : ''
                 }`}
               >
                 <label htmlFor="lastName" className={lastNameStyles.label}>
-                  Last name
+                  Apellido
                 </label>
                 <input
                   id="lastName"
@@ -340,18 +341,18 @@ const ShippingInfo = () => {
                   value={userInput.lastName}
                   className={lastNameStyles.input}
                   required
-                  placeholder="Last name"
+                  placeholder="Apellido"
                   disabled={isDisabled}
                 />
-              </div>
+              </div> */}
             </div>
             <div
               className={`${styles.float_container} ${
-                isDisabled ? styles.disabled : ""
+                isDisabled ? styles.disabled : ''
               }`}
             >
               <label htmlFor="address" className={addressStyles.label}>
-                Address
+                Dirección
               </label>
               <input
                 id="address"
@@ -361,18 +362,18 @@ const ShippingInfo = () => {
                 value={userInput.address}
                 className={addressStyles.input}
                 required
-                placeholder="Address"
+                placeholder="Dirección"
                 disabled={isDisabled}
               />
             </div>
             <div className={styles.zip_wrapper}>
               <div
                 className={`${styles.float_container} ${
-                  isDisabled ? styles.disabled : ""
+                  isDisabled ? styles.disabled : ''
                 }`}
               >
                 <label htmlFor="city" className={cityStyles.label}>
-                  City
+                  Ciudad
                 </label>
                 <input
                   id="city"
@@ -382,17 +383,17 @@ const ShippingInfo = () => {
                   value={userInput.city}
                   className={cityStyles.input}
                   required
-                  placeholder="City"
+                  placeholder="Ciudad"
                   disabled={isDisabled}
                 />
               </div>
-              <div
+              {/* <div
                 className={`${styles.float_container} ${
-                  isDisabled ? styles.disabled : ""
+                  isDisabled ? styles.disabled : ''
                 }`}
               >
                 <label htmlFor="zipCode" className={zipCodeStyles.label}>
-                  Postal Code
+                  Código Postal
                 </label>
                 <input
                   id="zipCode"
@@ -402,17 +403,17 @@ const ShippingInfo = () => {
                   value={userInput.zipCode}
                   className={zipCodeStyles.input}
                   required
-                  placeholder="Postal Code"
+                  placeholder="Código Postal"
                   disabled={isDisabled}
                 />
-              </div>
+              </div> */}
               <div
                 className={`${styles.float_container} ${
-                  isDisabled ? styles.disabled : ""
+                  isDisabled ? styles.disabled : ''
                 }`}
               >
                 <label htmlFor="province" className={provinceStyles.label}>
-                  province
+                  Provincia
                 </label>
                 <input
                   id="province"
@@ -422,41 +423,41 @@ const ShippingInfo = () => {
                   value={userInput.province}
                   className={provinceStyles.input}
                   required
-                  placeholder="province"
+                  placeholder="Provincia"
                   disabled={isDisabled}
                 />
               </div>
             </div>
             <div
               className={`${styles.float_container} ${
-                isDisabled ? styles.disabled : ""
+                isDisabled ? styles.disabled : ''
               }`}
             >
               <label htmlFor="phoneNumber" className={phoneNumberStyles.label}>
-                Phone
+                Teléfono
               </label>
               <input
                 id="phoneNumber"
                 type="tel"
                 autoComplete="off"
                 onChange={handlePhoneNumberInput}
-                value={userInput.phoneNumber}
+                value={userInput.phone}
                 className={phoneNumberStyles.input}
                 required
-                placeholder="Phone"
+                placeholder="Teléfono"
                 disabled={isDisabled}
               />
             </div>
           </div>
           <div className={styles.form_controls}>
-            <Link className={styles.back_link} to="/carrito">
+            <Link className={styles.back_link} to="/cart">
               <span>
                 <BiChevronLeft />
               </span>
-              return to cart
+              Volver a carrito
             </Link>
             <button className={styles.button} type="submit">
-              continue to shipping
+              Continuar a envío
             </button>
           </div>
         </form>

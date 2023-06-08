@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
+import { formatNumber } from "../../../helpers/format";
 
-
-import { formatNumber } from '../../../helpers/format';
-
-import styles from './index.module.scss';
-import Card from '../../../components/Card';
+import styles from "./index.module.scss";
+import Card from "../../../components/Card";
 
 const ProductCard = ({
   model,
@@ -24,6 +22,7 @@ const ProductCard = ({
   // const imageBottom = require(`../../../../../assets/${_imageBottom}`);
   // const imageTop = '';
   // const imageBottom = '';
+  // console.log([_imageTop][0].url)
 
   return (
     <>
@@ -31,12 +30,20 @@ const ProductCard = ({
         <Card className={styles.card}>
           <Link to={`/product/${slug}/${url}`} className={styles.link}>
             <div className={styles.image_wrapper}>
-              <img src={`http://127.0.0.1:8000/${_imageTop}`} alt="" className={styles.image_top}></img>
-              <img
-                src={`http://127.0.0.1:8000/${_imageBottom}`}
-                alt=""
-                className={styles.image_bottom}
-              ></img>
+              {[_imageTop][0] && (
+                <>
+                  <img
+                    src={`http://127.0.0.1:8000${_imageTop.url}`}
+                    alt=""
+                    className={styles.image_top}
+                  />
+                  <img
+                    src={`http://127.0.0.1:8000${_imageBottom.url}`}
+                    alt=""
+                    className={styles.image_bottom}
+                  />
+                </>
+              )}
             </div>
           </Link>
         </Card>

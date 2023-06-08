@@ -25,6 +25,42 @@ export const useCollection = () => {
       });
       setIsLoading(false);
 
+
+
+
+
+      const  getProductsByColor=(datas)=>{
+        const products = [];
+      
+        for (const data of datas) {
+        for (const item of data) {
+          for (const colorSize of item.colorSizes) {
+            products.push({
+           
+              model: item.product_name,
+             slug: item.product_slug,
+              price: item.product_price,
+              // product_description: item.product_description,
+              // product_type: item.product_type,
+              // product_material: item.product_material,
+              collection: item.category_name,
+              type: item.subcategory_name,
+              color: colorSize.color_name,
+              // sizes: [colorSize].sizes,
+              images: colorSize.images,
+              url: colorSize.url,
+              // total_price: [colorSize].total_price,
+            numberOfColorSizes: item.colorSizes.length,
+
+            });
+          }
+        }
+      }
+      
+        return products;
+      }
+
+
       const colorSizes = [];
 
       for (const product of products[0]) {
@@ -43,8 +79,11 @@ export const useCollection = () => {
           });
         }
       }
+      const data = getProductsByColor(products)
+
       console.log(colorSizes);
-      return colorSizes;
+      console.log(data);
+      return data;
     } catch (err) {
       console.log(err);
       setError(err);

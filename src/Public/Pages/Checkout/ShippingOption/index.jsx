@@ -1,23 +1,13 @@
 
 
-import CheckoutSummary from "../CheckoutSummary";
-
-
-import { BiChevronLeft } from "react-icons/bi";
-
-import styles from "./index.module.scss";
-import { useCheckoutContext } from './../../../Hooks/useCheckoutContext';
-import { useCheckout } from "../../../Hooks/useCheckout";
-import Loader from "../../../Components/Loader";
+import { BiChevronLeft } from 'react-icons/bi';
+import Loader from '../../../Components/Loader';
+import { useCheckout } from '../../../Hooks/useCheckout';
+import { useCheckoutContext } from '../../../Hooks/useCheckoutContext';
+import CheckoutSummary from '../CheckoutSummary';
+import styles from './index.module.scss';
 
 const ShippingOption = () => {
-  // const { shippingOption } = [];
-  // const {
-  //   selectPreviousStep,
-  //   selectShippingOption,
-  //   submitShippingOption,
-  //   isLoading,
-  // } = [];
   const { shippingOption } = useCheckoutContext();
   const {
     selectPreviousStep,
@@ -39,7 +29,7 @@ const ShippingOption = () => {
       {!isLoading && (
         <>
           <CheckoutSummary />
-          <h2>Shipping type</h2>
+          <h2>Tipo de Envio</h2>
           <form
             id="form"
             onSubmit={handleSubmit}
@@ -58,7 +48,7 @@ const ShippingOption = () => {
                       : styles.radio_unselected
                   }
                 />
-                <span>Standard shipping (3 - 5 days)</span>
+                <span>Envio estandard (3 - 5 días)</span>
               </label>
               <p>$750</p>
             </div>
@@ -75,7 +65,7 @@ const ShippingOption = () => {
                       : styles.radio_unselected
                   }
                 />
-                <span>Fast shipping (2 - 3 days)</span>
+                <span>Envio rápido (2 - 3 días)</span>
               </label>
               <p>$1500</p>
             </div>
@@ -85,10 +75,10 @@ const ShippingOption = () => {
               <span>
                 <BiChevronLeft />
               </span>
-              Back to info
+              Volver a info
             </p>
             <button form="form" type="submit" className={styles.button}>
-            continue to payment
+              Continuar a pago
             </button>
           </div>
         </>
