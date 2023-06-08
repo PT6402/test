@@ -8,7 +8,8 @@ const cx = classNames.bind(style);
 import style from './index.module.scss';
 import Nav from './Nav';
 import SideNav from './SideNav';
-export default function Header({ toggleCartModal }) {
+export default function Header({ toggleCartModal,toggleFilterModal }) {
+  
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSideNav = () => {
@@ -33,8 +34,9 @@ export default function Header({ toggleCartModal }) {
           modalClassName={cx("side_nav")}
         >
           {isOpen && <SideNav toggleSideNav={toggleSideNav} />}
+       
         </SideModal>
-        <Nav toggleSideNav={toggleSideNav} toggleCartModal={toggleCartModal} />
+        <Nav toggleSideNav={toggleSideNav} toggleCartModal={toggleCartModal} toggleFilterModal={toggleFilterModal} />
       </header>
     );
 }

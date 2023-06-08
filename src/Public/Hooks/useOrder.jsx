@@ -14,6 +14,7 @@ export const useOrder = () => {
   const { deleteCheckoutSession } = useCheckout();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [reload, setReLoad] = useState(false);
   const [error, setError] = useState(null);
 
   // const ordersRef = collection(db, 'orders');
@@ -85,6 +86,25 @@ export const useOrder = () => {
       setError(err);
     }
   };
+  const cancelOrder = async (id) => {
+    setError(null);
+   
+    try {
+    
+      await instance.post("api/cancel-order",{id}).then((res)=>{
+        if(res.data.status){
 
-  return { createOrder, getOrders, isLoading, error };
+          setReLoad(true)
+        }
+      });
+      setReLoad(false)
+      // return orders;
+    } catch (err) {
+     
+      console.log(err);
+      setError(err);
+    }
+  };
+
+  return { createOrder, getOrders,cancelOrder ,isLoading, error,reload  };
 };

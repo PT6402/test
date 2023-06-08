@@ -88,7 +88,7 @@ export const useLogin = () => {
           payload: { ...userData },
         });
         if (loginResponse.data.role === "admin") {
-          // window.location.href = "http://172.16.0.208:8000/";
+          window.location.href = "http://127.0.0.1:8000";
           navigate("/admin");
         } else {
           navigate("/");

@@ -31,7 +31,7 @@ count++
             <div className={styles.image_wrapper}>
               <img
                 className={styles.image}
-                src={`http://127.0.0.1:8000${item.product_image}`}
+                src={`http://127.0.0.1:8000/fontend/Image/${item.product_image}`}
                 alt=""
               />
               <div className={styles.amount}>

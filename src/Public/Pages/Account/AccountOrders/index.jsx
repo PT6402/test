@@ -2,7 +2,7 @@ import Order from './Order';
 
 import styles from './index.module.scss';
 
-const AccountOrders = ({ orders }) => {
+const AccountOrders = ({ orders,reloadEffect }) => {
   console.log(orders)
   return (
     <div className={styles.orders_wrapper}>
@@ -21,6 +21,8 @@ const AccountOrders = ({ orders }) => {
                 items={order.order_items}
                 date={order.created_at}
                 order = {order}
+                status={order.status}
+                reloadEffect={reloadEffect}
               />
             ))}
           </div>

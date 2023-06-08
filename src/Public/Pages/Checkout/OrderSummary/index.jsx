@@ -33,7 +33,7 @@ const OrderSummary = () => {
             <div className={styles.image_wrapper}>
               <img
                 className={styles.image}
-                src={`http://127.0.0.1:8000${item.thumbnail}`}
+                src={`http://127.0.0.1:8000/fontend/Image/${item.thumbnail}`}
                 alt=""
               />
               <div className={styles.amount}>

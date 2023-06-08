@@ -4,15 +4,20 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useState } from "react";
 import SideModal from "../Components/SideModal";
 import CartContent from "../Components/CartContent";
+import FilterContent from "../Components/FilterContent";
 
 
 export default function Layout() {
     const location = useLocation();
     const [isOpenCart, setIsOpenCart] = useState(false);
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
 
 
     const toggleCartModal = () => {
         setIsOpenCart((prevState) => !prevState);
+    };
+    const toggleFilterModal = () => {
+        setIsOpenFilter((prevState) => !prevState);
     };
 
 
@@ -27,8 +32,13 @@ export default function Layout() {
                     <CartContent toggleCartModal={toggleCartModal} />
                 )}
             </SideModal>
+            <SideModal toggleModal={toggleFilterModal}>
+                {isOpenFilter && (
+                    <FilterContent toggleFilterModal={toggleFilterModal} />
+                )}
+            </SideModal>
 
-            {!isCheckout && <Header toggleCartModal={toggleCartModal} />}
+            {!isCheckout && <Header toggleCartModal={toggleCartModal} toggleFilterModal={toggleFilterModal}/>}
 
             <main>
                 <Outlet />

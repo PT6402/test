@@ -33,12 +33,12 @@ const ProductCard = ({
               {[_imageTop][0] && (
                 <>
                   <img
-                    src={`http://127.0.0.1:8000${_imageTop.url}`}
+                    src={`http://127.0.0.1:8000/fontend/Image/${_imageTop.url}`}
                     alt=""
                     className={styles.image_top}
                   />
                   <img
-                    src={`http://127.0.0.1:8000${_imageBottom.url}`}
+                    src={`http://127.0.0.1:8000/fontend/Image/${_imageBottom.url}`}
                     alt=""
                     className={styles.image_bottom}
                   />

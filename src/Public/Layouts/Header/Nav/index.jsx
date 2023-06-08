@@ -1,59 +1,67 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import style from "./index.module.scss";
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from "react-router-dom";
 
-import { RiMenuLine } from 'react-icons/ri';
-import { CgSearch } from 'react-icons/cg';
-import Button from '../../../Components/Button';
+import { RiMenuLine } from "react-icons/ri";
+import { LuFilter } from "react-icons/lu";
+import { CgSearch } from "react-icons/cg";
+import Button from "../../../Components/Button";
 const cx = classNames.bind(style);
-import { useAuthContext } from '../../../Hooks/useAuthContext';
-import CartIcon from './CartIcon';
+import { useAuthContext } from "../../../Hooks/useAuthContext";
+import CartIcon from "./CartIcon";
 
-export default function Nav({ toggleSideNav, toggleCartModal }) {
-    const { pathname } = useLocation();
-    const { isVerified } = useAuthContext();
-    const [hasScrolled, setHasSrolled] = useState(false);
+export default function Nav({
+  toggleSideNav,
+  toggleCartModal,
+  toggleFilterModal,
+}) {
+  const { pathname } = useLocation();
+  const { isVerified } = useAuthContext();
+  const [hasScrolled, setHasSrolled] = useState(false);
 
-    const resizeHeaderOnScroll = () => {
-      setHasSrolled((hasScrolled) => {
-        if (
-          !hasScrolled &&
-          (document.body.scrollTop > 20 ||
-            document.documentElement.scrollTop > 20)
-        ) {
-          return true;
-        }
+  const resizeHeaderOnScroll = () => {
+    setHasSrolled((hasScrolled) => {
+      if (
+        !hasScrolled &&
+        (document.body.scrollTop > 20 ||
+          document.documentElement.scrollTop > 20)
+      ) {
+        return true;
+      }
 
-        if (
-          hasScrolled &&
-          document.body.scrollTop < 4 &&
-          document.documentElement.scrollTop < 4
-        ) {
-          return false;
-        }
+      if (
+        hasScrolled &&
+        document.body.scrollTop < 4 &&
+        document.documentElement.scrollTop < 4
+      ) {
+        return false;
+      }
 
-        return hasScrolled;
-      });
-    };
+      return hasScrolled;
+    });
+  };
 
-    useEffect(() => {
-      window.addEventListener('scroll', resizeHeaderOnScroll);
+  useEffect(() => {
+    window.addEventListener("scroll", resizeHeaderOnScroll);
 
-      return () => window.removeEventListener('scroll', resizeHeaderOnScroll);
-    }, []);
+    return () => window.removeEventListener("scroll", resizeHeaderOnScroll);
+  }, []);
 
-    const handleToggleCartModal = () => {
-        if (pathname !== '/cart') {
-          toggleCartModal();
-        }
-      };
-      const navStyles = hasScrolled
-      ? `${cx('nav')}
-      ${cx('hasScrolled')}
+  const handleToggleCartModal = () => {
+    if (pathname !== "/cart") {
+      toggleCartModal();
+    }
+  };
+  const handleToggleFilterModal = () => {
+    toggleFilterModal();
+  };
+  const navStyles = hasScrolled
+    ? `${cx("nav")}
+      ${cx("hasScrolled")}
       `
-      : cx('nav');
+    : cx("nav");
   return (
     <nav className={navStyles}>
       <div className={cx("container_top")}>
@@ -68,12 +76,12 @@ export default function Nav({ toggleSideNav, toggleCartModal }) {
           </li>
           <li>
             <Link className={cx("link")} to="/">
-            shipping
+              shipping
             </Link>
           </li>
           <li>
             <Link className={cx("link")} to="/">
-            About us
+              About us
             </Link>
           </li>
         </ul>
@@ -87,7 +95,7 @@ export default function Nav({ toggleSideNav, toggleCartModal }) {
         )}
         {isVerified && (
           <Link to="/account" className={`${cx("link")} ${cx("login_link")}`}>
-          {localStorage.getItem("auth_name")}
+            {localStorage.getItem("auth_name")}
           </Link>
         )}
       </div>
@@ -99,12 +107,12 @@ export default function Nav({ toggleSideNav, toggleCartModal }) {
         <ul className={cx("links")}>
           <li>
             <NavLink className={cx("link")} to="/category/product">
-            Products
+              Products
             </NavLink>
           </li>
           <li>
             <NavLink className={cx("link")} to="/category/men">
-             Men
+              Men
             </NavLink>
           </li>
           <li>
@@ -112,23 +120,34 @@ export default function Nav({ toggleSideNav, toggleCartModal }) {
               Women
             </NavLink>
           </li>
-
-
-
-
         </ul>
         <ul className={cx("icons_menu")}>
-          <li className={`${cx("search_icon")} disabled-link`}>
-            <CgSearch />
-          </li>
-          {pathname !== '/cart'&&<li className={cx("cart_icon")} onClick={handleToggleCartModal}>
-            <CartIcon />
-          </li>}
+        
+
+          {pathname == "/category/product" ||
+          pathname == "/category/men" ||
+          pathname == "/category/women" ? (
+            <li
+              className={`${cx("search_icon")} disabled-link`}
+              onClick={handleToggleFilterModal}
+            >
+              <LuFilter />
+            </li>
+          ) : (
+            <li className={`${cx("search_icon")} disabled-link`}>
+              <CgSearch />
+            </li>
+          )}
+          {pathname !== "/cart" && (
+            <li className={cx("cart_icon")} onClick={handleToggleCartModal}>
+              <CartIcon />
+            </li>
+          )}
           <li className={cx("mobile_icon")}>
             <RiMenuLine onClick={toggleSideNav} />
           </li>
         </ul>
       </div>
     </nav>
-  )
+  );
 }

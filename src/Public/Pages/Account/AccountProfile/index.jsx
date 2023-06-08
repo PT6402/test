@@ -8,12 +8,17 @@ import EditProfile from "./EditProfile";
 import CenterModal from "../../../Components/CenterModal";
 
 import styles from "./index.module.scss";
+import ChangePassword from "./ChangePassword";
 
-const AccountProfile = ({ name, email, lastName, phone }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AccountProfile = ({ name, email, phone ,NewPassword,OldPassword}) => {
+  const [isOpenProfile, setIsOpenProfile] = useState(false);
+  const [isOpenChangePass, setIsOpenChangePass] = useState(false);
 
   const toggleEditProfile = () => {
-    setIsOpen((prevState) => !prevState);
+    setIsOpenProfile((prevState) => !prevState);
+  };
+  const toggleChangePassword = () => {
+    setIsOpenChangePass((prevState) => !prevState);
   };
 
   return (
@@ -22,12 +27,24 @@ const AccountProfile = ({ name, email, lastName, phone }) => {
         modalClassName={styles.modal}
         toggleModal={toggleEditProfile}
       >
-        {isOpen && (
+        {isOpenProfile && (
           <EditProfile
             toggleEditProfile={toggleEditProfile}
             name={name}
-            lastName={lastName}
             phone={phone}
+          />
+        )}
+      </CenterModal>
+      <CenterModal
+        modalClassName={styles.modal}
+        toggleModal={toggleChangePassword}
+      >
+        {isOpenChangePass && (
+          <ChangePassword
+            toggleChangePassword={toggleChangePassword}
+            OldPassword={OldPassword}
+            NewPassword={NewPassword}
+           
           />
         )}
       </CenterModal>
@@ -38,7 +55,7 @@ const AccountProfile = ({ name, email, lastName, phone }) => {
           <ul className={styles.profile_data}>
             <li>
               <BiUser className={styles.profile_icon} />
-              {name} {lastName}
+              {name} 
             </li>
             <li>
               <BiEnvelope className={styles.profile_icon} />
@@ -51,6 +68,9 @@ const AccountProfile = ({ name, email, lastName, phone }) => {
           </ul>
           <button className={styles.edit_button} onClick={toggleEditProfile}>
             Edit profile
+          </button>
+          <button className={styles.edit_button} onClick={toggleChangePassword}>
+           Change Password
           </button>
         </div>
       </div>

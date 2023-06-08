@@ -16,7 +16,7 @@ const ToastMessage = ({ toggleToast, content, className }) => {
   }, [content]);
 
   if (content.addToCartSuccess) {
-    const thumbnail = (`http://127.0.0.1:8000${content.thumbnail}`);
+    const thumbnail = (`http://127.0.0.1:8000/fontend/Image/${content.thumbnail}`);
     return (
       <div className={`${styles.addToCart} ${styles.success}`}>
         <div className={styles.content_wrapper}>

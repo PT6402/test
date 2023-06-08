@@ -15,12 +15,21 @@ import AccountAddresses from './AccountAddresses';
 
 const Account = () => {
   const { name, email, phone } = useAuthContext();
+  const [reloadEffect, setReloadEffect] = useState(false);
 
-  const { getOrders, error } = useOrder();
+  const handleReloadEffect = () => {
+    setReloadEffect(!reloadEffect);
+  };
+
+  const { getOrders ,error } = useOrder();
   const { logout } = useLogout();
 
   const [orders, setOrders] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
+
+
+
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -34,7 +43,7 @@ const Account = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [reloadEffect]);
 
   useEffect(() => {
     if (error) {
@@ -72,7 +81,7 @@ const Account = () => {
                 </Button>
               </div>
               <div className={styles.content_container}>
-                <AccountOrders orders={orders} />
+                <AccountOrders orders={orders} reloadEffect={handleReloadEffect} />
                 <aside className={styles.sidebar}>
                   <AccountProfile
                     name={name}

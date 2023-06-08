@@ -28,7 +28,7 @@ console.log(thumbnail)
     <img
       className={variantStyles}
       onClick={shouldAddEventHandler ? handleSelectVariant : undefined}
-      src={`http://127.0.0.1:8000${thumbnail}`}
+      src={`http://127.0.0.1:8000/fontend/Image/${thumbnail}`}
       alt={`${thumbnail}`}
     />
   );
