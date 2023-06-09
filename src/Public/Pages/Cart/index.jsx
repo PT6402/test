@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-
-
+import { useState, useEffect, useRef } from "react";
 
 import styles from "./index.module.scss";
 import { useCartContext } from "../../Hooks/useCartContext";
@@ -13,6 +11,7 @@ import ToastMessage from "../../Components/ToastMessage";
 import Card from "../../components/Card";
 import { addAllItemsPrice } from "../../helpers/item";
 import useInventory from "../../Hooks/useInventory";
+import instance from "../../../http";
 
 const Cart = () => {
   const { items } = useCartContext();
@@ -24,7 +23,7 @@ const Cart = () => {
   } = useInventory();
 
   const [toastMessage, setToastMessage] = useState(null);
-
+  const discountRef = useRef();
   useEffect(() => {
     checkInventory(items);
   }, []);
@@ -47,7 +46,12 @@ const Cart = () => {
   const toggleToast = () => {
     setToastMessage(null);
   };
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await instance.post("api/code-discount", {
+      code: discountRef.current.value,
+    });
+  };
   let content =
     items.length > 0 ? (
       <>
@@ -81,14 +85,18 @@ const Cart = () => {
             ))}
           </div>
           <aside className={styles.sidebar}>
-            <form className={styles.support}>
+            <form className={styles.support} onSubmit={handleSubmit}>
               <p className={styles.support_title}>Discount code</p>
               <input
                 className={styles.support_input}
                 type="text"
                 placeholder="enter your code"
+                ref={discountRef}
               />
-              <button className={`${styles.support_button} disabled-link`}>
+              <button
+                className={`${styles.support_button} disabled-link`}
+                type="submit"
+              >
                 Add
               </button>
             </form>
