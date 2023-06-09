@@ -14,7 +14,7 @@ import AccountProfile from './AccountProfile';
 import AccountAddresses from './AccountAddresses';
 
 const Account = () => {
-  const { name, email, phone } = useAuthContext();
+  const { name, email, phone ,role_as} = useAuthContext();
   const [reloadEffect, setReloadEffect] = useState(false);
 
   const handleReloadEffect = () => {
@@ -76,6 +76,9 @@ const Account = () => {
             <div className={`${styles.container} main-container`}>
               <div className={styles.welcome_wrapper}>
                 <p className={styles.greeting}>Hi, {name}!</p>
+               { role_as==2&&<Button className={styles.logout_button} onClick={handleLogout}>
+                  ADMIN
+                </Button>}
                 <Button className={styles.logout_button} onClick={handleLogout}>
                   Logout
                 </Button>
