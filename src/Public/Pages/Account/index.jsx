@@ -61,6 +61,9 @@ const Account = () => {
   const handleLogout = async () => {
     await logout();
   };
+  const handleAdmin = async () => {
+    window.location.href = "http://127.0.0.1:8000";
+  };
 
   return (
     <>
@@ -76,7 +79,7 @@ const Account = () => {
             <div className={`${styles.container} main-container`}>
               <div className={styles.welcome_wrapper}>
                 <p className={styles.greeting}>Hi, {name}!</p>
-               { role_as==2&&<Button className={styles.logout_button} onClick={handleLogout}>
+               { role_as==2&&<Button className={styles.logout_button} onClick={handleAdmin}>
                   ADMIN
                 </Button>}
                 <Button className={styles.logout_button} onClick={handleLogout}>
