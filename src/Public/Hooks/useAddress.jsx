@@ -24,8 +24,9 @@ export const useAddress = () => {
     setIsLoading(true);
     try {
       if (!isMain) {
-        userAddresses.length === 0 ? (isMain = true) : (isMain = false);
+        addresses.length === 0 ? (isMain = true) : (isMain = false);
       }
+      console.log(userAddresses)
       console.log(isMain)
 
       instance
@@ -50,12 +51,12 @@ export const useAddress = () => {
         value: id,
       };
 
-      if (isMain && userAddresses.length > 0) {
+      if (isMain && addresses.length > 0) {
         const currentMainAddressIndex = userAddresses.findIndex(
           (address) => address.isMain
         );
 
-        userAddresses[currentMainAddressIndex].isMain = false||0;
+        userAddresses[currentMainAddressIndex].isMain = false;
 
         userAddresses.unshift(addressToAdd);
       } else {

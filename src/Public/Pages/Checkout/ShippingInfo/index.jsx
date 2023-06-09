@@ -27,7 +27,7 @@ const ShippingInfo = () => {
 
   const options = [
     ...addresses,
-    { label: 'Agregar Dirección Nueva', value: 'new' },
+    { label: 'Add New Address', value: 'new' },
   ];
 
   let defaultOption;
@@ -41,7 +41,7 @@ const ShippingInfo = () => {
     console.log("mainAddress")
     if (!defaultOption) {
       defaultOption = {
-        label: 'Agregar Dirección Nueva',
+        label: 'Add New Address',
         value: 'new',
       };
       initialIsNew = true;
@@ -278,7 +278,7 @@ const ShippingInfo = () => {
       {!isLoading && (
         <form className={styles.info_form} onSubmit={handleSubmit}>
           <div className={styles.contact_info_wrapper}>
-            <p className={styles.title}>Información de Contacto</p>
+            <p className={styles.title}>Contact information</p>
             <div className={styles.float_container}>
               <label htmlFor="email" className={emailStyles.label}>
                 Email
@@ -296,7 +296,7 @@ const ShippingInfo = () => {
             </div>
           </div>
           <div className={styles.shipping_address_wrapper}>
-            <p className={styles.title}>Dirección de Envío</p>
+            <p className={styles.title}>Shipping Address</p>
             <Dropdown
               styles={reactSelectStyles}
               options={options}
@@ -311,7 +311,7 @@ const ShippingInfo = () => {
                 }`}
               >
                 <label htmlFor="name" className={nameStyles.label}>
-                  Nombre
+                Name
                 </label>
                 <input
                   id="name"
@@ -321,7 +321,7 @@ const ShippingInfo = () => {
                   value={userInput.name}
                   className={nameStyles.input}
                   required
-                  placeholder="Nombre"
+                  placeholder="Name"
                   disabled={isDisabled}
                 />
               </div>
@@ -352,7 +352,7 @@ const ShippingInfo = () => {
               }`}
             >
               <label htmlFor="address" className={addressStyles.label}>
-                Dirección
+              Address
               </label>
               <input
                 id="address"
@@ -362,7 +362,7 @@ const ShippingInfo = () => {
                 value={userInput.address}
                 className={addressStyles.input}
                 required
-                placeholder="Dirección"
+                placeholder="Address"
                 disabled={isDisabled}
               />
             </div>
@@ -373,7 +373,7 @@ const ShippingInfo = () => {
                 }`}
               >
                 <label htmlFor="city" className={cityStyles.label}>
-                  Ciudad
+                City
                 </label>
                 <input
                   id="city"
@@ -383,7 +383,7 @@ const ShippingInfo = () => {
                   value={userInput.city}
                   className={cityStyles.input}
                   required
-                  placeholder="Ciudad"
+                  placeholder="City"
                   disabled={isDisabled}
                 />
               </div>
@@ -413,7 +413,7 @@ const ShippingInfo = () => {
                 }`}
               >
                 <label htmlFor="province" className={provinceStyles.label}>
-                  Provincia
+                Province
                 </label>
                 <input
                   id="province"
@@ -423,7 +423,7 @@ const ShippingInfo = () => {
                   value={userInput.province}
                   className={provinceStyles.input}
                   required
-                  placeholder="Provincia"
+                  placeholder="Province"
                   disabled={isDisabled}
                 />
               </div>
@@ -434,7 +434,8 @@ const ShippingInfo = () => {
               }`}
             >
               <label htmlFor="phoneNumber" className={phoneNumberStyles.label}>
-                Teléfono
+               
+Phone
               </label>
               <input
                 id="phoneNumber"
@@ -444,7 +445,7 @@ const ShippingInfo = () => {
                 value={userInput.phone}
                 className={phoneNumberStyles.input}
                 required
-                placeholder="Teléfono"
+                placeholder="Phone"
                 disabled={isDisabled}
               />
             </div>
@@ -454,10 +455,10 @@ const ShippingInfo = () => {
               <span>
                 <BiChevronLeft />
               </span>
-              Volver a carrito
+              return to cart
             </Link>
             <button className={styles.button} type="submit">
-              Continuar a envío
+            continue to shipping
             </button>
           </div>
         </form>

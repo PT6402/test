@@ -285,7 +285,7 @@ const Products = () => {
                       <img
                         className={styles.images}
                         key={image.id}
-                        src={`http://127.0.0.1:8000/fontend/Image/${image.url}`}
+                        src={`http://127.0.0.1:8000${image.url}`}
                         alt=""
                       />
                     ))}

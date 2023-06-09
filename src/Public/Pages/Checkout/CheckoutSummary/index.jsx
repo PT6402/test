@@ -12,26 +12,26 @@ const CheckoutSummary = () => {
   let shipping_option;
 
   if (shippingOption.standard) {
-    shipping_option = 'Estandard - $750';
+    shipping_option = 'Standard - $750';
   } else {
-    shipping_option = 'Rápido - $1.500';
+    shipping_option = 'Fast - $1.500';
   }
 
   if (currentStep === 2)
     return (
       <ul className={styles.summary_container}>
         <li className={styles.contact_wrapper}>
-          <p className={styles.label}>Contacto</p>
+          <p className={styles.label}>Contact</p>
           <p className={styles.content}>{email}</p>
           <p
             className={styles.update}
             onClick={() => selectStep(currentStep - 1)}
           >
-            Modificar
+            Modify
           </p>
         </li>
         <li className={styles.address_wrapper}>
-          <p className={styles.label}>Dirección</p>
+          <p className={styles.label}>Address</p>
           <p className={styles.content}>
             {shippingAddress.address} - {shippingAddress.city},{' '}
             {shippingAddress.zipCode} - {shippingAddress.province}
@@ -40,7 +40,7 @@ const CheckoutSummary = () => {
             className={styles.update}
             onClick={() => selectStep(currentStep - 1)}
           >
-            Modificar
+           Modify
           </p>
         </li>
       </ul>
@@ -50,17 +50,17 @@ const CheckoutSummary = () => {
     return (
       <ul className={styles.summary_container}>
         <li className={styles.contact_wrapper}>
-          <p className={styles.label}>Contacto</p>
+          <p className={styles.label}>Contact</p>
           <p className={styles.content}>{email}</p>
           <p
             className={styles.update}
             onClick={() => selectStep(currentStep - 2)}
           >
-            Modificar
+           Modify
           </p>
         </li>
         <li className={styles.address_wrapper}>
-          <p className={styles.label}>Dirección</p>
+          <p className={styles.label}>Address</p>
           <p className={styles.content}>
             {shippingAddress.address} - {shippingAddress.city},{' '}
             {shippingAddress.zipCode} - {shippingAddress.province}
@@ -69,18 +69,18 @@ const CheckoutSummary = () => {
             className={styles.update}
             onClick={() => selectStep(currentStep - 2)}
           >
-            Modificar
+            Modify
           </p>
         </li>
         {/* TODO: Agregar contenido */}
         <li className={styles.method}>
-          <p className={styles.label}>Envío</p>
+          <p className={styles.label}>Shipment</p>
           <p className={styles.content}>{shipping_option}</p>
           <p
             className={styles.update}
             onClick={() => selectStep(currentStep - 1)}
           >
-            Modificar
+           Modify
           </p>
         </li>
       </ul>

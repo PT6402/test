@@ -29,7 +29,7 @@ const ShippingOption = () => {
       {!isLoading && (
         <>
           <CheckoutSummary />
-          <h2>Tipo de Envio</h2>
+          <h2>Shipping type</h2>
           <form
             id="form"
             onSubmit={handleSubmit}
@@ -48,7 +48,7 @@ const ShippingOption = () => {
                       : styles.radio_unselected
                   }
                 />
-                <span>Envio estandard (3 - 5 días)</span>
+                <span>Standard shipping(3 - 5 days)</span>
               </label>
               <p>$750</p>
             </div>
@@ -65,7 +65,7 @@ const ShippingOption = () => {
                       : styles.radio_unselected
                   }
                 />
-                <span>Envio rápido (2 - 3 días)</span>
+                <span>Fast shipping (2 - 3 days)</span>
               </label>
               <p>$1500</p>
             </div>
@@ -75,10 +75,11 @@ const ShippingOption = () => {
               <span>
                 <BiChevronLeft />
               </span>
-              Volver a info
+              Back to info
             </p>
             <button form="form" type="submit" className={styles.button}>
-              Continuar a pago
+              
+continue to payment
             </button>
           </div>
         </>

@@ -119,7 +119,8 @@ console.log(userInput,paymentOption)
         <>
           <CheckoutSummary />
           <form id="form" onSubmit={handleSubmit} className={styles.form}>
-            <h2 className={styles.title}>Forma de Pago</h2>
+            <h2 className={styles.title}>
+Payment method</h2>
             <div className={styles.payment_options_wrapper}>
             <div>
                 <div className={styles.payment_option}>
@@ -135,7 +136,7 @@ console.log(userInput,paymentOption)
                         : styles.radio_unselected
                     }
                   />
-                  <span>COD</span>
+                  <label>COD</label>
                   |
                   <input
                     type="radio"
@@ -149,7 +150,7 @@ console.log(userInput,paymentOption)
                         : styles.radio_unselected
                     }
                   />
-                  <span>Credit card</span>
+                  <label>Credit card</label>
                 </div>
               </div>
               {paymentOption === 'creditCard' && (
@@ -159,7 +160,7 @@ console.log(userInput,paymentOption)
                       htmlFor="cardNumber"
                       className={cardNumberStyles.label}
                     >
-                      Número de la tarjeta
+                      card number
                     </label>
                     <input
                       id="cardNumber"
@@ -172,21 +173,21 @@ console.log(userInput,paymentOption)
                       value={formatCardNumber(userInput.cardNumber)}
                       type="text"
                       inputMode="numeric"
-                      placeholder="Número de la tarjeta"
+                      placeholder="card number"
                       className={cardNumberStyles.input}
                       required
                     />
                   </div>
                   <div className={styles.float_container}>
                     <label htmlFor="name" className={nameStyles.label}>
-                      Nombre en la tarjeta
+                    Name on the card
                     </label>
                     <input
                       id="name"
                       onChange={handleNameInput}
                       value={userInput.name}
                       type="text"
-                      placeholder="Nombre en la tarjeta"
+                      placeholder="Name on the card"
                       className={nameStyles.input}
                       autoComplete="off"
                       required
@@ -199,7 +200,7 @@ console.log(userInput,paymentOption)
                         className={expiryDateStyles.label}
                         autoComplete="off"
                       >
-                        Expiración (MM/AA)
+                       Expiration (MM/YY)
                       </label>
                       <input
                         id="expiryDate"
@@ -211,7 +212,7 @@ console.log(userInput,paymentOption)
                         }}
                         value={formatExpiryDate(userInput.expiryDate)}
                         type="text"
-                        placeholder="Expiración (MM/AA)"
+                        placeholder="Expiration (MM/YY)"
                         className={expiryDateStyles.input}
                         autoComplete="off"
                         required
@@ -222,7 +223,7 @@ console.log(userInput,paymentOption)
                         htmlFor="securityCode"
                         className={securityCodeStyles.label}
                       >
-                        Código de Seguridad
+                      Security code
                       </label>
                       <input
                         id="securityCode"
@@ -234,7 +235,7 @@ console.log(userInput,paymentOption)
                         }}
                         value={formatCvv(userInput.securityCode)}
                         type="password"
-                        placeholder="Código de Seguridad"
+                        placeholder="Security code"
                         className={securityCodeStyles.input}
                         autoComplete="off"
                         required
@@ -251,10 +252,10 @@ console.log(userInput,paymentOption)
               <span>
                 <BiChevronLeft />
               </span>
-              Volver a envío
+              back to shipping
             </p>
             <button form="form" type="submit" className={styles.button}>
-              Pagar ahora
+            Pay now
             </button>
           </div>
         </>

@@ -70,13 +70,13 @@ const EditAddress = ({
       )}
       {!isLoading && (
         <form id="form" className={styles.form} onSubmit={handleSubmit}>
-          <h2 className={styles.title}>Editar Direccion</h2>
+          <h2 className={styles.title}>Edit Address</h2>
           <div className={styles.form_inputs_wrapper}>
           
            
           
             <label className={styles.label}>
-              <span>Dirección:</span>
+              <span>Address:</span>
               <input
                 className={styles.input}
                 type="text"
@@ -86,7 +86,7 @@ const EditAddress = ({
               />
             </label>
             <label className={styles.label}>
-              <span>Ciudad/Localidad:</span>
+              <span>City</span>
               <input
                 className={styles.input}
                 type="text"
@@ -98,7 +98,7 @@ const EditAddress = ({
             
 
             <label className={styles.label}>
-              <span>Provincia:</span>
+              <span>Province:</span>
               <input
                 className={styles.input}
                 type="text"
@@ -115,12 +115,12 @@ const EditAddress = ({
                 onChange={handleCheckboxInput}
                 disabled={isMain}
               />
-              <div>Direccion predeterminada</div>
+              <div>Default address</div>
             </label>
           </div>
           <div className={styles.button_wrapper}>
             <button form="form" className={styles.button} type="submit">
-              Editar
+            Edit
             </button>
           </div>
         </form>

@@ -49,7 +49,7 @@ export default function PublicRoute() {
           path="/account/login/reset-password"
           element={<ResetPassword />}
         />
-        <Route element={<ProtectedRoutes needAuth={true} />}>
+        {/* <Route element={<ProtectedRoutes needAuth={true} />}> */}
           <Route
             path="/checkout"
             element={
@@ -60,7 +60,7 @@ export default function PublicRoute() {
           />
           <Route path="/account" element={<Account />} />
           <Route path="/account/address" element={<Addresses />} />
-        </Route>
+        {/* </Route> */}
       </Route>
     </Routes>
   );

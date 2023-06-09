@@ -66,11 +66,11 @@ const AddAddress = ({ toggleAddAddressModal }) => {
       )}
       {!isLoading && (
         <form id="form" className={styles.form} onSubmit={handleSubmit}>
-          <h2 className={styles.title}>Agregar Dirección:</h2>
+          <h2 className={styles.title}>Add Address:</h2>
           <div className={styles.form_inputs_wrapper}>
            
             <label className={styles.label}>
-              <span>Dirección:</span>
+              <span>Address:</span>
               <input
                 className={styles.input}
                 type="text"
@@ -79,7 +79,7 @@ const AddAddress = ({ toggleAddAddressModal }) => {
               />
             </label>
             <label className={styles.label}>
-              <span>Ciudad/Localidad:</span>
+              <span>City:</span>
               <input
                 className={styles.input}
                 type="text"
@@ -90,7 +90,7 @@ const AddAddress = ({ toggleAddAddressModal }) => {
             
 
             <label className={styles.label}>
-              <span>Provincia</span>
+              <span>Province</span>
               <input
                 className={styles.input}
                 type="text"
@@ -104,12 +104,13 @@ const AddAddress = ({ toggleAddAddressModal }) => {
                 type="checkbox"
                 onChange={handleCheckboxInput}
               />
-              <div>Direccion predeterminada</div>
+              <div>Default address</div>
             </label>
           </div>
           <div className={styles.button_wrapper}>
             <button form="form" className={styles.button} type="submit">
-              Agregar
+              
+Add
             </button>
           </div>
         </form>

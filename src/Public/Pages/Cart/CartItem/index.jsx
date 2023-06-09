@@ -64,7 +64,7 @@ const CartItem = ({
             <p className={styles.size}>{size}</p>
             <p className={styles.price}>${price}</p>
           </div>
-          <img className={styles.image} src={`http://127.0.0.1:8000/fontend/Image/${_thumbnail}`} alt="" />
+          <img className={styles.image} src={`http://127.0.0.1:8000${_thumbnail}`} alt="" />
         </div>
       </Link>
 

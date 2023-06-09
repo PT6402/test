@@ -59,10 +59,10 @@ const Addresses = () => {
             <span>
               <BiChevronLeft />
             </span>
-            Volver a mi cuenta
+            Back to my account
           </Link>
           <div className={styles.header_wrapper}>
-            <p className={styles.title}>Mis direcciones</p>
+            <p className={styles.title}>My Addresses</p>
             <Button
               className={styles.add_button}
               onClick={toggleAddAddressModal}
@@ -70,7 +70,7 @@ const Addresses = () => {
               <span>
                 <BiPlus />
               </span>
-              Agregar nueva direccion
+              add new address
             </Button>
           </div>
 
@@ -85,7 +85,7 @@ const Addresses = () => {
               <>
                 {addresses.length === 0 && (
                   <h2 className={styles.no_addresses}>
-                    Todavia no agregaste una direccion!
+                  You haven't added an address yet!
                   </h2>
                 )}
 

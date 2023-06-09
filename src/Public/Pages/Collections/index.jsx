@@ -53,7 +53,6 @@ export default function Collections() {
       {!collection && <Loader />}
       {collection && (
         <section>
-        
           <div className={`${styles.container} main-container`}>
             {collection.map((product, index) => (
               <ProductCard
@@ -64,6 +63,7 @@ export default function Collections() {
                 type={product.type}
                 url={product.url}
                 slug={product.slug}
+                collection={product.collection}
                 _imageTop={product.images[0]}
                 _imageBottom={product.images[0]}
                 numberOfVariants={product.numberOfColorSizes}

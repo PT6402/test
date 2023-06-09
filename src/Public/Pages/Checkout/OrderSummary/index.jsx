@@ -17,10 +17,10 @@ const OrderSummary = () => {
 
   if (shippingOption.standard) {
     shipping_price = 750;
-    shipping_option = '(estandard)';
+    shipping_option = '(standard)';
   } else {
     shipping_price = 1500;
-    shipping_option = '(rápido)';
+    shipping_option = '(fast)';
   }
   const subtotal = addAllItemsPriceNumber(items);
   const total = +subtotal + shipping_price;
@@ -33,7 +33,7 @@ const OrderSummary = () => {
             <div className={styles.image_wrapper}>
               <img
                 className={styles.image}
-                src={`http://127.0.0.1:8000/fontend/Image/${item.thumbnail}`}
+                src={`http://127.0.0.1:8000${item.thumbnail}`}
                 alt=""
               />
               <div className={styles.amount}>

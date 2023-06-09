@@ -14,6 +14,7 @@ const ProductCard = ({
   type,
   slug,
   url,
+  collection,
   _imageTop,
   _imageBottom,
   numberOfVariants,
@@ -33,12 +34,12 @@ const ProductCard = ({
               {[_imageTop][0] && (
                 <>
                   <img
-                    src={`http://127.0.0.1:8000/fontend/Image/${_imageTop.url}`}
+                    src={`http://127.0.0.1:8000${_imageTop.url}`}
                     alt=""
                     className={styles.image_top}
                   />
                   <img
-                    src={`http://127.0.0.1:8000/fontend/Image/${_imageBottom.url}`}
+                    src={`http://127.0.0.1:8000${_imageBottom.url}`}
                     alt=""
                     className={styles.image_bottom}
                   />
@@ -49,7 +50,7 @@ const ProductCard = ({
         </Card>
         <ul className={styles.info_wrapper}>
           <li className={styles.title}>
-            {type} {model}
+            {type} {model} {collection}
           </li>
           <li className={styles.color}>
             {color}

@@ -39,7 +39,7 @@ const Slider = ({
         {slides.map((slide) => (
           <SwiperSlide key={slide.id} className={slideClassName}>
             <img
-              src={`http://127.0.0.1:8000/fontend/Image/${slide.src}`}
+              src={`http://127.0.0.1:8000/${slide.src}`}
               alt=""
               className={imageClassName}
             />

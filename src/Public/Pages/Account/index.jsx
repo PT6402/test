@@ -49,7 +49,7 @@ const Account = () => {
     if (error) {
       setToastMessage({
         error,
-        details: 'No se pudieron recuperar las órdenes.',
+        details: 'Orders could not be retrieved.',
       });
     }
   }, [error]);
@@ -75,7 +75,7 @@ const Account = () => {
           <section>
             <div className={`${styles.container} main-container`}>
               <div className={styles.welcome_wrapper}>
-                <p className={styles.greeting}>Hola, {name}!</p>
+                <p className={styles.greeting}>Hi, {name}!</p>
                 <Button className={styles.logout_button} onClick={handleLogout}>
                   Logout
                 </Button>
