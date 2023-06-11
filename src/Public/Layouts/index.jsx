@@ -37,10 +37,10 @@ export default function Layout() {
                     <FilterContent toggleFilterModal={toggleFilterModal} />
                 )}
             </SideModal>
-
             {!isCheckout && <Header toggleCartModal={toggleCartModal} toggleFilterModal={toggleFilterModal}/>}
 
             <main>
+           
                 <Outlet />
             </main>
             {!isCheckout && <Footer />}

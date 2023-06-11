@@ -23,6 +23,7 @@ const AccountOrders = ({ orders,reloadEffect }) => {
                 order = {order}
                 status={order.status}
                 reloadEffect={reloadEffect}
+                
               />
             ))}
           </div>

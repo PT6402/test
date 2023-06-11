@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCartContext } from "./useCartContext";
 
 export const useInventory = () => {
-  const { dispatch, totalAmount } = useCartContext();
+  const { dispatch, totalAmount ,discount,totalPrice} = useCartContext();
 
   const [isLoading, setIsLoading] = useState();
   const [error, setError] = useState();
@@ -17,6 +17,7 @@ export const useInventory = () => {
         payload: {
           items: items,
           totalAmount,
+          discount,totalPrice
         },
       });
 

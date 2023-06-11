@@ -1,6 +1,6 @@
-$font-f-primary: 'Monument Extended', sans-serif;
-$font-f-secondary: 'Inter', sans-serif;
-$font-f-hero: 'Monument Extended Ultrabold', sans-serif;
+$font-f-primary: "Monument Extended", sans-serif;
+$font-f-secondary: "Inter", sans-serif;
+$font-f-hero: "Monument Extended Ultrabold", sans-serif;
 
 $font-w-400: 400;
 $font-w-700: 700;
@@ -126,7 +126,46 @@ $z-modal-n: 30;
     .total {
       font-size: 1.2rem;
       margin-right: 2rem;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
+      .tags_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        position: relative;
+        right: 0;
+        float: right;
+      }
+
+      .tag_alt1 {
+        background-color: #48e471;
+      }
+
+      .tag {
+        background: $back-detail;
+      }
+
+      .tag,
+      .tag_alt,
+      .tag_alt1 {
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        border-radius: 0.6rem;
+        font-size: 1.2rem;
+        color: $c-primary;
+        font-family: $font-f-secondary;
+        font-weight: $font-w-700;
+        letter-spacing: $ls-secondary;
+      }
+
+      .tag_alt {
+        background-color: $c-link-primary;
+        color: #fff;
+      }
       span {
         font-size: 1.4rem;
       }

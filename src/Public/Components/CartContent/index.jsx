@@ -9,10 +9,14 @@ import Toast from "../Toast";
 import ToastMessage from "../ToastMessage";
 import Button from "../Button";
 import CartItem from "../../Pages/Cart/CartItem";
-import { addAllItemsPriceNumber } from './../../helpers/item';
+import {
+  addAllItemsPrice,
+  addAllItemsPriceDiscount,
+  addAllItemsPriceNumber,
+} from "./../../helpers/item";
 
 const CartContent = ({ toggleCartModal }) => {
-  const { items, totalAmount, totalPrice } = useCartContext();
+  const { items, totalAmount, discount } = useCartContext();
   const { addItem, removeItem, deleteItem, isLoading, error } = useCart();
 
   const [toastMessage, setToastMessage] = useState(null);
@@ -67,22 +71,21 @@ const CartContent = ({ toggleCartModal }) => {
           <div className={styles.list_wrapper}>
             <div className={styles.list}>
               {items.map((item) => {
-                console.log(item)
+                console.log(item);
                 return (
                   <CartItem
                     toggleCartModal={toggleCartModal}
                     key={item.id}
                     item={item}
-                    model={item.model }
-                    type={item.type }
-                    color={item.color }
-                    size={item.size }
-                    price={item.price }
-                    url={item.url }
-                    amount={item.amount }
+                    model={item.model}
+                    type={item.type}
+                    color={item.color}
+                    size={item.size}
+                    price={item.price}
+                    url={item.url}
+                    amount={item.amount}
                     _thumbnail={item.thumbnail || item.images[0].url}
                     addItem={addItem}
-                 
                     removeItem={removeItem}
                     deleteItem={deleteItem}
                     isLoading={isLoading}
@@ -94,10 +97,22 @@ const CartContent = ({ toggleCartModal }) => {
         </div>
         <div className={styles.footer_container}>
           <div className={styles.footer_wrapper}>
-            <p>
-              <span>Total: ${addAllItemsPriceNumber(items)} </span> | {totalAmount}
-              {totalAmount > 1 ? "items" : "item"}
-            </p>
+            <div>
+              <span>
+                Total: $
+               { `${discount.length === 0
+                  ? addAllItemsPrice(items)
+                  : addAllItemsPriceDiscount(items, discount)} | `}
+              </span> {` ${totalAmount}
+              ${totalAmount > 1 ? "items" : "item"}`}
+              {discount.length != 0 && (
+                <div className={` ${styles.tags_wrapper} pl-5 items-center`}>
+                  <span className={`${styles.tag_alt}`}>
+                    Discount: {discount.value}%{" "}
+                  </span>
+                </div>
+              )}
+            </div>
             <div className={styles.buttons_wrapper}>
               <Button
                 className={`${styles.button} ${styles.cart_button}`}

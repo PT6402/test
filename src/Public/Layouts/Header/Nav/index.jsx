@@ -128,13 +128,13 @@ export default function Nav({
           pathname == "/category/men" ||
           pathname == "/category/women" ? (
             <li
-              className={`${cx("search_icon")} disabled-link`}
+              className={`${cx("search_icon")} `}
               onClick={handleToggleFilterModal}
             >
               <LuFilter />
             </li>
           ) : (
-            <li className={`${cx("search_icon")} disabled-link`}>
+            <li className={`${cx("search_icon")} `}>
               <CgSearch />
             </li>
           )}

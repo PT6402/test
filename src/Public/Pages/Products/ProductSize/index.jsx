@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 
+import styles from "./index.module.scss";
+import { useProduct } from "./../../../Hooks/useProduct";
 
-import styles from './index.module.scss';
-import { useProduct } from './../../../Hooks/useProduct';
-
-const ProductSize = ({ id, value, stock, selectedSize }) => {
+const ProductSize = ({ id, value, stock, selectedSize, handleThumbnails }) => {
   const { selectSize } = useProduct();
   // const { selectSize } = [];
 
@@ -27,11 +26,14 @@ const ProductSize = ({ id, value, stock, selectedSize }) => {
   `;
 
   return (
-    <div
-      className={sizeStyles}
-      onClick={addEventHandler ? handleSelectSize : undefined}
-    >
-      {value}
+    <div  onClick={handleThumbnails ? handleThumbnails : undefined}>
+      <div
+       
+        className={sizeStyles}
+        onClick={addEventHandler ? handleSelectSize : undefined}
+      >
+        {value}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { useMediaQuery } from "react-responsive";
-
 import styles from "./index.module.scss";
 import Toast from "../../Components/Toast";
 import ToastMessage from "../../Components/ToastMessage";
@@ -15,6 +14,16 @@ import { useCart } from "../../Hooks/useCart";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 // import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+//
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+import Rating from "react-rating";
+import { IconFull, IconEmpty } from "./icon";
+
+import CenterReview from "./CenterReview";
+import ReviewProduct from "./Review/index";
+import AsNavFor from "./SlickImageProduct";
+import ImageDetail from "./ImageDetail";
 
 const Products = () => {
   const {
@@ -40,7 +49,38 @@ const Products = () => {
   const [notification, setNotification] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
   const navigate = useNavigate();
+  const initialState = {
+    flag: 1,
+  };
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "DES":
+        return { ...state, flag: 2 };
+      case "REVIEW":
+        return { ...state, flag: 3 };
+      case "THUMBNAILS":
+        return { ...state, flag: 1 };
+      default:
+        return state;
+    }
+  };
+  const handleDes = () => {
+    dispatch({ type: "DES" });
+  };
 
+  const handleReview = () => {
+    dispatch({ type: "REVIEW" });
+  };
+
+  const handleThumbnails = () => {
+    dispatch({ type: "THUMBNAILS" });
+  };
+  // useEffect(()=>{
+  //   if(state.flag==1){
+  //     dispatch({ type: 'THUMBNAILS' });
+  //   }
+  // },[state])
+  const [state, dispatch] = useReducer(reducer, initialState);
   const handleAddToCart = () => {
     console.log(selectedVariant);
 
@@ -56,7 +96,7 @@ const Products = () => {
         price: selectedProduct.product_price,
         url: selectedVariant.url,
         thumbnail: selectedVariant.images[0].url,
-        stock:selectedVariant.sizes[0].quantity
+        stock: selectedVariant.sizes[0].quantity,
       });
       setNotification(true);
     } else {
@@ -99,12 +139,14 @@ const Products = () => {
 
   const isButtonDisabled = selectedSize.length === 0 ? true : false;
 
-  const isBigScreen = useMediaQuery({
-    query: "(min-width: 1024px)",
-  });
+  // const isBigScreen = useMediaQuery({
+  //   query: "(min-width: 1024px)",
+  // });
 
   // TODO: HACER QUE EL TEXT EN LOS COSTADOS SE DESPLACE APENAS HAY EVENTO DE SCROLL
-
+  {
+    console.log(state);
+  }
   return (
     <>
       <Toast>
@@ -115,7 +157,7 @@ const Products = () => {
       {!productIsReady && <Loader />}
       {productIsReady && (
         <>
-          {!isBigScreen && (
+          {/* {!isBigScreen && (
             <>
               <section>
                 <div className={styles.container_s}>
@@ -162,7 +204,7 @@ const Products = () => {
                         <p className={styles.color}>
                           {selectedVariant.color_name}
                         </p>
-                        {/* {selectedProduct.tags && (
+                        {selectedProduct.tags && (
                           <div className={styles.tags_wrapper}>
                             {selectedProduct.tags.map((tag) => (
                               <span
@@ -177,7 +219,7 @@ const Products = () => {
                               </span>
                             ))}
                           </div>
-                        )} */}
+                        )}
                       </div>
                     </div>
 
@@ -241,112 +283,125 @@ const Products = () => {
                 </div>
               </section>
             </>
-          )}
+          )} */}
 
-          {isBigScreen && (
-            <>
-              <section className="main-container">
-                <div className={styles.container_b}>
-                  <div className={styles.details_wrapper}>
-                    <div className={styles.details}>
-                      <h1 className={styles.name}>
-                        {selectedProduct.product_name}
-                      </h1>
-                      <p className={styles.description}>
-                        {selectedProduct.product_description}
-                      </p>
-                      <p className={styles.color}>
-                        {selectedVariant.color_name}
-                      </p>
-                      {/* {selectedProduct.tags && (
-                        <div className={styles.tags_wrapper}>
-                          {selectedProduct.tags.map((tag) => (
-                            <span
-                              key={tag.id}
-                              className={
-                                tag.content === 'nuevo'
-                                  ? styles.tag_alt
-                                  : styles.tag
-                              }
-                            >
-                              {tag.content}
-                            </span>
-                          ))}
-                        </div>
-                      )} */}
-                      <p className={styles.price}>
-                        ${selectedProduct.product_price}
-                      </p>
-                    </div>
-                  </div>
+          <>
+            <section className="main-container">
+              <div className={styles.container_b}>
+                <div className={styles.details_wrapper}  onClick={handleThumbnails}>
+                  <div className={styles.details}>
+                    <h1 className={styles.name}>
+                      {selectedProduct.product_name}
+                    </h1>
 
-                  <div className={styles.images_wrapper}>
-                    {selectedVariant.images.map((image) => (
-                      <img
-                        className={styles.images}
-                        key={image.id}
-                        src={`http://127.0.0.1:8000${image.url}`}
-                        alt=""
-                      />
-                    ))}
-                  </div>
+                    <Rating
+                      initialRating={2}
+                      readonly
+                      emptySymbol={
+                        <IconEmpty href="#icon-star-empty" className="icon" />
+                      }
+                      fullSymbol={
+                        <IconFull href="#icon-star-full" className="icon" />
+                      }
+                    />
 
-                  <div className={styles.controls_wrapper}>
-                    <div className={styles.variants_container}>
-                      <p className={styles.number_of_colors}>
-                        {selectedProduct.colorSizes.length}{" "}
-                        {selectedProduct.colorSizes.length > 1
-                          ? "Colores"
-                          : "Color"}{" "}
-                        <span>| {selectedVariant.color_name}</span>
-                      </p>
-                      <div className={styles.variants_wrapper}>
-                        {selectedProduct.colorSizes.map((variant) => (
-                          <ProductVariant
-                            key={variant.id}
-                            id={variant.id}
-                            thumbnail={variant.images[0].url}
-                            selectedVariantId={selectedVariant.id}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                    <p className={styles.description}>
+                      {selectedProduct.product_description}
+                    </p>
+                    <p className={styles.color}>{selectedVariant.color_name}</p>
 
-                    <div className={styles.sizes_container}>
-                      <p className={styles.pick_size}>Select your size</p>
-
-                      <div className={styles.sizes_wrapper}>
-                        {selectedVariant.sizes.map((size) => (
-                          <ProductSize
-                            key={size.id}
-                            id={size.id}
-                            value={size.size_name}
-                            stock={size.quantity}
-                            selectedSize={selectedSize}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
-                    {!isLoading && (
-                      <Button
-                        className={buttonStyles}
-                        disabled={isButtonDisabled}
-                        onClick={addEventHandler ? handleAddToCart : undefined}
-                      >
-                        {buttonContent}
-                      </Button>
-                    )}
-                    {isLoading && (
-                      <Button className={buttonStyles} disabled={true}>
-                        {buttonContent}
-                      </Button>
-                    )}
+                    <p className={styles.price}>
+                      ${selectedProduct.product_price}
+                    </p>
                   </div>
                 </div>
-              </section>
-            </>
-          )}
+
+                <div className={styles.images_wrapper}>
+                  <div className={`${styles.images} ${state.flag == 1?"before:invisible":" "} `} onClick={handleThumbnails}>
+                    <CenterReview>
+                      {state.flag == 1 && (
+                        <ImageDetail selectedVariant={selectedVariant} />
+                      )}
+
+                      {state.flag === 2 && (
+                        <div className="w-full border">Description</div>
+                      )}
+                      {state.flag == 3 && <ReviewProduct />}
+                    </CenterReview>
+                  </div>
+                </div>
+                <div className={styles.controls_wrapper}>
+                  <div className={`${styles.welcome_wrapper} relative `}>
+                    <Button
+                      className={`${styles.logout_button} border-r border-gray-400`}
+                      onClick={handleDes}
+                    >
+                      Description
+                    </Button>
+                    <Button
+                      className={`${styles.logout_button} border-l border-gray-400`}
+                      onClick={handleReview}
+                    >
+                      Review
+                    </Button>
+                  </div>
+                  <div className={styles.variants_container}>
+                    <p className={styles.number_of_colors}>
+                      {selectedProduct.colorSizes.length}{" "}
+                      {selectedProduct.colorSizes.length > 1
+                        ? "Colores"
+                        : "Color"}{" "}
+                      <span>| {selectedVariant.color_name}</span>
+                    </p>
+                    <div className={styles.variants_wrapper}>
+                      {selectedProduct.colorSizes.map((variant) => (
+                        <ProductVariant
+                          key={variant.id}
+                          id={variant.id}
+                          thumbnail={variant.images[0].url}
+                          selectedVariantId={selectedVariant.id}
+                          handleThumbnails={handleThumbnails}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className={styles.sizes_container}>
+                    <p className={styles.pick_size}>Select your size</p>
+
+                    <div className={styles.sizes_wrapper}>
+                      {selectedVariant.sizes.map((size) => (
+                        <ProductSize
+                          key={size.id}
+                          id={size.id}
+                          value={size.size_name}
+                          stock={size.quantity}
+                          selectedSize={selectedSize}
+                          handleThumbnails={handleThumbnails}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {!isLoading && (
+                    <Button
+                      className={buttonStyles}
+                      disabled={isButtonDisabled}
+                      onClick={addEventHandler ? handleAddToCart : undefined}
+                    >
+                      {buttonContent}
+                    </Button>
+                  )}
+                  {isLoading && (
+                    <Button className={buttonStyles} disabled={true}>
+                      {buttonContent}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </section>
+          </>
+          {/* )} */}
         </>
       )}
     </>

@@ -9,7 +9,7 @@ import CheckoutProgression from "./CheckoutProgression";
 import { useOrder } from "../../../../Hooks/useOrder";
 import Toast from "../../../../Components/Toast";
 import ToastMessage from "../../../../Components/ToastMessage";
-import { useNavigate } from "react-router-dom";
+
 
 const Order = ({ id, items, date, order, status, reloadEffect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,9 +60,12 @@ const Order = ({ id, items, date, order, status, reloadEffect }) => {
             items={items}
             date={date}
             order={order}
+            status={status}
           />
         )}
       </CenterModal>
+      {/* <DialogModal/> */}
+  
       <div className={`${styles.card} `}>
         <h3 className="flex flex-row items-center">
           Orden #{id}
@@ -99,7 +102,7 @@ const Order = ({ id, items, date, order, status, reloadEffect }) => {
                 className={`${styles.logout_button1}`}
                 onClick={toggleOrderModal}
               >
-                Review
+                Let Review
               </Button>
             )}
             {status === 0 && (

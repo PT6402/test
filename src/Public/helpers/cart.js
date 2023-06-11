@@ -22,7 +22,16 @@ export const totalCartAmount = (items) => {
 
   for (const item of items) {
     totalAmount += item.amount;
+    console.log(item)
   }
+  return totalAmount;
+};
+export const totalOrderAmount = (items) => {
+  let totalAmount = 0;
 
+  for (const item of items) {
+    totalAmount += item.quantity;
+
+  }
   return totalAmount;
 };

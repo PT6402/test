@@ -10,6 +10,7 @@ const initialState = {
   totalAmount: 0,
   totalPrice: 0,
   cartIsReady: false,
+  discount: [],
 };
 
 const cartReducer = (state, action) => {
@@ -24,6 +25,15 @@ const cartReducer = (state, action) => {
       return {
         items: action.payload.items,
         totalAmount: action.payload.totalAmount,
+        totalPrice: action.payload.totalPrice,
+        discount: action.payload.discount,
+        cartIsReady: true,
+      };
+    }
+    case "UPDATE_DISCOUNT": {
+      return {
+        ...state,
+        discount: action.payload.discount,
         totalPrice: action.payload.totalPrice,
         cartIsReady: true,
       };
@@ -48,9 +58,9 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       const getCart = async () => {
-        const  getProductsByColor=(items)=>{
+        const getProductsByColor = (items) => {
           const products = [];
-        
+
           for (const item of items) {
             for (const colorSize of item.colorSizes) {
               products.push({
@@ -58,7 +68,7 @@ const CartProvider = ({ children }) => {
                 model: item.product_name,
                 // product_slug: item.product_slug,
                 price: item.product_price,
-               description: item.product_description,
+                description: item.product_description,
                 // type: item.product_type,
                 material: item.product_material,
                 collection: item.category_name,
@@ -68,28 +78,32 @@ const CartProvider = ({ children }) => {
                 images: colorSize.images,
                 url: colorSize.url,
                 total_price: colorSize.total_price,
-                amount:colorSize.sizes[0].quantity,
-                productId:item.id,
-                thumbnail:colorSize.images[0].url
-               
+                amount: colorSize.sizes[0].quantity,
+                productId: item.id,
+                thumbnail: colorSize.images[0].url,
               });
             }
           }
-        console.log(products)
+          console.log(products);
           return products;
-        }
+        };
         try {
-           await instance.post("api/view-cartitem").then((res) => {
+          await instance.post("api/view-cartitem").then((res) => {
             if (res.data.status === 200) {
               if (res.data.totalAmount) {
-                const cartData = res.data
-               const  data=  getProductsByColor(res.data.items)
+                const cartData = res.data;
+                const data = getProductsByColor(res.data.items);
                 dispatch({
-                    type: 'UPDATE_CART',
-                    payload: { ...cartData,items:data },
-                  });
-                  console.log(data)
-            }
+                  type: "UPDATE_CART",
+                  payload: {
+                    ...cartData,
+                    items: data,
+                    discount: res.data.discount,
+                    isTotalPrice: res.data.totalPrice,
+                  },
+                });
+                console.log(res.data);
+              }
             } else {
               dispatch({
                 type: "CART_IS_READY",

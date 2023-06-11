@@ -1,15 +1,12 @@
+import { useCartContext } from "../../../Hooks/useCartContext";
+import { useCheckoutContext } from "../../../Hooks/useCheckoutContext";
+import { formatNumber } from "../../../helpers/format";
+import {  addAllItemsPriceNumber } from "../../../helpers/item";
 
-
-import { useCartContext } from '../../../Hooks/useCartContext';
-import { useCheckoutContext } from '../../../Hooks/useCheckoutContext';
-import { formatNumber } from '../../../helpers/format';
-import { addAllItemsPriceNumber } from '../../../helpers/item';
-
-import styles from './index.module.scss';
-
+import styles from "./index.module.scss";
 
 const OrderSummary = () => {
-  const { items } = useCartContext();
+  const { items, discount } = useCartContext();
   const { shippingOption } = useCheckoutContext();
 
   let shipping_price;
@@ -17,13 +14,14 @@ const OrderSummary = () => {
 
   if (shippingOption.standard) {
     shipping_price = 750;
-    shipping_option = '(standard)';
+    shipping_option = "(standard)";
   } else {
     shipping_price = 1500;
-    shipping_option = '(fast)';
+    shipping_option = "(fast)";
   }
   const subtotal = addAllItemsPriceNumber(items);
-  const total = +subtotal + shipping_price;
+ 
+  const total = +subtotal + shipping_price -`${discount.length!=0?(addAllItemsPriceNumber(items)*discount.value/100):0}` ;
 
   return (
     <>
@@ -57,12 +55,22 @@ const OrderSummary = () => {
         </div>
         <div>
           <p>
-            Envío <i>{shipping_option}</i>
+            Shipment <i>{shipping_option}</i>
           </p>
           <p className={styles.subtotal_price}>
             $ {formatNumber(shipping_price)}
           </p>
         </div>
+        {discount != 0 && (
+          <div>
+            <p>
+              Discount <i>({discount.name} - {discount.value}%)</i>
+            </p>
+            <p className={styles.subtotal_price}>
+              - $ {addAllItemsPriceNumber(items)*discount.value/100}
+            </p>
+          </div>
+        )}
       </div>
       <div className={styles.total_wrapper}>
         <p>Total</p>

@@ -1,6 +1,6 @@
-$font-f-primary: 'Monument Extended', sans-serif;
-$font-f-secondary: 'Inter', sans-serif;
-$font-f-hero: 'Monument Extended Ultrabold', sans-serif;
+$font-f-primary: "Monument Extended", sans-serif;
+$font-f-secondary: "Inter", sans-serif;
+$font-f-hero: "Monument Extended Ultrabold", sans-serif;
 
 $font-w-400: 400;
 $font-w-700: 700;
@@ -101,9 +101,11 @@ $z-modal-n: 30;
 
     .item_container {
       display: grid;
-      grid-template-columns: 1fr 2fr auto;
+      grid-template-columns: 1fr 1fr 1fr auto;
+
       align-items: center;
       gap: 2rem;
+      border-bottom: solid;
 
       @media (min-width: 360px) {
         grid-template-columns: 1fr 3fr auto;
@@ -163,6 +165,10 @@ $z-modal-n: 30;
 
         .size {
           color: $c-var;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
         }
 
         .name,
@@ -177,8 +183,70 @@ $z-modal-n: 30;
         font-family: $font-f-secondary;
         font-weight: $font-w-700;
         letter-spacing: $ls-secondary;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         margin-left: auto;
+        // border: solid;
+        padding: 0.5rem 1rem;
+        border: 0.2rem solid #000;
+        border-radius: 1rem;
+      }
+      .welcome_wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // padding-bottom: 2rem;
+        // margin-bottom: 1.5rem;
+        position: relative;
+        top: -2rem;
+        flex-direction: row;
+        line-height: normal;
+        .logout_button1 {
+          position: relative;
+          top: -1rem;
+          // right: -20rem;
+          border: 0.2rem solid #000;
+          border-radius: 1rem;
+          text-transform: uppercase;
+          background: #000000;
+          color: #ffffff;
+          padding: 1rem 2rem;
+          font-size: 1.2rem;
+          letter-spacing: $ls-button;
+
+          -webkit-user-select: none;
+          -webkit-touch-callout: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+
+          -moz-transition: all 0.1s ease-in;
+          -o-transition: all 0.1s ease-in;
+          -webkit-transition: all 0.1s ease-in;
+          transition: all 0.1s ease-in;
+
+          @media (min-width: 360px) {
+            font-size: 1.4rem;
+          }
+
+          @media (min-width: 480px) {
+            font-size: 1.6rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: $back-c-button-hover;
+            color: #ffffff;
+            transform: scale(0.9);
+          }
+
+          &:active {
+            transform: scale(0.9);
+          }
+        }
+      }
+      .wrapper_review {
+        display: grid;
+        grid-column: 1/4;
       }
     }
   }
@@ -191,12 +259,51 @@ $z-modal-n: 30;
     flex-direction: column;
     gap: 2rem;
 
-    p {
+    div {
       font-family: $font-f-secondary;
       font-size: 1.4rem;
       font-weight: $font-w-700;
       letter-spacing: $ls-secondary;
       text-transform: uppercase;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .tags_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        position: absolute;
+        right: 0;
+        float: right;
+      }
+
+      .tag_alt1 {
+        background-color: #48e471;
+      }
+
+      .tag {
+        background: $back-detail;
+      }
+
+      .tag,
+      .tag_alt,
+      .tag_alt1 {
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        border-radius: 0.6rem;
+        font-size: 1.2rem;
+        color: $c-primary;
+        font-family: $font-f-secondary;
+        font-weight: $font-w-700;
+        letter-spacing: $ls-secondary;
+      }
+
+      .tag_alt {
+        background-color: $c-link-primary;
+        color: #fff;
+      }
     }
 
     .button {

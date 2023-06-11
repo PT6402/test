@@ -11,7 +11,7 @@ export const useCart = () => {
   const { selectedVariant } = useProductContext();
   console.log(selectedVariant);
 
-  const { items, totalAmount, dispatch } = useCartContext();
+  const { items, totalAmount, dispatch,discount ,totalPrice} = useCartContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const getCurrentStock = async (itemId) => {
@@ -93,23 +93,25 @@ console.log(itemInCart)
         //   totalAmount: updatedTotalAmount,
         // });
 
-        dispatch({
-          type: "UPDATE_CART",
-          payload: {
-            items: updatedItems,
-            totalAmount: updatedTotalAmount,
-          },
-        });
+        console.log({discount,totalPrice})
         const data = {
           product_id: itemToAdd.productId,
           color_name: itemToAdd.color,
           size_name: itemToAdd.size,
         };
-        console.log(data)
         instance.post("api/add-to-cart", data);
         console.log({
           updatedItems,
           updatedTotalAmount,
+        });
+        console.log(data)
+        dispatch({
+          type: "UPDATE_CART",
+          payload: {
+            items: updatedItems,
+            totalAmount: updatedTotalAmount,
+            discount,totalPrice
+          },
         });
       }
 
@@ -199,6 +201,7 @@ console.log(itemInCart)
           payload: {
             items: updatedItems,
             totalAmount: updatedTotalAmount,
+            discount,totalPrice
           },
         });
         const data = {
@@ -266,6 +269,7 @@ console.log(updatedTotalAmount)
           payload: {
             items: updatedItems,
             totalAmount: updatedTotalAmount,
+            discount,totalPrice
           },
         });
         const data = {

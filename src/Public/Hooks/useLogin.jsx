@@ -99,7 +99,7 @@ export const useLogin = () => {
           const data = getProductsByColor(cartResponse.data.items);
           dispatchCartAction({
             type: "UPDATE_CART",
-            payload: { ...cartData, items: data },
+            payload: { ...cartData, items: data ,discount:res.data.discount,totalPrice:res.data.totalPrice},
           });
         } else {
           console.log(cartData);

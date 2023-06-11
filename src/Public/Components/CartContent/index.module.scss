@@ -149,13 +149,54 @@ $z-modal-n: 30;
     .footer_wrapper {
       padding: 2rem;
 
-      p {
+      div {
         font-family: $font-f-secondary;
         font-size: 1.4rem;
         font-weight: $font-w-700;
         letter-spacing: $ls-secondary;
         margin-bottom: 2rem;
         text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+
+        .tags_wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          align-items: center;
+          position: absolute;
+          // top:0;
+          margin-bottom: 0;
+          right: 1rem;
+        }
+
+        .tag_alt1 {
+          background-color: #48e471;
+        }
+
+        .tag {
+          background: $back-detail;
+        }
+
+        .tag,
+        .tag_alt,
+        .tag_alt1 {
+          text-transform: uppercase;
+          padding: 0.5rem 1rem;
+          border-radius: 0.6rem;
+          font-size: 1.2rem;
+          color: $c-primary;
+          font-family: $font-f-secondary;
+          font-weight: $font-w-700;
+          letter-spacing: $ls-secondary;
+        }
+
+        .tag_alt {
+          background-color: $c-link-primary;
+          color: #fff;
+        }
       }
 
       .buttons_wrapper {

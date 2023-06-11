@@ -1,24 +1,18 @@
+import Button from "../../../../../Components/Button";
+import { useKeyDown } from "../../../../../Hooks/useKeyDown";
+import { totalCartAmount, totalOrderAmount } from "../../../../../helpers/cart";
+import { formatDate } from "../../../../../helpers/format";
 
+import styles from "./index.module.scss";
+import DialogModal from "./../../../../../Components/Dialog/index";
+import Review from "./Review/index";
 
-
-
-import Button from '../../../../../Components/Button';
-import { useKeyDown } from '../../../../../Hooks/useKeyDown';
-import { formatDate} from '../../../../../helpers/format';
-
-import styles from './index.module.scss';
-
-const OrderContent = ({ toggleOrderModal, id, items, date ,order}) => {
+const OrderContent = ({ toggleOrderModal, id, items, date, order, status }) => {
   useKeyDown(() => {
     toggleOrderModal();
-  }, ['Escape']);
-  let count=0;
-  for (const item of items) {
-  for (const item of [items[0].order_items]) {
-count++
-  }
-  }
-  console.log(items)
+  }, ["Escape"]);
+
+  console.log(order);
   return (
     <div className={styles.content_container}>
       <div className={styles.modal_header}>
@@ -42,20 +36,32 @@ count++
               <p className={styles.name}>
                 {`${item.product_details.subcategory_name} ${item.product_name} - ${item.color_name}`}
               </p>
-              <p className={styles.size}>{item.size_name}</p>
+              <div className={styles.size}>{item.size_name}</div>
             </div>
-            <p className={styles.price}>${item.product_details.product_price}</p>
+            <p className={styles.price}>
+              ${item.product_details.product_price}
+            </p>
+
+            {status==2&&<div className={`${styles.wrapper_review}`}>
+              <Review />
+            </div>}
           </div>
         ))}
       </div>
       <div className={styles.modal_footer}>
-        <p>
-          <span>Total: {order.total_price} </span> |{' '}
-          {count}{' '}
-          {count > 1 ? 'Items' : 'Item'}
-        </p>
+        <div>
+          <span>Total: $ {order.total_price} </span> | {totalOrderAmount(items)}{" "}
+          {totalOrderAmount(items) > 1 ? "Items" : "Item"}
+          {order.discount_name && (
+            <div className={`${styles.tags_wrapper} pl-5 items-center`}>
+              <span className={`${styles.tag_alt}`}>
+                Discount: {order.discount_value}%{" "}
+              </span>
+            </div>
+          )}
+        </div>
         <Button className={styles.button} onClick={toggleOrderModal}>
-          Volver a mi cuenta
+          Back to my account
         </Button>
       </div>
     </div>
