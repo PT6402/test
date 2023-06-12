@@ -1,83 +1,76 @@
 /* eslint-disable react/prop-types */
 import { Link, useParams } from "react-router-dom";
-
 import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
-
 import styles from "./index.module.scss";
 import Card from "../../../../../../components/Card";
 import Rating from "react-rating";
 import IconFull, { IconEmpty } from "../../../../../Products/icon";
+import instance from "../../../../../../../http";
+import { useRef, useState } from "react";
 
-const Review = ({
-  model,
-  type,
-  color,
-  size,
-  price,
-  url,
-  amount,
-  _thumbnail,
-  item,
-  toggleCartModal,
-  addItem,
-  removeItem,
-  deleteItem,
-  isLoading,
-}) => {
-  const { id: urlId } = useParams();
+const Review = ({ status, comment, rate, review }) => {
+  const [rating, setRating] = useState(rate);
+  const [check, setCheck] = useState(status);
+  const commentRef = useRef();
 
-  const handleAddItem = () => {
-    if (!isLoading) {
-      addItem(item);
-      console.log(item);
-    }
+  const handleRatingChange = (value) => {
+    setRating(value);
+    console.log("Rating value:", value);
   };
 
-  const handleRemoveItem = () => {
-    if (!isLoading) {
-      removeItem(item);
-    }
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const commentValue = commentRef.current.textContent;
+    console.log("Comment value:", commentValue);
+    const data = {
+      rate: rating,
+      comment: commentValue,
+      status: 1,
+      id: review.id,
+    };
+    instance.post("api/store-review", data).then((res) => {
+      if (res.data.status == 200) {
+        setCheck(1);
+      }
+    });
   };
-
-  const handleDeleteItem = () => {
-    if (!isLoading) {
-      deleteItem(item);
-    }
-  };
-  //
-  // const thumbnail = require(`../../../assets/${_thumbnail}`);
-
-  const clearProduct = urlId === url && "/product";
-
+  console.log(status);
   return (
     <Card className={styles.card}>
-    
       <div className={styles.info_container}>
-          <Rating
-            initialRating={0}
-            readonly
-            emptySymbol={<IconEmpty href="#icon-star-empty" className="icon" />}
-            fullSymbol={<IconFull href="#icon-star-full" className="icon" />}
-          />
-        <div className={styles.info_wrapper}>
+        <Rating
+          initialRating={rating}
+          readonly={check == 1}
+          onChange={handleRatingChange}
+          emptySymbol={<IconEmpty href="#icon-star-empty" className="icon" />}
+          fullSymbol={<IconFull href="#icon-star-full" className="icon" />}
+        />
+        <div className={styles.info_wrapper} key={review.id}>
           <div className={styles.title}>
-          
-          <span className={`${styles.textarea}`} role="textbox" contentEditable={true}></span>
+            <span
+              className={styles.textarea}
+              contentEditable={!check == 1}
+              ref={commentRef}
+            >
+              <span key={review.id}>{comment}</span>
+            </span>
           </div>
-      
         </div>
-       
       </div>
-     
 
-      <div className={styles.controls_wrapper}>
-        <div className={styles.button_wrapper}>
-          <button form="form" className={styles.button} type="submit">
-            submit review
-          </button>
+      {check == 0 && (
+        <div className={styles.controls_wrapper}>
+          <div className={styles.button_wrapper}>
+            <button
+              className={styles.button}
+              type="submit"
+              onClick={handleFormSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
-      
-      </div>
+      )}
     </Card>
   );
 };

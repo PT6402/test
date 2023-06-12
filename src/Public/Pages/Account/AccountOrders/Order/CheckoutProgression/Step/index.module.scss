@@ -65,6 +65,7 @@ $z-modal-n: 30;
 .label {
   font-family: $font-f-secondary;
   letter-spacing: $ls-secondary;
+  
 }
 
 .label_completed,
@@ -83,13 +84,14 @@ $z-modal-n: 30;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgb(0, 0, 0);
+  // border: px solid rgb(0, 0, 0);
   border-radius: 1rem;
   font-family: $font-f-secondary;
   letter-spacing: $ls-secondary;
   font-weight: $font-w-700;
   line-height: normal;
   background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .item_completed {

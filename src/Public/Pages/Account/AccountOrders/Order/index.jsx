@@ -102,12 +102,12 @@ const Order = ({ id, items, date, order, status, reloadEffect }) => {
                 className={`${styles.logout_button1}`}
                 onClick={toggleOrderModal}
               >
-                Let Review
+                Review
               </Button>
             )}
             {status === 0 && (
               <Button
-                className={`${styles.logout_button} m-2 `}
+                className={`${styles.logout_button} m-2 ${styles.cancel} `}
                 onClick={handelCancelOrder}
               >
                 Cancel

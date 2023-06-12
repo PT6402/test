@@ -11,6 +11,9 @@ import Button from "../../../Components/Button";
 const cx = classNames.bind(style);
 import { useAuthContext } from "../../../Hooks/useAuthContext";
 import CartIcon from "./CartIcon";
+import CollectionsSectionNav from "./CollectionsSection";
+import CryptoJS from "crypto-js";
+import Search from "../../../Components/FilterContent/Search";
 
 export default function Nav({
   toggleSideNav,
@@ -20,6 +23,8 @@ export default function Nav({
   const { pathname } = useLocation();
   const { isVerified } = useAuthContext();
   const [hasScrolled, setHasSrolled] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [subcategory, setSubCategory] = useState([]);
 
   const resizeHeaderOnScroll = () => {
     setHasSrolled((hasScrolled) => {
@@ -62,6 +67,42 @@ export default function Nav({
       ${cx("hasScrolled")}
       `
     : cx("nav");
+
+  useEffect(() => {
+    const encryptedCategory = localStorage.getItem("category");
+    const decryptedCategoryBytes = CryptoJS.AES.decrypt(
+      encryptedCategory,
+      "secret_key"
+    );
+
+    if (decryptedCategoryBytes.toString()) {
+      const decryptedCategory = JSON.parse(
+        decryptedCategoryBytes.toString(CryptoJS.enc.Utf8)
+      );
+      setCategory(decryptedCategory);
+      // Sử dụng dữ liệu category đã giải mã
+    }
+    const encryptedSubCategory = localStorage.getItem("subcategory");
+    const decryptedSubCategoryBytes = CryptoJS.AES.decrypt(
+      encryptedSubCategory,
+      "secret_key"
+    );
+
+    if (decryptedSubCategoryBytes.toString()) {
+      const decryptedSubCategory = JSON.parse(
+        decryptedSubCategoryBytes.toString(CryptoJS.enc.Utf8)
+      );
+      setSubCategory(decryptedSubCategory);
+      // Sử dụng dữ liệu category đã giải mã
+    }
+  }, []);
+  function filterSubcategoriesByCategoryId(categoryId) {
+    return subcategory.filter(
+      (subcategory) => subcategory.category_id == categoryId
+    );
+  }
+
+  console.log(subcategory);
   return (
     <nav className={navStyles}>
       <div className={cx("container_top")}>
@@ -105,7 +146,7 @@ export default function Nav({
           <span className={cx("logo")}>SG12s</span>
         </Link>
         <ul className={cx("links")}>
-          <li>
+          {/* <li>
             <NavLink className={cx("link")} to="/category/product">
               Products
             </NavLink>
@@ -119,12 +160,44 @@ export default function Nav({
             <NavLink className={cx("link")} to="/category/women">
               Women
             </NavLink>
+          </li> */}
+          <li className={cx("links1")}>
+            <NavLink
+              className={`${cx("link")} ${cx("info_link")}`}
+              to={"category/product"}
+            >
+              Product
+            </NavLink>
+            <div className={cx("info_list")}>
+              <CollectionsSectionNav category={category} />
+            </div>
           </li>
+
+          {category.length != 0 &&
+            category.map((cate) => {
+              const subcategoryOfCategory = filterSubcategoriesByCategoryId(
+                cate.id
+              );
+              console.log(subcategoryOfCategory);
+              return (
+                <li className={cx("links1")} key={cate.id}>
+                  <NavLink
+                    className={`${cx("link")} ${cx("info_link")}`}
+                    to={`/category/${cate.category_slug}`}
+                  >
+                    {cate.category_name}
+                  </NavLink>
+                  <div className={cx("info_list")}>
+                    <CollectionsSectionNav
+                      subcategory={subcategoryOfCategory}
+                    />
+                  </div>
+                </li>
+              );
+            })}
         </ul>
         <ul className={cx("icons_menu")}>
-        
-
-          {pathname == "/category/product" ||
+          {/* {pathname == "/category/product" ||
           pathname == "/category/men" ||
           pathname == "/category/women" ? (
             <li
@@ -133,11 +206,14 @@ export default function Nav({
             >
               <LuFilter />
             </li>
-          ) : (
-            <li className={`${cx("search_icon")} `}>
+          ) : ( */}
+          {/* <li className={`${cx("search_icon")} `}>
               <CgSearch />
-            </li>
-          )}
+            </li> */}
+          <li className={`${cx("search_icon")} `}>
+           <Search/>
+          </li>
+          {/* )} */}
           {pathname !== "/cart" && (
             <li className={cx("cart_icon")} onClick={handleToggleCartModal}>
               <CartIcon />
@@ -147,6 +223,7 @@ export default function Nav({
             <RiMenuLine onClick={toggleSideNav} />
           </li>
         </ul>
+        {/* <Search/> */}
       </div>
     </nav>
   );

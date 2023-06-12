@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 import styles from "./index.module.scss";
 import { useCollection } from "../../Hooks/useCollection";
 import Button from "../../Components/Button";
+import Filter from "./Filter/index";
 
 export default function Collections() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Collections() {
     console.log(products);
 
     fetchProducts();
-  }, []);
+  }, [urlId]);
 
   useEffect(() => {
     if (products) {
@@ -46,31 +47,35 @@ export default function Collections() {
         navigate("/");
       }
     }
-  }, [products, urlId]);
+  }, [navigate, products, urlId]);
 
   return (
     <>
       {!collection && <Loader />}
       {collection && (
-        <section>
+        <>
+        {/* <section> */}
+            {/* <Filter> */}
           <div className={`${styles.container} main-container`}>
-            {collection.map((product, index) => (
-              <ProductCard
-                key={index}
-                model={product.model}
-                color={product.color}
-                price={product.price}
-                type={product.type}
-                url={product.url}
-                slug={product.slug}
-                collection={product.collection}
-                _imageTop={product.images[0]}
-                _imageBottom={product.images[0]}
-                numberOfVariants={product.numberOfColorSizes}
-              />
-            ))}
+              {collection.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  model={product.model}
+                  color={product.color}
+                  price={product.price}
+                  type={product.type}
+                  url={product.url}
+                  slug={product.slug}
+                  collection={product.collection}
+                  _imageTop={product.images[0]}
+                  _imageBottom={product.images[0]}
+                  numberOfVariants={product.numberOfColorSizes}
+                />
+              ))}
           </div>
-        </section>
+            {/* </Filter> */}
+        {/* </section> */}
+        </>
       )}
     </>
   );

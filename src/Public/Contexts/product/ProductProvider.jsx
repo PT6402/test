@@ -105,7 +105,7 @@ const ProductProvider = ({ children }) => {
           type: "SET_PRODUCT",
           payload: {
             product,
-             colorSize,
+            colorSize,
           },
         });
         console.log({ product, colorSize });
@@ -121,12 +121,12 @@ const ProductProvider = ({ children }) => {
         const { product, colorSize } = getProduct();
 
         dispatch({
-            type: "SET_PRODUCT",
-            payload: {
-              product,
-                colorSize,
-            },
-          });
+          type: "SET_PRODUCT",
+          payload: {
+            product,
+            colorSize,
+          },
+        });
         console.log({ product, colorSize });
         navigate(".");
       };

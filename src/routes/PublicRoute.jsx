@@ -16,14 +16,50 @@ import Products from "../Public/Pages/Products/index3.jsx";
 import ProductProvider from "../Public/Contexts/product/ProductProvider";
 import CheckoutProvider from "./../Public/Contexts/checkout/CheckoutProvider";
 import ProtectedRoutes from "../Public/Layouts/ProtectRoute";
+import { useEffect } from "react";
+import instance from "../http";
 // import { useProductContext } from "../Public/Hooks/useProductContext";
-
+import CryptoJS from "crypto-js";
+import LayoutCollection from "../Public/Pages/Collections/Layout";
 export default function PublicRoute() {
+  useEffect(() => {
+    instance.get("api/list-category").then((res) => {
+      if (res.data.status == 200) {
+        const encryptedCategory = CryptoJS.AES.encrypt(
+          JSON.stringify(res.data.category),
+          "secret_key"
+        ).toString();
+
+        localStorage.removeItem("category");
+        localStorage.setItem("category", encryptedCategory);
+      }
+    });
+    instance.get("api/list-subcategory").then((res) => {
+      if (res.data.status == 200) {
+        const encryptedSubcategory = CryptoJS.AES.encrypt(
+          JSON.stringify(res.data.subcategories),
+          "secret_key"
+        ).toString();
+        localStorage.removeItem("subcategory");
+        localStorage.setItem("subcategory", encryptedSubcategory);
+      }
+    });
+    instance.get("api/list-product").then((res) => {
+      if (res.data.status == 200) {
+        const encryptedProduct = CryptoJS.AES.encrypt(
+          JSON.stringify(res.data.products),
+          "secret_key"
+        ).toString();
+        localStorage.removeItem("product");
+        localStorage.setItem("product", encryptedProduct);
+      }
+    });
+  }, []);
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/category/:id" element={<Collections />} />
+        <Route path="/category/:id" element={<LayoutCollection />} />
         <Route
           path="/product/:slug/:url"
           element={
@@ -50,16 +86,16 @@ export default function PublicRoute() {
           element={<ResetPassword />}
         />
         {/* <Route element={<ProtectedRoutes needAuth={true} />}> */}
-          <Route
-            path="/checkout"
-            element={
-              <CheckoutProvider>
-                <Checkout />
-              </CheckoutProvider>
-            }
-          />
-          <Route path="/account" element={<Account />} />
-          <Route path="/account/address" element={<Addresses />} />
+        <Route
+          path="/checkout"
+          element={
+            <CheckoutProvider>
+              <Checkout />
+            </CheckoutProvider>
+          }
+        />
+        <Route path="/account" element={<Account />} />
+        <Route path="/account/address" element={<Addresses />} />
         {/* </Route> */}
       </Route>
     </Routes>

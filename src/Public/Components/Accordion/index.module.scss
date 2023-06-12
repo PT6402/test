@@ -1,0 +1,89 @@
+.accordion_wrapper .accordion_item h3.accordion_title {
+    font-size: 1.75rem;
+    margin: 0;
+  }
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #c4c4c4;
+    border-radius: 1rem;
+    border: none;
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: left;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button.active {
+    background-color: #dfbd85;
+    color: #ffffff;
+    border: #dfbd85 solid 1px;
+  }
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button:hover {
+      background-color: #dfbd85;
+  }
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button span.title_wrapper {
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button span.icon_wrapper {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button span.icon_wrapper span.minus {
+    content: url('./icon/line.svg');
+    width: 24px;
+    height: 24px;
+  }
+  
+  .accordion_wrapper .accordion_item h3.accordion_title button span.icon_wrapper span.plus {
+    content: url('./icon/plus.svg');
+    width: 24px;
+    height: 24px;
+    transform: rotate(90deg);
+    transition-timing-function: ease-in;
+    transition: all 1s;
+  }
+  
+  .accordion_wrapper .accordion_item .accordion_panel .panel_close { 
+    background: #e0e0e0;
+    box-sizing: border-box;
+    padding: 0.5rem 1rem 0 1rem;
+    opacity:0;
+    width:100%;
+    height:0;
+    overflow: hidden;
+    transition-timing-function: ease-out;
+    transition: all 1s;
+  }
+  
+  .accordion_wrapper .accordion_item .accordion_panel .panel_open {
+    overflow: hidden;
+    background: #e0e0e0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    opacity:1;
+    width:100%;
+    height: auto;
+    transition-timing-function: ease-in;
+    transition: all 1s;
+  }
+  
+  .accordion_wrapper .accordion_item .accordion_panel p {
+    margin: 0;
+  }
+  

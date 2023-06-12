@@ -7,7 +7,7 @@ import styles from "./index.module.scss";
 import DialogModal from "./../../../../../Components/Dialog/index";
 import Review from "./Review/index";
 
-const OrderContent = ({ toggleOrderModal, id, items, date, order, status }) => {
+const OrderContent = ({ toggleOrderModal, id, items, date, order, status}) => {
   useKeyDown(() => {
     toggleOrderModal();
   }, ["Escape"]);
@@ -34,16 +34,16 @@ const OrderContent = ({ toggleOrderModal, id, items, date, order, status }) => {
             </div>
             <div className={styles.info_wrapper}>
               <p className={styles.name}>
-                {`${item.product_details.subcategory_name} ${item.product_name} - ${item.color_name}`}
+                {`${item.product_details.subcategory_name} ${item.product_name} - ${item.color_name} -${item.product_details.category_name}`}
               </p>
               <div className={styles.size}>{item.size_name}</div>
             </div>
             <p className={styles.price}>
               ${item.product_details.product_price}
-            </p>
+            </p>  
 
             {status==2&&<div className={`${styles.wrapper_review}`}>
-              <Review />
+              <Review  status={item.status} comment={item.comment} rate={item.rate} review={item.review}/>
             </div>}
           </div>
         ))}

@@ -1,6 +1,6 @@
-$font-f-primary: 'Monument Extended', sans-serif;
-$font-f-secondary: 'Inter', sans-serif;
-$font-f-hero: 'Monument Extended Ultrabold', sans-serif;
+$font-f-primary: "Monument Extended", sans-serif;
+$font-f-secondary: "Inter", sans-serif;
+$font-f-hero: "Monument Extended Ultrabold", sans-serif;
 
 $font-w-400: 400;
 $font-w-700: 700;
@@ -48,6 +48,11 @@ $z-modal-n: 30;
   border: 1px solid #49e472;
   border-radius: 1rem;
 }
+.fail {
+  background-color: rgba(243, 121, 120, 0.95);
+  border: 1px solid #ff6666;
+  border-radius: 1rem;
+}
 
 .error {
   background-color: rgba(243, 121, 120, 0.95);
@@ -74,6 +79,20 @@ $z-modal-n: 30;
     display: flex;
     padding: 1rem;
     align-items: center;
+  }
+}
+.addToCartFail {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 8fr 2fr;
+  align-items: center;
+
+  .content_wrapper {
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    height: 10%;
   }
 }
 

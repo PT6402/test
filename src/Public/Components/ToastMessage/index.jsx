@@ -8,7 +8,7 @@ const ToastMessage = ({ toggleToast, content, className }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       toggleToast();
-    }, 6000);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
@@ -23,6 +23,25 @@ const ToastMessage = ({ toggleToast, content, className }) => {
           <img className={styles.image} src={thumbnail} alt="" />
           <div>
             <p className={styles.title}>Product added to cart.</p>
+            <p className={styles.details}>
+              {content.details || 'The operation was carried out successfully.'}
+            </p>
+          </div>
+        </div>
+        <i className={styles.icon}>
+          <IoIosCheckmarkCircle />
+        </i>
+      </div>
+    );
+  }
+  if (content.addToCartNotSize) {
+    // const thumbnail = (`http://127.0.0.1:8000${content.thumbnail}`);
+    return (
+      <div className={`${styles.addToCartFail} ${styles.fail}`}>
+        <div className={styles.content_wrapper}>
+          {/* <img className={styles.image} src={thumbnail} alt="" /> */}
+          <div>
+            <p className={styles.title}>chon size</p>
             <p className={styles.details}>
               {content.details || 'The operation was carried out successfully.'}
             </p>

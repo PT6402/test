@@ -1,24 +1,40 @@
-import Card from '../../../../Components/Card';
-import Button from '../../../../Components/Button';
+import Button from "../../../../Components/Button";
+import Card from "../../../../components/Card";
 
-import styles from './index.module.scss';
+import styles from "./index.module.scss";
+import { Link } from "react-router-dom";
 
-const CollectionCard = ({ id, image, title, text, url }) => {
-  const wrapperStyles =
-    +id % 2 === 0
-      ? `${styles.content_wrapper} ${styles.content_wrapper_alt}`
-      : styles.content_wrapper;
-
+const CollectionCard = ({
+  category_slug,
+  category_name,
+  image,
+  subcategory,
+}) => {
   return (
     <Card className={styles.card}>
-      <div className={wrapperStyles}>
-        <p className={styles.content_title}>{title}</p>
-        <p className={styles.content_subtitle}>{text}</p>
-        <Button className={styles.button} to={url}>
-          Ver {title}
+      <div className={styles.content_wrapper}>
+        {/* <p className={styles.content_title}>{category_name}</p> */}
+        {subcategory
+          ? subcategory.map((sub) => (
+              <Link key={sub.id} to={sub.subcategory_slug}>
+                <p className={styles.content_subtitle}>
+                  {sub.subcategory_name}
+                </p>
+              </Link>
+            ))
+          : ""}
+        <Button
+          className={styles.button}
+          to={`category/${category_slug ? category_slug : "product"}`}
+        >
+          {category_name}
         </Button>
       </div>
-      <img className={styles.image} src={image} alt="" />
+      <img
+        className={styles.image}
+        src={`http://127.0.0.1:8000${image}`}
+        alt=""
+      />
     </Card>
   );
 };

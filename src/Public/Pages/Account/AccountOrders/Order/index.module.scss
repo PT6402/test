@@ -47,7 +47,7 @@ $z-modal-n: 30;
   display: grid;
   grid-template-columns: 8fr 1fr;
   padding: 2rem;
-  border: 0.2rem solid #000;
+  border: 0.0rem solid #000;
   border-radius: 1rem;
   background: #fff;
   color: #000;
@@ -56,7 +56,7 @@ $z-modal-n: 30;
   -o-transition: all 0.1s ease-in;
   -webkit-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in;
-
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   // &:hover {
   //   cursor: pointer;
   // }
@@ -75,6 +75,8 @@ $z-modal-n: 30;
 
   p {
     margin-left: auto;
+    position: relative;
+    top: 0.4rem;
   }
   .welcome_wrapper {
     display: flex;
@@ -89,7 +91,7 @@ $z-modal-n: 30;
       position: relative;
       top: 1rem;
       right: -8rem;
-      border: 0.2rem solid #000;
+      // border: 0.1rem solid #1a1818;
       border-radius: 1rem;
       text-transform: uppercase;
       background: #fff;
@@ -97,7 +99,7 @@ $z-modal-n: 30;
       padding: 1rem 2rem;
       font-size: 1.2rem;
       letter-spacing: $ls-button;
-
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       -webkit-user-select: none;
       -webkit-touch-callout: none;
       -moz-user-select: none;
@@ -107,7 +109,7 @@ $z-modal-n: 30;
       -moz-transition: all 0.1s ease-in;
       -o-transition: all 0.1s ease-in;
       -webkit-transition: all 0.1s ease-in;
-      transition: all 0.1s ease-in;
+      transition: all 0.1s ease-in; 
 
       @media (min-width: 360px) {
         font-size: 1.4rem;
@@ -126,20 +128,24 @@ $z-modal-n: 30;
       &:active {
         transform: scale(0.9);
       }
+     
+    }
+    .cancel{
+      color: red;
     }
     .logout_button1 {
       position: relative;
-      top: 1rem;
+      top: 0.5rem;
       right: -8rem;
-      border: 0.2rem solid #000;
+      // border: 0.1rem solid #5c5c5c;
       border-radius: 1rem;
       text-transform: uppercase;
-      background: #000000;
-      color: #ffffff;
+      // background: #000000;
+      color: #000000;
       padding: 1rem 2rem;
       font-size: 1.2rem;
       letter-spacing: $ls-button;
-
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       -webkit-user-select: none;
       -webkit-touch-callout: none;
       -moz-user-select: none;
@@ -169,6 +175,7 @@ $z-modal-n: 30;
       &:active {
         transform: scale(0.9);
       }
+      
     }
   }
 
@@ -177,10 +184,13 @@ $z-modal-n: 30;
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
+    
   }
 
   .tag_alt1 {
     background-color: #48e471;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
   }
   
   .tag {
@@ -198,11 +208,13 @@ $z-modal-n: 30;
     font-family: $font-f-secondary;
     font-weight: $font-w-700;
     letter-spacing: $ls-secondary;
+    
   }
   
   .tag_alt {
     background-color: $c-link-primary;
     color: #fff;
+  
   }
   .date {
     font-family: $font-f-secondary;

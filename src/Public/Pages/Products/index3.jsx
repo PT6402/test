@@ -24,6 +24,7 @@ import CenterReview from "./CenterReview";
 import ReviewProduct from "./Review/index";
 import AsNavFor from "./SlickImageProduct";
 import ImageDetail from "./ImageDetail";
+import Accordion from "./Accordion";
 
 const Products = () => {
   const {
@@ -47,7 +48,7 @@ const Products = () => {
   const { addItem, isLoading, error } = useCart();
 
   const [notification, setNotification] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toastMessage, setToastMessage] = useState(0);
   const navigate = useNavigate();
   const initialState = {
     flag: 1,
@@ -98,14 +99,14 @@ const Products = () => {
         thumbnail: selectedVariant.images[0].url,
         stock: selectedVariant.sizes[0].quantity,
       });
-      setNotification(true);
+      setNotification(2);
     } else {
       navigate("/account/login");
     }
   };
 
   useEffect(() => {
-    if (notification) {
+    if (notification == 2) {
       if (!error) {
         setToastMessage({
           addToCartSuccess: true,
@@ -119,6 +120,14 @@ const Products = () => {
       console.log(selectedVariant.images[0].url);
       setNotification(false);
     }
+    if (notification == 1) {
+      setToastMessage({
+        addToCartNotSize: true,
+
+        details: `chon size`,
+      });
+      setNotification(false);
+    }
   }, [notification]);
 
   const toggleToast = () => {
@@ -129,7 +138,9 @@ const Products = () => {
   if (selectedSize.length > 0) {
     addEventHandler = true;
   }
-
+  const handleMessageSize = () => {
+    setNotification(1);
+  };
   const buttonContent =
     selectedSize.length === 0 ? "SELECT SIZE" : `ADD ${selectedSize} TO CART`;
 
@@ -288,7 +299,10 @@ const Products = () => {
           <>
             <section className="main-container">
               <div className={styles.container_b}>
-                <div className={styles.details_wrapper}  onClick={handleThumbnails}>
+                <div
+                  className={styles.details_wrapper}
+                  onClick={handleThumbnails}
+                >
                   <div className={styles.details}>
                     <h1 className={styles.name}>
                       {selectedProduct.product_name}
@@ -317,16 +331,38 @@ const Products = () => {
                 </div>
 
                 <div className={styles.images_wrapper}>
-                  <div className={`${styles.images} ${state.flag == 1?"before:invisible":" "} `} onClick={handleThumbnails}>
+                  <div className={`${styles.images}  `}>
+                    {state.flag != 1 && (
+                      <div
+                        onClick={handleThumbnails}
+                        className={`${styles.icon} `}
+                      ></div>
+                    )}
+                    {state.flag == 1&&<div className={styles.favorite}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 48 48"
+                      >
+                        <path
+                          d="M43 17.077c0-5.654-4.583-10.238-10.237-10.238-3.723 0-6.971 1.993-8.763 4.964-1.792-2.97-5.04-4.964-8.763-4.964C9.583 6.84 5 11.423 5 17.077c0 1.292.25 2.524.687 3.662C9.072 30.476 24 41.161 24 41.161s14.928-10.685 18.314-20.422c.437-1.138.686-2.37.686-3.662Z"
+                          style={{
+                            fill: "none",
+                            stroke: "#000",
+                            strokeLinecap: "round",
+                            strokeLinejoin: "round",
+                          }}
+                        />
+                      </svg>
+                    </div>}
                     <CenterReview>
                       {state.flag == 1 && (
                         <ImageDetail selectedVariant={selectedVariant} />
                       )}
 
-                      {state.flag === 2 && (
-                        <div className="w-full border">Description</div>
+                      {state.flag === 2 && <Accordion />}
+                      {state.flag == 3 && (
+                        <ReviewProduct review={selectedProduct.review} />
                       )}
-                      {state.flag == 3 && <ReviewProduct />}
                     </CenterReview>
                   </div>
                 </div>
@@ -387,14 +423,20 @@ const Products = () => {
                     <Button
                       className={buttonStyles}
                       disabled={isButtonDisabled}
-                      onClick={addEventHandler ? handleAddToCart : undefined}
+                      onClick={
+                        addEventHandler ? handleAddToCart : handleMessageSize
+                      }
                     >
-                      {buttonContent}
+                      {/* {buttonContent} */}ADD TO CARTs
                     </Button>
                   )}
                   {isLoading && (
-                    <Button className={buttonStyles} disabled={true}>
-                      {buttonContent}
+                    <Button
+                      className={buttonStyles}
+                      disabled={true}
+                      onClick={handleMessageSize}
+                    >
+                      {/* {buttonContent} */}ADD TO CARTs
                     </Button>
                   )}
                 </div>
