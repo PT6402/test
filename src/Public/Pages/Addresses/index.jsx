@@ -24,7 +24,7 @@ const Addresses = () => {
 
   const defaultAddress = addresses.find((address) => address.isMain == 1||address.isMain == true);
 
-  const otherAddresses = addresses.filter((address) => !address.isMain == 0||address.isMain == false);
+  const otherAddresses = addresses.filter((address) => address.isMain == 0||address.isMain == false);
 
   const toggleAddAddressModal = () => {
     setIsOpen((prevState) => !prevState);
@@ -85,7 +85,7 @@ const Addresses = () => {
               <>
                 {addresses.length === 0 && (
                   <h2 className={styles.no_addresses}>
-                  You haven't added an address yet!
+                  You have not added an address yet!
                   </h2>
                 )}
 
@@ -98,6 +98,7 @@ const Addresses = () => {
                         city={defaultAddress.city}
                         province={defaultAddress.province}
                         id={defaultAddress.idAdd}
+                     
                         isMain={defaultAddress.isMain}
                         onDelete={deleteAddress}
                       />

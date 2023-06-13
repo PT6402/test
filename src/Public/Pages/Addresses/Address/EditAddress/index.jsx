@@ -1,18 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
-
-
-
-import styles from './index.module.scss';
-import { useAddress } from '../../../../Hooks/useAddress';
-import { useKeyDown } from '../../../../Hooks/useKeyDown';
-import Loader from '../../../../Components/Loader';
+import styles from "./index.module.scss";
+import { useAddress } from "../../../../Hooks/useAddress";
+import { useKeyDown } from "../../../../Hooks/useKeyDown";
+import Loader from "../../../../Components/Loader";
 
 const EditAddress = ({
   toggleEditAddressModal,
-
   address,
-
   city,
   province,
   isMain,
@@ -28,19 +23,16 @@ const EditAddress = ({
     setIsChecked((prevState) => !prevState);
   };
 
-
   const addressInput = useRef();
 
   const cityInput = useRef();
   const provinceInput = useRef();
-
+console.log(id)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await editAddress({
-    
       address: addressInput.current.value,
-   
       city: cityInput.current.value,
       province: provinceInput.current.value,
       isMain: isChecked,
@@ -61,7 +53,7 @@ const EditAddress = ({
 
   useKeyDown(() => {
     toggleEditAddressModal();
-  }, ['Escape']);
+  }, ["Escape"]);
 
   return (
     <>
@@ -72,9 +64,6 @@ const EditAddress = ({
         <form id="form" className={styles.form} onSubmit={handleSubmit}>
           <h2 className={styles.title}>Edit Address</h2>
           <div className={styles.form_inputs_wrapper}>
-          
-           
-          
             <label className={styles.label}>
               <span>Address:</span>
               <input
@@ -95,7 +84,6 @@ const EditAddress = ({
                 defaultValue={city}
               />
             </label>
-            
 
             <label className={styles.label}>
               <span>Province:</span>
@@ -120,7 +108,7 @@ const EditAddress = ({
           </div>
           <div className={styles.button_wrapper}>
             <button form="form" className={styles.button} type="submit">
-            Edit
+              Edit
             </button>
           </div>
         </form>

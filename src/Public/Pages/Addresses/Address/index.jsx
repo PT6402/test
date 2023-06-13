@@ -1,15 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash } from "react-icons/fa";
 
-
-import styles from './index.module.scss';
-import CenterModal from '../../../Components/CenterModal';
-import EditAddress from './EditAddress';
+import styles from "./index.module.scss";
+import CenterModal from "../../../Components/CenterModal";
+import EditAddress from "./EditAddress";
 
 const Address = ({
-  
-id,
+  id,
   address,
   city,
   province,
@@ -36,9 +34,7 @@ id,
         {isOpen && (
           <EditAddress
             toggleEditAddressModal={toggleEditAddressModal}
-          
             address={address}
-        
             city={city}
             province={province}
             isMain={isMain}
@@ -48,29 +44,23 @@ id,
         )}
       </CenterModal>
       <div className={styles.card}>
-        {isMain && <h3 className={styles.title}>
-Default address</h3>}
+        {isMain && <h3 className={styles.title}>Default address</h3>}
         {!isMain && <h3 className={styles.title}>Address {displayOrder}</h3>}
         <div className={styles.content}>
-          {/* <h4 className={styles.name}>
-            {name} {lastName}
-          </h4> */}
           <ul className={styles.info}>
             <li>{address}</li>
-            <li>
-              {city}, 
-            </li>
+            <li>{city},</li>
             <li>{province}</li>
           </ul>
           <div className={styles.controls}>
             <div className={styles.edit} onClick={toggleEditAddressModal}>
-            Edit
+              Edit
             </div>
             <div className={styles.delete}>
               <FaTrash className={styles.delete_icon} onClick={handleDelete} />
             </div>
           </div>
-        </div>
+        </div>      
       </div>
     </>
   );

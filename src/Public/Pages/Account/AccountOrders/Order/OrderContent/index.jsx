@@ -4,7 +4,7 @@ import { totalCartAmount, totalOrderAmount } from "../../../../../helpers/cart";
 import { formatDate } from "../../../../../helpers/format";
 
 import styles from "./index.module.scss";
-import DialogModal from "./../../../../../Components/Dialog/index";
+
 import Review from "./Review/index";
 
 const OrderContent = ({ toggleOrderModal, id, items, date, order, status}) => {
