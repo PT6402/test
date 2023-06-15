@@ -20,7 +20,7 @@ const CollectionsSectionNav = ({ subcategory, category }) => {
                     key={index}
                     // id={collection.id}
                     // image={collection.image}
-
+                    category_slug={collection.category_slug}
                     subcategory_name={collection.subcategory_name}
                     subcategory_slug={collection.subcategory_slug}
                     image={collection.image}

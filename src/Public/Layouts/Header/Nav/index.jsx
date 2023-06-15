@@ -5,8 +5,9 @@ import style from "./index.module.scss";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 import { RiMenuLine } from "react-icons/ri";
-import { LuFilter } from "react-icons/lu";
-import { CgSearch } from "react-icons/cg";
+// import { LuFilter } from "react-icons/lu";
+import { MdFavoriteBorder } from "react-icons/md";
+
 import Button from "../../../Components/Button";
 const cx = classNames.bind(style);
 import { useAuthContext } from "../../../Hooks/useAuthContext";
@@ -15,6 +16,7 @@ import CollectionsSectionNav from "./CollectionsSection";
 import CryptoJS from "crypto-js";
 import Search from "../../../Components/FilterContent/Search";
 
+/*  */
 export default function Nav({
   toggleSideNav,
   toggleCartModal,
@@ -197,23 +199,15 @@ export default function Nav({
             })}
         </ul>
         <ul className={cx("icons_menu")}>
-          {/* {pathname == "/category/product" ||
-          pathname == "/category/men" ||
-          pathname == "/category/women" ? (
-            <li
-              className={`${cx("search_icon")} `}
-              onClick={handleToggleFilterModal}
-            >
-              <LuFilter />
-            </li>
-          ) : ( */}
-          {/* <li className={`${cx("search_icon")} `}>
-              <CgSearch />
-            </li> */}
-          <li className={`${cx("search_icon")} `}>
-           <Search/>
+          <div className={`${cx("search_icon")} `}>
+            <Search />
+          </div>
+
+          <li className={cx("favorite_icon")}>
+            <Link to={"/favorite"}>
+              <MdFavoriteBorder />
+            </Link>
           </li>
-          {/* )} */}
           {pathname !== "/cart" && (
             <li className={cx("cart_icon")} onClick={handleToggleCartModal}>
               <CartIcon />
@@ -223,7 +217,6 @@ export default function Nav({
             <RiMenuLine onClick={toggleSideNav} />
           </li>
         </ul>
-        {/* <Search/> */}
       </div>
     </nav>
   );

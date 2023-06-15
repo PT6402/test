@@ -7,7 +7,7 @@ import Rating from "react-rating";
 import IconFull, { IconEmpty } from "../../../../../Products/icon";
 import instance from "../../../../../../../http";
 import { useRef, useState } from "react";
-
+import CryptoJS from "crypto-js";
 const Review = ({ status, comment, rate, review }) => {
   const [rating, setRating] = useState(rate);
   const [check, setCheck] = useState(status);
@@ -31,6 +31,17 @@ const Review = ({ status, comment, rate, review }) => {
     instance.post("api/store-review", data).then((res) => {
       if (res.data.status == 200) {
         setCheck(1);
+
+        instance.get("api/list-product").then((res) => {
+          if (res.data.status == 200) {
+            const encryptedProduct = CryptoJS.AES.encrypt(
+              JSON.stringify(res.data.products),
+              "secret_key"
+            ).toString();
+            localStorage.removeItem("product");
+            localStorage.setItem("product", encryptedProduct);
+          }
+        });
       }
     });
   };

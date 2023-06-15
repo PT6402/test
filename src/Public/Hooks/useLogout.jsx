@@ -23,9 +23,10 @@ export const useLogout = () => {
           localStorage.removeItem("auth_token");
           localStorage.removeItem("auth_name");
           dispatchCartAction({ type: "DELETE_CART" });
-
+          
           dispatchAuthAction({ type: "LOGOUT" });
           // swal("Success",res.data.message,"success");
+          location.reload()
           navigate("/");
         }
       });

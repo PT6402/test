@@ -54,6 +54,7 @@ export const useLogin = () => {
       if (loginResponse.data.status === 200) {
         localStorage.setItem("auth_token", loginResponse.data.token);
         localStorage.setItem("auth_name", loginResponse.data.username);
+        localStorage.setItem("auth_id", loginResponse.data.id);
       
 
         let userData = {};

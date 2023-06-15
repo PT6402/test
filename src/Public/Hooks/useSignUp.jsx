@@ -12,14 +12,14 @@ export const useSignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [defaultValue, setDefaultValue] = useState(false);
 
-  const signUp = async ({ name, password_confirmation, email, password }) => {
+  const signUp = async ({ name, password_confirmation, email, password,phone }) => {
     setError(null);
     setIsLoading(true);
     setDefaultValue({ name, password_confirmation });
 
     instance.get("/sanctum/csrf-cookie").then((response) => {
       instance
-        .post(`/api/register`, { name, email, password, password_confirmation })
+        .post(`/api/register`, { name, email, password, password_confirmation ,phone})
         .then((res) => {
           if (res.data.status === 200) {
             localStorage.setItem("auth_token", res.data.token);
@@ -28,6 +28,7 @@ export const useSignUp = () => {
             const userData = {
               name,
               email,
+              phone,
               isVerified: true,
             };
             dispatch({ type: "LOGIN", payload: { ...userData } });
@@ -43,23 +44,11 @@ export const useSignUp = () => {
             setError({ details: res.data.validation_errors.name });
           }
 
-          // throw new Error("Failed to create account");
-          // setError({ details: res.data.validation_errors });
-
-          //  else if (res.data.validation_errors) {
-          // setRegister({...registerInput, error_list: res.data.validation_errors});
+      
         });
     });
 
-    // const user = userCredential.user;
-    // const userData = {
-    //   name,
-    //   email,
-    //   isVerified: true,
-    // };
-    // dispatch({ type: "LOGIN", payload: { ...userData } });
-
-    // } catch (err) {
+   
 
     setIsLoading(false);
   };

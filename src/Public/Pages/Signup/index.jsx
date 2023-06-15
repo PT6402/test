@@ -15,6 +15,7 @@ export default function Signup() {
     const [toastMessage, setToastMessage] = useState(null);
   
     const nameInput = useRef();
+    const phoneInput = useRef();
     const emailInput = useRef();
     const passwordInput = useRef();
     const confirmationInput = useRef();
@@ -24,6 +25,7 @@ export default function Signup() {
   
       await signUp({
         name: nameInput.current.value,
+        phone:phoneInput.current.value,
         email: emailInput.current.value,
         password: passwordInput.current.value,
         password_confirmation: confirmationInput.current.value,
@@ -76,6 +78,16 @@ export default function Signup() {
                         placeholder="example@email.com"
                         required
                         ref={emailInput}
+                      />
+                    </label>
+                    <label className={cx("label")}>
+                      <span>Phone:</span>
+                      <input
+                        className={cx("input")}
+                        type="tel"
+                        placeholder="phone..."
+                        required
+                        ref={phoneInput}
                       />
                     </label>
                     <label className={cx("label")}>

@@ -60,7 +60,7 @@ $z-modal-n: 30;
   .link {
     display: flex;
     flex-direction: column;
- z-index: 5;
+    z-index: 5;
     &:hover {
       color: inherit;
     }
@@ -90,7 +90,7 @@ $z-modal-n: 30;
         color: #3d3d3d;
         z-index: 10;
       }
-      .favorite{
+      .favorite {
         position: absolute;
         width: 4rem;
         height: 4rem;
@@ -101,13 +101,55 @@ $z-modal-n: 30;
         color: $c-primary;
         background-color: $c-secondary;
         z-index: 10;
+
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         &:hover {
           transform: scale(1.05);
         }
       }
+      .checked {
+        background-color: $c-secondary;
+        border: 0.6rem;
+      }
+      .tags_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        position: absolute;
+        top: 1rem;
+      }
 
+      .tag_alt1 {
+        color: #172747;
+        background-color: $back-c-button-checkout;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      }
 
+      .tag {
+        background: $back-detail;
+      }
+
+      .tag,
+      .tag_alt,
+      .tag_alt1 {
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        border-radius: 0.8rem;
+        font-size: 1.5rem;
+        color: $c-primary;
+        font-family: $font-f-secondary;
+        font-weight: $font-w-700;
+        letter-spacing: $ls-secondary;
+
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      }
+
+      .tag_alt {
+        background-color: #e63051;
+        color: #ffffff;
+      }
       .price {
         font-weight: $font-w-900;
         font-size: 1.5rem;
@@ -121,7 +163,8 @@ $z-modal-n: 30;
       .image_top,
       .image_bottom {
         max-height: 50rem;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+          rgba(0, 0, 0, 0.23) 0px 3px 6px;
         @media (min-width: 768px) {
           max-height: none;
         }
@@ -180,9 +223,8 @@ $z-modal-n: 30;
         // border-right: solid;
         float: right;
         position: relative;
-        top: 0.5rem;
+        top: 1rem;
         span {
-         
           padding: 0.1rem 1rem;
           border-radius: 0.6rem;
           font-size: 1rem;
@@ -194,7 +236,12 @@ $z-modal-n: 30;
           box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
       }
-
+      .rate {
+        position: relative;
+        top: 1rem;
+        left: 0.5rem;
+        float: left;
+      }
       .price,
       .color {
         font-size: 1.2rem;
@@ -208,4 +255,12 @@ $z-modal-n: 30;
       }
     }
   }
+}
+.card_wrapper.sale {
+  border-width: 0.2rem;
+  border-color: #e63051;
+}
+.card_wrapper.new {
+  border-width: 0.2rem;
+  border-color: $back-c-button-checkout;
 }

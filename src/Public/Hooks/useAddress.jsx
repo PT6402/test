@@ -10,22 +10,9 @@ export const useAddress = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState("");
   const userAddresses = [...addresses];
-  useEffect(() => {
-    if (addresses.length === 0) {
-      // addresses.length === 0 ? (isMain = true) : (isMain = false);
-      setId(1);
-    }
-    if (addresses.length > 0) {
-      let count = 0;
-        for (let i = 0; i < addresses.length; i++) {
-          count++;
-        }
-        console.log(count);
-      setId((userAddresses.idAdd =count+1));
-    }
-  }, [id]);
+ 
 
   const createAddress = async ({
     address,
@@ -45,44 +32,45 @@ export const useAddress = () => {
       console.log(addresses);
       console.log(userAddresses);
       console.log(isMain);
-
-      instance
+      let addressToAdd = {
+        address,
+        city,
+        province,
+        isMain,
+        label: `${address} - ${city} - ${province}`,
+      };
+      await instance
         .post("api/store-address", {
           address,
           city,
           province,
           isMain,
+          label: `${address} - ${city} - ${province}`,
         })
         .then((res) => {
           if (res.data.status == 200) {
-            setId(1);
+            // setId(res.data.idAdd);
+            addressToAdd = {
+              ...addressToAdd,
+              value: res.data.id,
+              idAdd: res.data.id,
+            };
             // console.log(id)
           }
         });
       console.log(id);
-      const addressToAdd = {
-        address,
-        city,
-        province,
-        idAdd: id,
-
-        isMain,
-        label: `${address} - ${city} - ${province}`,
-        value: id,
-      };
 
       if (isMain && userAddresses.length > 0) {
         const currentMainAddressIndex = userAddresses.findIndex(
           (address) => address.isMain
         );
         // setId(userAddresses.idAdd+=1);
-        
+
         userAddresses[currentMainAddressIndex].isMain = false;
         userAddresses.unshift(addressToAdd);
       } else {
         // console.log(userAddresses.idAdd);
         userAddresses.push(addressToAdd);
-      
       }
       console.log(userAddresses);
       for (let i = 1; i <= addresses.length; i++) {
@@ -119,34 +107,35 @@ export const useAddress = () => {
           ? (isMain = true)
           : (isMain = false);
       }
-
-      const updatedAddress = {
-        id,
+      let updatedAddress = {
         address,
         city,
         province,
         isMain,
         label: `${address} - ${city} - ${province}`,
-        value: id,
         displayOrder,
       };
-
-      instance
+       instance
         .post("api/update-address", {
           id,
           address,
           city,
           province,
           isMain,
+          label: `${address} - ${city} - ${province}`,
         })
         .then((res) => {
           if (res.data.status === 200) {
-            console.log(res.data);
+           console.log(res.data.id)
           }
         });
+
+      console.log(id);
       let updatedAddresses = [...userAddresses];
       if (isMain) {
-        updatedAddresses = userAddresses.filter((address) => address.idAdd !== id);
+        updatedAddresses = userAddresses.filter(
+          (address) => address.idAdd !== id
+        );
 
         const currentMainAddressIndex = updatedAddresses.findIndex(
           (address) => address.isMain
@@ -161,14 +150,11 @@ export const useAddress = () => {
         for (let i = 1; i <= updatedAddresses.length; i++) {
           updatedAddresses[i - 1].displayOrder = i;
         }
-        for (let i = 0; i < updatedAddresses.length; i++) {
-          updatedAddresses[i].idAdd = i + 1;
-        }
       } else {
         const addressToEditIndex = updatedAddresses.findIndex(
           (address) => address.idAdd == id
         );
-      
+
         updatedAddresses[addressToEditIndex] = {
           ...updatedAddress,
         };
@@ -194,23 +180,20 @@ export const useAddress = () => {
       );
 
       if (updatedAddresses.length > 0) {
-        for (let i = 0; i < updatedAddresses.length; i++) {
-          updatedAddresses[i].idAdd = i + 1;
-        }
         for (let i = 1; i <= updatedAddresses.length; i++) {
           updatedAddresses[i - 1].displayOrder = i;
         }
 
-        const checkForMain = updatedAddresses.find((address) =>( address.isMain==1||address.isMain==true));
-        console.log(checkForMain)
+        const checkForMain = updatedAddresses.find(
+          (address) => address.isMain == 1 || address.isMain == true
+        );
+        console.log(checkForMain);
         if (!checkForMain) {
           updatedAddresses[0].isMain = true;
-          console.log("success")
+          console.log("success");
         }
-
-
-      }else{
-        console.log(id)
+      } else {
+        console.log(id);
       }
 
       instance.post("api/delete-address", { id });

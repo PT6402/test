@@ -25,6 +25,7 @@ import ReviewProduct from "./Review/index";
 import AsNavFor from "./SlickImageProduct";
 import ImageDetail from "./ImageDetail";
 import Accordion from "./Accordion";
+import instance from "../../../http";
 
 const Products = () => {
   const {
@@ -158,6 +159,57 @@ const Products = () => {
   {
     console.log(state);
   }
+  //
+
+  const [favorite, setFavorite] = useState([]);
+  const [statusFa, setStatusFa] = useState(false);
+  const callBack = () => {
+    setStatusFa((prev) => !prev);
+  };
+  const FavoriteChecker = (productId) => {
+    const isProductFavorite = favorite.some(
+      (favoriteItem) => favoriteItem.product_id == productId
+    );
+    return isProductFavorite;
+  };
+  useEffect(() => {
+    if (isVerified) {
+      instance.post("api/view-favorite").then((res) => {
+        if (res.data.status == 200) {
+          console.log(res.data.favorite);
+          setFavorite(res.data.favorite);
+        }
+      });
+    }
+  }, [statusFa]);
+
+  //
+
+  const addFa = (id) => {
+    if (isVerified) {
+      instance.post("api/store-favorite", { id }).then((res) => {
+        if (res.data.status == 200) {
+          callBack();
+          console.log(res.data.favorite);
+        }
+      });
+    } else {
+      navigate("/account/login");
+    }
+  };
+  const deleteFa = (id) => {
+    instance.post("api/delete-favorite", { id }).then((res) => {
+      if (res.data.status == 200) {
+        callBack();
+        console.log(res.data.favorite);
+      }
+    });
+  };
+  let favoriteCheck = false;
+  if (selectedProduct) {
+    favoriteCheck = FavoriteChecker(selectedProduct.id);
+    console.log(favoriteCheck, selectedProduct.id);
+  }
   return (
     <>
       <Toast>
@@ -168,161 +220,58 @@ const Products = () => {
       {!productIsReady && <Loader />}
       {productIsReady && (
         <>
-          {/* {!isBigScreen && (
-            <>
-              <section>
-                <div className={styles.container_s}>
-                  <div className={styles.swiper_container}>
-                    <div className={styles.swiper_wrapper}>
-                      <Slider
-                        slides={selectedVariant.images}
-                        bp={{
-                          500: {
-                            slidesPerView: 1.5,
-                          },
-                          600: {
-                            slidesPerView: 1.7,
-                          },
-                          800: {
-                            slidesPerView: 2,
-                          },
-                        }}
-                        slidesPerView={1.3}
-                        spaceBetween={30}
-                        loop={true}
-                        centeredSlides={true}
-                        grabCursor={true}
-                        sliderClassName={styles.slider}
-                        slideClassName={styles.slide}
-                        imageClassName={styles.image}
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.grid_footer}>
-                    <div className={styles.details_wrapper}>
-                      <div className={styles.details}>
-                        <div className={styles.name_wrapper}>
-                          <h1 className={styles.name}>
-                            {selectedProduct.product_name}
-                          </h1>
-                          <p className={styles.price}>
-                            ${selectedProduct.product_price}
-                          </p>
-                        </div>
-                        <p className={styles.description}>
-                          {selectedProduct.product_description}
-                        </p>
-                        <p className={styles.color}>
-                          {selectedVariant.color_name}
-                        </p>
-                        {selectedProduct.tags && (
-                          <div className={styles.tags_wrapper}>
-                            {selectedProduct.tags.map((tag) => (
-                              <span
-                                key={tag.id}
-                                className={
-                                  tag.content === 'nuevo'
-                                    ? styles.tag_alt
-                                    : styles.tag
-                                }
-                              >
-                                {tag.content}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className={styles.controls_wrapper}>
-                      <div className={styles.variants_container}>
-                        <p className={styles.number_of_colors}>
-                          {selectedProduct.colorSizes.length}{" "}
-                          {selectedProduct.colorSizes.length > 1
-                            ? "Colores"
-                            : "Color"}{" "}
-                          <span>| {selectedVariant.color_name}</span>
-                        </p>
-                        <div className={styles.variants_wrapper}>
-                          {selectedProduct.colorSizes.map((variant) => (
-                            <ProductVariant
-                              key={variant.id}
-                              id={variant.id}
-                              thumbnail={variant.images.url}
-                              selectedVariantId={selectedVariant.variantId}
-                            />
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className={styles.sizes_container}>
-                        <p className={styles.pick_size}>Select your size</p>
-
-                        <div className={styles.sizes_wrapper}>
-                          {selectedVariant.sizes.map((size) => (
-                            <ProductSize
-                              key={size.id}
-                              id={size.id}
-                              value={size.size_name}
-                              stock={size.quantity}
-                              selectedSize={selectedSize}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={styles.button_wrapper}>
-                      {!isLoading && (
-                        <Button
-                          className={buttonStyles}
-                          disabled={isButtonDisabled}
-                          onClick={
-                            addEventHandler ? handleAddToCart : undefined
-                          }
-                        >
-                          {buttonContent}
-                        </Button>
-                      )}
-                      {isLoading && (
-                        <Button className={buttonStyles} disabled={true}>
-                          {buttonContent}
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </>
-          )} */}
-
           <>
             <section className="main-container">
               <div className={styles.container_b}>
                 <div
-                  className={styles.details_wrapper}
+                  className={`${styles.details_wrapper} 
+${
+  selectedProduct.product_status == 2
+    ? styles.sale
+    : selectedProduct.product_status == 3
+    ? styles.new
+    : ""
+}
+    
+      
+      
+      `}
                   onClick={handleThumbnails}
                 >
                   <div className={styles.details}>
-                    <h1 className={styles.name}>
-                      {selectedProduct.product_name}
-                    </h1>
+                    <div className={styles.rateName_wrapper}>
+                      <h1 className={styles.name}>
+                        {selectedProduct.product_name}
+                      </h1>
+                      {selectedProduct.product_status == 2 && (
+                        <div
+                          className={`${styles.tags_wrapper} pl-5 items-center`}
+                        >
+                          <span className={`${styles.tag_alt}`}>Sale</span>
+                        </div>
+                      )}
+                      {selectedProduct.product_status == 3 && (
+                        <div
+                          className={`${styles.tags_wrapper} pl-5 items-center`}
+                        >
+                          <span className={`${styles.tag_alt1}`}>New</span>
+                        </div>
+                      )}
+                    </div>
 
-                    <Rating
-                      initialRating={2}
-                      readonly
-                      emptySymbol={
-                        <IconEmpty href="#icon-star-empty" className="icon" />
-                      }
-                      fullSymbol={
-                        <IconFull href="#icon-star-full" className="icon" />
-                      }
-                    />
-
-                    <p className={styles.description}>
-                      {selectedProduct.product_description}
-                    </p>
-                    <p className={styles.color}>{selectedVariant.color_name}</p>
+                    <div className={styles.rate}>
+                      <Rating
+                        initialRating={selectedProduct.rating.rate}
+                        readonly
+                        emptySymbol={
+                          <IconEmpty href="#icon-star-empty" className="icon" />
+                        }
+                        fullSymbol={
+                          <IconFull href="#icon-star-full" className="icon" />
+                        }
+                      />
+                      <span>({selectedProduct.rating.rate})</span>
+                    </div>
 
                     <p className={styles.price}>
                       ${selectedProduct.product_price}
@@ -338,22 +287,39 @@ const Products = () => {
                         className={`${styles.icon} `}
                       ></div>
                     )}
-                    {state.flag == 1&&<div className={styles.favorite}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 48 48"
-                      >
-                        <path
-                          d="M43 17.077c0-5.654-4.583-10.238-10.237-10.238-3.723 0-6.971 1.993-8.763 4.964-1.792-2.97-5.04-4.964-8.763-4.964C9.583 6.84 5 11.423 5 17.077c0 1.292.25 2.524.687 3.662C9.072 30.476 24 41.161 24 41.161s14.928-10.685 18.314-20.422c.437-1.138.686-2.37.686-3.662Z"
-                          style={{
-                            fill: "none",
-                            stroke: "#000",
-                            strokeLinecap: "round",
-                            strokeLinejoin: "round",
-                          }}
-                        />
-                      </svg>
-                    </div>}
+                    {state.flag == 1 && (
+                      <div className={styles.favorite}>
+                        {favoriteCheck ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            onClick={() => deleteFa(selectedProduct.id)}
+                          >
+                            <path
+                              stroke="#464455"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 11.286L10.8 13 15 9m-3-2.409l-.154-.164c-1.978-2.096-5.249-1.85-6.927.522-1.489 2.106-1.132 5.085.806 6.729L12 19l6.275-5.322c1.938-1.645 2.295-4.623.806-6.729-1.678-2.372-4.949-2.618-6.927-.522L12 6.591z"
+                            ></path>
+                          </svg>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            onClick={() => addFa(selectedProduct.id)}
+                          >
+                            <path
+                              stroke="#464455"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M11.846 6.427l.154.164.154-.164c1.978-2.096 5.249-1.85 6.927.522 1.489 2.106 1.132 5.085-.806 6.729L12 19l-6.275-5.322c-1.938-1.645-2.295-4.623-.806-6.729 1.678-2.372 4.949-2.618 6.927-.522z"
+                            ></path>
+                          </svg>
+                        )}
+                      </div>
+                    )}
                     <CenterReview>
                       {state.flag == 1 && (
                         <ImageDetail selectedVariant={selectedVariant} />
@@ -378,7 +344,7 @@ const Products = () => {
                       className={`${styles.logout_button} border-l border-gray-400`}
                       onClick={handleReview}
                     >
-                      Review
+                      Review({(selectedProduct.rating.count )>-1?(selectedProduct.rating.count):(0)})
                     </Button>
                   </div>
                   <div className={styles.variants_container}>

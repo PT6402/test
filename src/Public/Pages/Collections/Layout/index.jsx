@@ -1,94 +1,156 @@
 import styles from "./index.module.scss";
-
 import Card from "../../../components/Card";
-import Button from "../../../Components/Button";
 import Collections from "../";
-import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  FunnelIcon,
-  MinusIcon,
-  PlusIcon,
-  Squares2X2Icon,
-} from "@heroicons/react/20/solid";
+import { useCollection } from "../../../Hooks/useCollection";
+import { useEffect, useRef, useState } from "react";
+import { Disclosure } from "@headlessui/react";
+
+import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LayoutCollection = () => {
-  const sortOptions = [
-    { name: "Most Popular", href: "#", current: true },
-    { name: "Best Rating", href: "#", current: false },
-    { name: "Newest", href: "#", current: false },
-    { name: "Price: Low to High", href: "#", current: false },
-    { name: "Price: High to Low", href: "#", current: false },
-  ];
-  const subCategories = [
-    { name: "Totes", href: "#" },
-    { name: "Backpacks", href: "#" },
-    { name: "Travel Bags", href: "#" },
-    { name: "Hip Bags", href: "#" },
-    { name: "Laptop Sleeves", href: "#" },
-  ];
+  const navigate = useNavigate();
+  const { id: urlId } = useParams();
+  const { sub: urlSub } = useParams();
+
+  const {
+    getCollection,
+    getSub,
+    getColor,
+    getMaterial,
+    getSize,
+    getTypeShoes,
+  } = useCollection();
+
+  const [products, setProducts] = useState(null);
+  const [collection, setCollection] = useState(null);
+  const [sub, setSub] = useState([]);
+  const [color, setColor] = useState([]);
+  const [dataColor, setDataColor] = useState({});
+  const [material, setMaterial] = useState([]);
+  const [size, setSize] = useState([]);
+  const [typeShoes, setTypeShoes] = useState([]);
+  console.log(getSub());
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const fetchedProducts = await getCollection();
+      if (fetchedProducts) {
+        const filteredData = [];
+        const ids = [];
+        for (let i = 0; i < fetchedProducts.length; i++) {
+          if (!ids.includes(fetchedProducts[i].id)) {
+            filteredData.push(fetchedProducts[i]);
+            ids.push(fetchedProducts[i].id);
+          }
+        }
+        if (filteredData.length > 0) setProducts(filteredData);
+      }
+    };
+    console.log(products);
+    fetchProducts();
+    setColor(getColor);
+    setSub(getSub);
+    setMaterial(getMaterial);
+    setSize(getSize);
+    setTypeShoes(getTypeShoes);
+    // fetchSub()
+  }, [urlId, urlSub]);
+
+  useEffect(() => {
+    if (products) {
+      // switch (urlId,urlSub){
+
+      //   case "product":
+
+      // }
+
+      let selectedProducts;
+      if (urlId === "product") {
+        selectedProducts = products;
+      } else if (urlId === "men" || urlId === "women") {
+        if (urlSub) {
+          selectedProducts = products.filter(
+            (product) => product.collection === urlId && product.type === urlSub
+          );
+        } else {
+          selectedProducts = products.filter(
+            (product) => product.collection === urlId
+          );
+        }
+      } else {
+        // selectedProducts = null;
+        selectedProducts = products;
+      }
+      console.log(selectedProducts);
+
+      if (selectedProducts) {
+        setCollection(selectedProducts);
+        console.log(selectedProducts);
+      } else {
+        navigate("/");
+      }
+    }
+  }, [navigate, products, urlId, urlSub]);
+
+  
+
+ 
+  //
   const filters = [
     {
       id: "color",
       name: "Color",
-      options: [
-        { value: "white", label: "White", checked: false },
-        { value: "beige", label: "Beige", checked: false },
-        { value: "blue", label: "Blue", checked: true },
-        { value: "brown", label: "Brown", checked: false },
-        { value: "green", label: "Green", checked: false },
-        { value: "purple", label: "Purple", checked: false },
-      ],
+      options: color ? [...color] : setColor(getColor()),
     },
     {
-      id: "category",
-      name: "Category",
-      options: [
-        { value: "new-arrivals", label: "New Arrivals", checked: false },
-        { value: "sale", label: "Sale", checked: false },
-        { value: "travel", label: "Travel", checked: true },
-        { value: "organization", label: "Organization", checked: false },
-        { value: "accessories", label: "Accessories", checked: false },
-      ],
+      id: "material",
+      name: "Material",
+      options: material ? [...material] : setMaterial(getMaterial()),
     },
     {
       id: "size",
       name: "Size",
-      options: [
-        { value: "2l", label: "2L", checked: false },
-        { value: "6l", label: "6L", checked: false },
-        { value: "12l", label: "12L", checked: false },
-        { value: "18l", label: "18L", checked: false },
-        { value: "20l", label: "20L", checked: false },
-        { value: "40l", label: "40L", checked: true },
-      ],
+      options: size ? [...size] : setSize(getSize()),
+    },
+    {
+      id: "type_shoes",
+      name: "Type Shoes",
+      options: typeShoes ? [...typeShoes] : setTypeShoes(getTypeShoes()),
     },
   ];
   let content = (
     <>
-     
       <div className={styles.content_wrapper}>
         <aside className={styles.sidebar}>
           <Card className={styles.card}>
             <form className="hidden lg:block m-5 ">
-            <Card className={styles.checkout_wrapper}>
-        <div className={styles.total}>
-          header
-        </div>
-
-      </Card>
+              <Card className={styles.checkout_wrapper}>
+                <div
+                  className={styles.total}
+               
+                >
+                  All {urlId}
+                </div>
+              </Card>
               <h3 className="sr-only">Categories</h3>
               <ul
                 role="list"
                 className="space-y-4 border-b border-gray-200 pb-6 text-2xl font-medium text-gray-900 "
               >
-                {subCategories.map((category) => (
-                  <li key={category.name}>
-                    <a href={category.href}>{category.name}</a>
-                  </li>
-                ))}
+                {sub.length > 0 &&
+                  sub.map((category, index) => {
+                    const name = category.name;
+                    return (
+                      <li key={index}>
+                        <span
+                          // onClick={() => handleFilterSub(name)}
+                          className="cursor-pointer"
+                        >
+                          {name}
+                        </span>
+                      </li>
+                    );
+                  })}
               </ul>
 
               {filters.map((section) => (
@@ -121,27 +183,30 @@ const LayoutCollection = () => {
                       </h3>
                       <Disclosure.Panel className="pt-6">
                         <div className="space-y-4">
-                          {section.options.map((option, optionIdx) => (
-                            <div
-                              key={option.value}
-                              className="flex items-center"
-                            >
-                              <input
-                                id={`filter-${section.id}-${optionIdx}`}
-                                name={`${section.id}[]`}
-                                defaultValue={option.value}
-                                type="checkbox"
-                                defaultChecked={option.checked}
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                              />
-                              <label
-                                htmlFor={`filter-${section.id}-${optionIdx}`}
-                                className="ml-3 text-2xl text-gray-600"
+                          {section.options &&
+                            section.options.map((option, optionIdx) => (
+                              <div
+                                key={option.value}
+                                className="flex items-center"
                               >
-                                {option.label}
-                              </label>
-                            </div>
-                          ))}
+                                <input
+                                  id={`filter-${section.id}-${optionIdx}`}
+                                  name={`${section.id}`}
+                                  defaultValue={option.value}
+                                  type="checkbox"
+                                  // onChange={filterHandler}
+                                  // ref={dataInput}
+                                  defaultChecked={option.checked}
+                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                />
+                                <label
+                                  htmlFor={`filter-${section.id}-${optionIdx}`}
+                                  className="ml-3 text-2xl text-gray-600"
+                                >
+                                  {option.label}
+                                </label>
+                              </div>
+                            ))}
                         </div>
                       </Disclosure.Panel>
                     </>
@@ -152,7 +217,7 @@ const LayoutCollection = () => {
           </Card>
         </aside>
         <div className={styles.list_wrapper}>
-          <Collections></Collections>
+          <Collections collection={collection}></Collections>
         </div>
       </div>
     </>

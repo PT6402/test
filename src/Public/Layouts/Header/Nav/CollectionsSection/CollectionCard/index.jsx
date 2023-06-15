@@ -16,7 +16,7 @@ const CollectionCard = ({
           <div className={styles.content_wrapper}>
             {/* <p className={styles.content_title}>{title}</p>
         <p className={styles.content_subtitle}>{text}</p> */}
-            <Button className={styles.button} to={subcategory_slug}>
+            <Button className={styles.button} to={`/category/${category_slug}/${subcategory_slug}`}>
               {subcategory_name}
             </Button>
           </div>
@@ -31,7 +31,7 @@ const CollectionCard = ({
           <div className={styles.content_wrapper}>
             {/* <p className={styles.content_title}>{title}</p>
         <p className={styles.content_subtitle}>{text}</p> */}
-            <Button className={styles.button} to={category_slug}>
+            <Button className={styles.button} to={`/category/${category_slug}`}>
               {category_name}
             </Button>
           </div>

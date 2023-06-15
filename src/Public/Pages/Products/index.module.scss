@@ -121,32 +121,6 @@ $z-modal-n: 30;
         letter-spacing: $ls-secondary;
         text-transform: capitalize;
       }
-
-      .tags_wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .tag_alt {
-        background-color: $c-var;
-      }
-
-      .tag {
-        background: $back-detail;
-      }
-
-      .tag,
-      .tag_alt {
-        text-transform: uppercase;
-        padding: 0.1rem 1rem;
-        border-radius: 0.6rem;
-        font-size: 1rem;
-        color: $c-secondary;
-        font-family: $font-f-secondary;
-        font-weight: $font-w-700;
-        letter-spacing: $ls-secondary;
-      }
     }
 
     .controls_wrapper {
@@ -318,82 +292,112 @@ $z-modal-n: 30;
   }
 
   .details_wrapper {
-    padding: 5rem;
+    padding: 3rem;
     position: relative;
     // align-items: center;
     // justify-content: start;
     top: 0rem;
-    // border-radius: 1rem;
+    border-radius: 1rem;
+    align-items: center;
     // border-right: 0.2rem solid #9e9e9e;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    .details {
+      .rateName_wrapper {
+        display: flex;
+        flex-direction: row;
+        .tags_wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          align-items: center;
+         
+        }
 
-    .name {
-      font-family: $font-f-hero;
-      text-transform: uppercase;
-      letter-spacing: $ls-primary;
-      font-size: 2.4rem;
-      line-height: normal;
-      position: relative;
-      top: -5rem;
-      // border: solid;
-    }
+        .tag_alt1 {
+          color: #172747;
+          background-color: #cad6ff;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
 
-    .description {
-      font-size: 1.2rem;
-      font-family: $font-f-secondary;
-      font-weight: $font-w-700;
-      letter-spacing: $ls-secondary;
-      text-transform: capitalize;
-      color: $c-var;
-      // border: solid;
-      // padding: 0 5rem;
-    }
+        .tag {
+          background: $back-detail;
+        }
 
-    .color {
-      font-size: 1.4rem;
-      font-family: $font-f-secondary;
-      font-weight: $font-w-700;
-      letter-spacing: $ls-secondary;
-      text-transform: capitalize;
-    }
+        .tag,
+        .tag_alt,
+        .tag_alt1 {
+          text-transform: uppercase;
+          padding: 0.5rem 1rem;
+          border-radius: 0.8rem;
+          font-size: 1.5rem;
+          color: $c-primary;
+          font-family: $font-f-secondary;
+          font-weight: $font-w-700;
+          letter-spacing: $ls-secondary;
 
-    .tags_wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        }
 
-    .tag_alt {
-      background-color: $c-var;
-    }
+        .tag_alt {
+          background-color: #e63051;
+          color: #ffffff;
+        }
+        .name {
+          font-family: $font-f-hero;
+          text-transform: uppercase;
+          letter-spacing: $ls-primary;
+          font-size: 2.4rem;
+          line-height: normal;
+       
+        }
+      }
 
-    .tag {
-      background: $back-detail;
-    }
+      .rate {
+        top: 1rem;
+        position: relative;
+      }
+      .description {
+        font-size: 1.2rem;
+        font-family: $font-f-secondary;
+        font-weight: $font-w-700;
+        letter-spacing: $ls-secondary;
+        text-transform: capitalize;
+        color: $c-var;
+        // border: solid;
+        // padding: 0 5rem;
+      }
 
-    .tag,
-    .tag_alt {
-      text-transform: uppercase;
-      padding: 0.1rem 1rem;
-      border-radius: 0.6rem;
-      font-size: 1rem;
-      color: $c-secondary;
-      font-family: $font-f-secondary;
-      font-weight: $font-w-700;
-      letter-spacing: $ls-secondary;
-    }
+      .color {
+        font-size: 1.4rem;
+        font-family: $font-f-secondary;
+        font-weight: $font-w-700;
+        letter-spacing: $ls-secondary;
+        text-transform: capitalize;
+      }
 
-    .price {
-      margin-top: 1.5rem;
-      font-family: $font-f-secondary;
-      font-weight: $font-w-900;
-      letter-spacing: $ls-secondary;
-      // border: solid;
-      padding: 1rem;
-      width: fit-content;
-      border-radius: 1rem;
-      border: 0.2rem solid #9e9e9e;
+      .price {
+        margin-top: 1.5rem;
+        font-family: $font-f-secondary;
+        font-weight: $font-w-900;
+        letter-spacing: $ls-secondary;
+        // border: solid;
+        padding: 1rem;
+        width: fit-content;
+        border-radius: 1rem;
+        border: 0.2rem solid #9e9e9e;
+      }
     }
   }
+  .details_wrapper.sale {
+    border-width: 0.2rem;
+    border-color: #e63051;
+  }
+  .details_wrapper.new {
+    border-width: 0.2rem;
+    border-color: #cad6ff;
+  }
+  
 
   .controls_wrapper {
     .welcome_wrapper {
@@ -567,12 +571,12 @@ $z-modal-n: 30;
     flex-direction: column;
     gap: 2rem;
     position: relative;
-    .favorite{
+    .favorite {
       position: absolute;
       width: 4rem;
       height: 4rem;
       top: 3rem;
-      right:7rem;
+      right: 7rem;
       padding: 0.5rem 0.5rem;
       border-radius: 999rem;
       color: $c-primary;

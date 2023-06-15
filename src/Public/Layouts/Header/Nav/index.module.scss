@@ -44,7 +44,7 @@ $z-modal: 25;
 $z-modal-n: 30;
 
 .nav {
-  top: 2px;
+  top: 0.5rem;
   position: fixed;
   width: 100%;
   background-color: rgba(255, 255, 255, 1);
@@ -204,7 +204,8 @@ $z-modal-n: 30;
 }
 
 .search_icon,
-.cart_icon {
+.cart_icon,
+.favorite_icon {
   display: flex;
   align-items: center;
 }
@@ -233,7 +234,7 @@ $z-modal-n: 30;
 
 .search_icon {
   position: absolute;
-  right: 5rem;
+  right: 10rem;
   //  padding: 1rem;
   // display: block;
   // border-radius: 1rem;

@@ -21,6 +21,7 @@ import instance from "../http";
 // import { useProductContext } from "../Public/Hooks/useProductContext";
 import CryptoJS from "crypto-js";
 import LayoutCollection from "../Public/Pages/Collections/Layout";
+// import Favorite from "../Public/Pages/Favorite";
 export default function PublicRoute() {
   useEffect(() => {
     instance.get("api/list-category").then((res) => {
@@ -60,6 +61,7 @@ export default function PublicRoute() {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/category/:id" element={<LayoutCollection />} />
+        <Route path="/category/:id/:sub" element={<LayoutCollection />} />
         <Route
           path="/product/:slug/:url"
           element={
@@ -68,35 +70,42 @@ export default function PublicRoute() {
             </ProductProvider>
           }
         />
-        {/* <Route path="/checkout" element={<Checkout />} /> */}
+
         <Route element={<ProtectedRoutes needAuth={true} />}>
           <Route path="/cart" element={<Cart />} />
         </Route>
-        {/* <Route element={<ProtectedRoutes needAuth={true} />}> */}
-        <Route path="/account/signup" element={<Signup />} />
-        <Route path="/account/login" element={<Login />} />
-        {/* </Route> */}
+        <Route element={<ProtectedRoutes needAuth={true} />}>
+          <Route path="/account/signup" element={<Signup />} />
+          <Route path="/account/login" element={<Login />} />
 
-        <Route
-          path="/account/login/forget-password"
-          element={<ForgetPassword />}
-        />
-        <Route
-          path="/account/login/reset-password"
-          element={<ResetPassword />}
-        />
-        {/* <Route element={<ProtectedRoutes needAuth={true} />}> */}
-        <Route
-          path="/checkout"
-          element={
-            <CheckoutProvider>
-              <Checkout />
-            </CheckoutProvider>
-          }
-        />
-        <Route path="/account" element={<Account />} />
-        <Route path="/account/address" element={<Addresses />} />
-        {/* </Route> */}
+          <Route
+            path="/account/login/forget-password"
+            element={<ForgetPassword />}
+          />
+          <Route
+            path="/account/login/reset-password"
+            element={<ResetPassword />}
+          />
+        </Route>
+
+        {/* <Route
+          path="/favorite"
+          element={<Favorite />}
+        /> */}
+        <Route element={<ProtectedRoutes needAuth={true} />}>
+          <Route
+            path="/checkout"
+            element={
+              <CheckoutProvider>
+                <Checkout />
+              </CheckoutProvider>
+            }
+          />
+          <Route path="/account" element={<Account />} />
+          <Route path="/account/success" element={<Account />} />
+          <Route path="/account/cancel" element={<Account />} />
+          <Route path="/account/address" element={<Addresses />} />
+        </Route>
       </Route>
     </Routes>
   );

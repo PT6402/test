@@ -1,34 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-
-
-
-
-import styles from './index.module.scss';
-import { useCheckout } from '../../../Hooks/useCheckout';
-import { useOrder } from '../../../Hooks/useOrder';
-import Loader from '../../../Components/Loader';
-import CheckoutSummary from '../CheckoutSummary';
-import { BiChevronLeft } from 'react-icons/bi';
-import { formatCardNumber, formatCvv, formatExpiryDate } from '../../../helpers/format';
-import instance from '../../../../http';
+import styles from "./index.module.scss";
+import { useCheckout } from "../../../Hooks/useCheckout";
+import { useOrder } from "../../../Hooks/useOrder";
+import Loader from "../../../Components/Loader";
+import CheckoutSummary from "../CheckoutSummary";
+import { BiChevronLeft } from "react-icons/bi";
+import {
+  formatCardNumber,
+  formatCvv,
+  formatExpiryDate,
+} from "../../../helpers/format";
+import instance from "../../../../http";
+import { useCheckoutContext } from "../../../Hooks/useCheckoutContext";
 
 const Payment = ({ handlePreviousStep }) => {
   const navigate = useNavigate();
-
+  const { check: urlId } = useParams();
   const { selectPreviousStep } = useCheckout();
   const { createOrder, isLoading, error } = useOrder();
 
-  const [paymentOption, setPaymentOption] = useState('creditCard');
+  const [paymentOption, setPaymentOption] = useState("credit-card");
   const [navigation, setNavigation] = useState(false);
-
+  const { shippingAddress, shippingOption } = useCheckoutContext();
   const [userInput, setUserInput] = useState({
-    cardNumber: '',
-    name: '',
-    expiryDate: '',
-    securityCode: '',
+    cardNumber: "",
+    name: "",
+    expiryDate: "",
+    securityCode: "",
   });
 
   const handleCardNumberInput = (e) => {
@@ -55,60 +56,73 @@ const Payment = ({ handlePreviousStep }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-await instance.post("api/store-payment",{payment_method:paymentOption,status_payment:1})
-await createOrder(userInput);
-console.log(userInput,paymentOption)
 
-    setNavigation(true);
+    await instance
+      .post("api/store-payment", { payment_method: paymentOption })
+      .then((res) => {
+        if (res.data.status == 200 && paymentOption == "COD") {
+         createOrder(userInput);
+          setNavigation(true);
+        } else if (res.data.status == 200 && paymentOption == "credit-card") {
+          window.location.replace(res.data.url);
+          const order = {
+            shippingAddress,
+            shippingOption,
+            paymentOption,
+          };
+
+          localStorage.setItem("order_user", JSON.stringify(order));
+        }
+      });
   };
 
   useEffect(() => {
     if (navigation && !error) {
-      navigate('/account');
+      navigate("/account");
     } else {
       setNavigation(false);
     }
   }, [navigation]);
 
-  const cardNumberStyles = {
-    label:
-      userInput.cardNumber.length > 0
-        ? styles.label_focus
-        : styles.label_no_focus,
-    input:
-      userInput.cardNumber.length > 0
-        ? styles.input_focus
-        : styles.input_no_focus,
-  };
+  // const cardNumberStyles = {
+  //   label:
+  //     userInput.cardNumber.length > 0
+  //       ? styles.label_focus
+  //       : styles.label_no_focus,
+  //   input:
+  //     userInput.cardNumber.length > 0
+  //       ? styles.input_focus
+  //       : styles.input_no_focus,
+  // };
 
-  const nameStyles = {
-    label:
-      userInput.name.length > 0 ? styles.label_focus : styles.label_no_focus,
-    input:
-      userInput.name.length > 0 ? styles.input_focus : styles.input_no_focus,
-  };
+  // const nameStyles = {
+  //   label:
+  //     userInput.name.length > 0 ? styles.label_focus : styles.label_no_focus,
+  //   input:
+  //     userInput.name.length > 0 ? styles.input_focus : styles.input_no_focus,
+  // };
 
-  const expiryDateStyles = {
-    label:
-      userInput.expiryDate.length > 0
-        ? styles.label_focus
-        : styles.label_no_focus,
-    input:
-      userInput.expiryDate.length > 0
-        ? styles.input_focus
-        : styles.input_no_focus,
-  };
+  // const expiryDateStyles = {
+  //   label:
+  //     userInput.expiryDate.length > 0
+  //       ? styles.label_focus
+  //       : styles.label_no_focus,
+  //   input:
+  //     userInput.expiryDate.length > 0
+  //       ? styles.input_focus
+  //       : styles.input_no_focus,
+  // };
 
-  const securityCodeStyles = {
-    label:
-      userInput.securityCode.length > 0
-        ? styles.label_focus
-        : styles.label_no_focus,
-    input:
-      userInput.securityCode.length > 0
-        ? styles.input_focus
-        : styles.input_no_focus,
-  };
+  // const securityCodeStyles = {
+  //   label:
+  //     userInput.securityCode.length > 0
+  //       ? styles.label_focus
+  //       : styles.label_no_focus,
+  //   input:
+  //     userInput.securityCode.length > 0
+  //       ? styles.input_focus
+  //       : styles.input_no_focus,
+  // };
 
   return (
     <div>
@@ -119,19 +133,17 @@ console.log(userInput,paymentOption)
         <>
           <CheckoutSummary />
           <form id="form" onSubmit={handleSubmit} className={styles.form}>
-            <h2 className={styles.title}>
-Payment method</h2>
+            <h2 className={styles.title}>Payment method</h2>
             <div className={styles.payment_options_wrapper}>
-            <div>
+              <div>
                 <div className={styles.payment_option}>
                   <input
                     type="radio"
-                    
                     value="COD"
-                    checked={paymentOption ==="COD"}
-                    onChange={()=>setPaymentOption("COD")}
+                    checked={paymentOption === "COD"}
+                    onChange={() => setPaymentOption("COD")}
                     className={
-                      paymentOption =="COD"
+                      paymentOption == "COD"
                         ? styles.radio_selected
                         : styles.radio_unselected
                     }
@@ -140,12 +152,11 @@ Payment method</h2>
                   |
                   <input
                     type="radio"
-                    
                     value="creditCard"
-                    checked={paymentOption ==="creditCard"}
-                    onChange={ ()=>setPaymentOption("creditCard")}
+                    checked={paymentOption === "credit-card"}
+                    onChange={() => setPaymentOption("creditCard")}
                     className={
-                      paymentOption == "creditCard"
+                      paymentOption == "credit-card"
                         ? styles.radio_selected
                         : styles.radio_unselected
                     }
@@ -153,7 +164,7 @@ Payment method</h2>
                   <label>Credit card</label>
                 </div>
               </div>
-              {paymentOption === 'creditCard' && (
+              {/* {paymentOption === 'credit-card' && (
                 <div className={styles.inputs_wrapper}>
                   <div className={styles.float_container}>
                     <label
@@ -243,7 +254,7 @@ Payment method</h2>
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
             {/* TODO: BILLING ADDRESS */}
           </form>
@@ -255,7 +266,7 @@ Payment method</h2>
               back to shipping
             </p>
             <button form="form" type="submit" className={styles.button}>
-            Pay now
+              Pay now
             </button>
           </div>
         </>
